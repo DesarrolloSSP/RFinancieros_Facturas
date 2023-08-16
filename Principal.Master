@@ -1,0 +1,194 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs" Inherits="RFinancieros_Facturas.Principal" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Facturas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link href="css/master.css" rel="stylesheet" />
+    <link href="css/Menu.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>
+        function alertame(msg, tipo) {
+            Swal.fire({
+                position: 'top-center',
+                icon: tipo,
+                title: msg,
+                showConfirmButton: true,
+            })
+        }
+        function confirma(msg, liga) {
+            Swal.fire({
+                title: msg,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ac9b3c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = liga
+                }
+            })
+        }
+        function Validador(e) {
+            key = (document.all) ? e.keyCode : e.which;
+            if (key < 48 || key > 57) {
+                if (key == 8) {
+                    return true
+                }
+                else
+                    alertame("Sólo se pueden ingresar números", 'warning');
+                return false;
+            }
+        }
+        function Borra(ctl, event) {
+            event.preventDefault();
+            swal({
+                title: "Confirm Logout?",
+                text: "Do you really want to log this Account out?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        _doPostBack('btnLogout', 'OnClick');
+                    }
+                });
+            return false;
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <asp:ContentPlaceHolder ID="head" runat="server">
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server"></asp:UpdatePanel>
+        </asp:ContentPlaceHolder>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 89px !important">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="~/Images/logo.png" style="width: 30% !important" runat="server" alt="...">
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto  ">
+                        </ul>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" runat="server" id="A1" href="~/CargarOp.aspx">Cargar OPs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" runat="server" id="linkcargadatos" href="~/CargaDatos.aspx">Carga de datos SAT</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Captura</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" runat="server" href="~/Captura.aspx">Captura Normal</a></li>
+                                    <%--<li>
+                                        <hr class="dropdown-divider">
+                                    </li>--%>
+                                    <li><a class="dropdown-item" runat="server" href="~/CapturaAgrupada.aspx">Captura Agrupada</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/PersonasFisicas.aspx">Captura de folios no localizados</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/EliminaFolio.aspx">Eliminar Folio</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/EliminarOp.aspx">Eliminar Orden de Pago</a></li>
+                                    <%--<li><a class="dropdown-item" href="#">Something else here</a></li>--%>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" runat="server" href="~/Account/CrearUsuario.aspx">Crear usuario</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiaRole.aspx">Cambiar Role</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Account/AdmonUsuarios.aspx">Administración</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" runat="server" href="~/ExportarDatos.aspx">Exportar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" runat="server" href="~/Salir.aspx">Salir</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <%--        <contenttemplate>
+                <asp:Menu ID="Menu" CssClass="ClassMenu" align="right" runat="server" DynamicHorizontalOffset="0" Orientation="Horizontal">
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/CargaDatos.aspx" Text="Carga datos" Value="Cargar datos"></asp:MenuItem>
+                        <asp:MenuItem Text="Captura" Value="Captura">
+                            <asp:MenuItem NavigateUrl="~/Captura.aspx" Text="Personas Físicas" Value="Personas Físicas"></asp:MenuItem>
+                            <asp:MenuItem NavigateUrl="~/CapturaAgrupada.aspx" Text="Captura Agrupada" Value="Captura Agrupada"></asp:MenuItem>
+                        </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Account/CrearUsuario.aspx" Text="Crear Usuario" Value="Crear Usuario"></asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/Salir.aspx" Text="Salir" Value="Salir"></asp:MenuItem>
+                    </Items>
+                    <StaticMenuItemStyle BackColor="#C4C6CA" ForeColor="#000" HorizontalPadding="20px" VerticalPadding="10px" />
+                    <StaticHoverStyle BackColor="#666666" ForeColor="White" />
+                    <StaticSelectedStyle BackColor="#1C5E55" />
+                    <DynamicMenuItemStyle HorizontalPadding="15px" VerticalPadding="10px" />
+                    <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
+                    <DynamicMenuStyle BackColor="#E3EAEB" />
+                    <DynamicSelectedStyle BackColor="#1C5E55" />
+                </asp:Menu>
+            </contenttemplate>--%>
+            <div class="row" style="background: #6D132D; cursor: pointer;" align="left">
+                <div class="col-md-12">
+                    <div class=" pull-left">
+                        <%--                  <asp:LoginView ID="LoginView6" runat="server">
+                            <LoggedInTemplate>--%>
+                        <h4 style="padding-left: 5px; color: white;">Bienvenido:&nbsp;
+                            <%--                                                <asp:LoginName ID="LoginName2" runat="server" Style="padding-left: 5px;" />--%>
+                            <asp:Label ID="lbnombre" runat="server" Text="" Style="padding-left: 5px;"></asp:Label>
+                        </h4>
+                        <%--       </LoggedInTemplate>
+                        </asp:LoginView>--%>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <br />
+            <%--<nav class="navbar navbar-expand-lg navbar-light bg-light">         
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="CargaDatos.aspx">Carga de datos </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="Captura.aspx">Captura de datos de facturas</a>
+                        </li>
+                         <li class="nav-item active">
+                            <a class="nav-link" href="Account/CrearUsuario.aspx">Crear Usuario</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>--%>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server"></asp:UpdatePanel>
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</html>

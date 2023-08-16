@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="65e909e85cf147e296cc42ecec69623b" Name="Diagram1">
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.aspnet_Applications" Width="1.5" PointX="3.75" PointY="4.625" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.aspnet_Membership" Width="1.5" PointX="6" PointY="3.125" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.aspnet_Roles" Width="1.5" PointX="6" PointY="10.875" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.aspnet_SchemaVersions" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.aspnet_Users" Width="1.5" PointX="8.25" PointY="7.5" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcareas" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctipogasto" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturasGrupo" Width="1.5" PointX="2.75" PointY="8.75" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Me__Appli__2FCF1A8A" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Ro__Appli__43D61337" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Us__Appli__2180FB33" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Me__UserI__30C33EC3" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.aspnet_UsersInRoles" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdoprev" Width="1.5" PointX="8.375" PointY="3.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
