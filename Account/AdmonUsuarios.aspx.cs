@@ -49,7 +49,7 @@ namespace RFinancieros_Facturas.Account
                     {
                         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                         SqlConnection conexion = new SqlConnection(connectionString);
-                        SqlCommand cmd = new SqlCommand("upd_bloqueo_membership", conexion);
+                        SqlCommand cmd = new SqlCommand("upd_bloqueo_membership2", conexion);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@iduser", Request.QueryString["iduser"]);
                         cmd.Parameters.AddWithValue("@op", Request.QueryString["bloqueo"]);
@@ -154,8 +154,9 @@ namespace RFinancieros_Facturas.Account
             string status;
             string bloqueo;
             foreach (GridViewRow rw in dgUsuarios.Rows)
-            {
+            {                
                 CheckBox cbstatus = rw.FindControl("chkstatus") as CheckBox;
+
                 CheckBox cbbloqueo = rw.FindControl("chkbloq") as CheckBox;
                 //ImageButton img = rw.FindControl("Imgimprimeres") as ImageButton;
                 //ScriptManager.GetCurrent(Page).RegisterPostBackControl(img);

@@ -39,7 +39,7 @@
                         <asp:BoundField DataField="Role" HeaderText="Role" />
                         <asp:BoundField DataField="Mail" HeaderText="email" />
                         <asp:BoundField DataField="creacion" HeaderText="Creación" DataFormatString="{0:d}" />
-                        <asp:TemplateField HeaderText="Activo">
+                        <asp:TemplateField HeaderText="Activo" Visible="true">
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkstatus" runat="server" AutoPostBack="true" OnCheckedChanged="Chkstatus_CheckedChanged" CssClass="text-center" />
                             </ItemTemplate>
