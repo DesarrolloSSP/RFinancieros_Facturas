@@ -36,9 +36,10 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<tcareas> tcareas { get; set; }
         public DbSet<tctipogasto> tctipogasto { get; set; }
-        public DbSet<tcusuarios> tcusuarios { get; set; }
         public DbSet<tdfacturasGrupo> tdfacturasGrupo { get; set; }
         public DbSet<tdoprev> tdoprev { get; set; }
+        public DbSet<tcproovedor_bloqueado> tcproovedor_bloqueado { get; set; }
+        public DbSet<tcusuarios> tcusuarios { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {

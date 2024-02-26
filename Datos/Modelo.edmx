@@ -89,6 +89,15 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tcareas' no tiene 
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="tcproovedor_bloqueado">
+          <Key>
+            <PropertyRef Name="idproovedor" />
+          </Key>
+          <Property Name="idproovedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rfc_proovedor" Type="nchar" MaxLength="13" Nullable="false" />
+          <Property Name="proovedor" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="dt_tcproovedor_bloqueado" Type="datetime" Nullable="false" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tctipogasto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="tctipogasto">
@@ -101,14 +110,9 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tctipogasto' no ti
           <Property Name="idgasto" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tcusuarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="tcusuarios">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="login" />
-            <PropertyRef Name="nombre" />
-            <PropertyRef Name="iniciales" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="login" Type="varchar" MaxLength="15" Nullable="false" />
@@ -248,6 +252,8 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tdfacturasGrupo' n
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcproovedor_bloqueado" EntityType="Self.tcproovedor_bloqueado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcusuarios" EntityType="Self.tcusuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tdfacturas" EntityType="Self.tdfacturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tdoprev" EntityType="Self.tdoprev" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcareas" EntityType="Self.tcareas" store:Type="Tables" store:Schema="dbo">
@@ -262,15 +268,6 @@ FROM [dbo].[tcareas] AS [tcareas]</DefiningQuery>
 [tctipogasto].[idgasto] AS [idgasto], 
 [tctipogasto].[nombre] AS [nombre]
 FROM [dbo].[tctipogasto] AS [tctipogasto]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tcusuarios" EntityType="Self.tcusuarios" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tcusuarios].[id] AS [id], 
-[tcusuarios].[login] AS [login], 
-[tcusuarios].[nombre] AS [nombre], 
-[tcusuarios].[iniciales] AS [iniciales], 
-[tcusuarios].[tipo] AS [tipo]
-FROM [dbo].[tcusuarios] AS [tcusuarios]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tdfacturasGrupo" EntityType="Self.tdfacturasGrupo" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -316,7 +313,6 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <EntitySet Name="aspnet_Users" EntityType="dbFacturasFinancierosModel.aspnet_Users" />
           <EntitySet Name="tcareas" EntityType="dbFacturasFinancierosModel.tcareas" />
           <EntitySet Name="tctipogasto" EntityType="dbFacturasFinancierosModel.tctipogasto" />
-          <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
           <EntitySet Name="tdfacturasGrupo" EntityType="dbFacturasFinancierosModel.tdfacturasGrupo" />
           <AssociationSet Name="FK__aspnet_Me__Appli__2FCF1A8A" Association="dbFacturasFinancierosModel.FK__aspnet_Me__Appli__2FCF1A8A">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
@@ -343,6 +339,8 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             <Parameter Name="fechai" Mode="In" Type="DateTime" />
             <Parameter Name="fechaf" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="tcproovedor_bloqueado" EntityType="dbFacturasFinancierosModel.tcproovedor_bloqueado" />
+          <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
         </EntityContainer>
         <EntityType Name="tdfacturas">
           <Key>
@@ -470,19 +468,6 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Name="idgasto" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="tcusuarios">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="login" />
-            <PropertyRef Name="nombre" />
-            <PropertyRef Name="iniciales" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="login" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="iniciales" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="tipo" Type="Int32" />
-        </EntityType>
         <EntityType Name="tdfacturasGrupo">
           <Key>
             <PropertyRef Name="Id" />
@@ -579,6 +564,25 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Type="String" Name="Validador" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="5" />
         </ComplexType>
+        <EntityType Name="tcproovedor_bloqueado">
+          <Key>
+            <PropertyRef Name="idproovedor" />
+          </Key>
+          <Property Name="idproovedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rfc_proovedor" Type="String" Nullable="false" MaxLength="13" FixedLength="true" Unicode="true" />
+          <Property Name="proovedor" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="dt_tcproovedor_bloqueado" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="tcusuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="iniciales" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -705,17 +709,6 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tcusuarios">
-            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcusuarios">
-              <MappingFragment StoreEntitySet="tcusuarios">
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="iniciales" ColumnName="iniciales" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="login" ColumnName="login" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tdfacturasGrupo">
             <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tdfacturasGrupo">
               <MappingFragment StoreEntitySet="tdfacturasGrupo">
@@ -774,6 +767,27 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tcproovedor_bloqueado">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcproovedor_bloqueado">
+              <MappingFragment StoreEntitySet="tcproovedor_bloqueado">
+                <ScalarProperty Name="dt_tcproovedor_bloqueado" ColumnName="dt_tcproovedor_bloqueado" />
+                <ScalarProperty Name="proovedor" ColumnName="proovedor" />
+                <ScalarProperty Name="rfc_proovedor" ColumnName="rfc_proovedor" />
+                <ScalarProperty Name="idproovedor" ColumnName="idproovedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcusuarios">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcusuarios">
+              <MappingFragment StoreEntitySet="tcusuarios">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="iniciales" ColumnName="iniciales" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

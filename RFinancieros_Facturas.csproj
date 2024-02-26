@@ -224,6 +224,7 @@
     <Content Include="Datos\ModelFacturas.edmx.diagram">
       <DependentUpon>ModelFacturas.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Reportes\ReporteEgreso.aspx" />
     <Content Include="Salir.aspx" />
@@ -390,6 +391,9 @@
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\tcareas.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\tcproovedor_bloqueado.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\tcstatus.cs">
