@@ -165,7 +165,7 @@
         <br />
         <asp:Panel ID="Panel2" runat="server" Visible="false">
             <asp:GridView ID="gvcapturistas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
-                EmptyDataText="No existen datos" OnRowDataBound="Gvcapturistas_RowDataBound">
+                EmptyDataText="No existen datos" OnRowDataBound="Gvcapturistas_RowDataBound" OnPageIndexChanging="gvcapturistas_PageIndexChanging">
                 <PagerSettings PreviousPageText="Previa" />
                 <Columns>
                     <asp:TemplateField>

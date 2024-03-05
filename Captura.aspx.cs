@@ -519,19 +519,28 @@ namespace RFinancieros_Facturas
 
         protected void Gvcapturistas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            try
             {
-                if (e.Row.Cells[0].HasControls())
+                if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    foreach (var control in e.Row.Cells[0].Controls)
+                    if (e.Row.Cells[0].HasControls())
                     {
-                        if (!(control is CheckBox)) continue;
-                        var checkBox = (CheckBox)control;
-                        checkBox.Attributes.Add("CheckedChanged", "errorCheckChanged");
-                        return;
+                        foreach (var control in e.Row.Cells[0].Controls)
+                        {
+                            if (!(control is CheckBox)) continue;
+                            var checkBox = (CheckBox)control;
+                            checkBox.Attributes.Add("CheckedChanged", "errorCheckChanged");
+                            return;
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
+
         }
 
         protected void Rd2_CheckedChanged(object sender, EventArgs e)
@@ -724,6 +733,12 @@ namespace RFinancieros_Facturas
             {
                 tbfolsuj.Enabled = false;
             }
+        }
+
+        protected void gvcapturistas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvcapturistas.PageIndex = e.NewPageIndex;
+            LlenarCapturistas();
         }
     }
 }
