@@ -227,6 +227,7 @@
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Reportes\ReporteEgreso.aspx" />
+    <Content Include="Reportes\ReporteEgresoFechas.aspx" />
     <Content Include="Salir.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -393,11 +394,20 @@
     <Compile Include="Datos\tcareas.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\tcpartida.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\tcpartida_anio.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\tcproovedor_bloqueado.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\tcstatus.cs">
       <DependentUpon>ModelFacturas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\tctercero_institucional.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\tctipogasto.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
@@ -480,6 +490,13 @@
     </Compile>
     <Compile Include="Reportes\ReporteEgreso.aspx.designer.cs">
       <DependentUpon>ReporteEgreso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteEgresoFechas.aspx.cs">
+      <DependentUpon>ReporteEgresoFechas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteEgresoFechas.aspx.designer.cs">
+      <DependentUpon>ReporteEgresoFechas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Salir.aspx.cs">
       <DependentUpon>Salir.aspx</DependentUpon>

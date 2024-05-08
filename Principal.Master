@@ -118,6 +118,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">

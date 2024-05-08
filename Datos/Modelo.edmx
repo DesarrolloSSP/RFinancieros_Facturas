@@ -89,6 +89,22 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tcareas' no tiene 
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="tcpartida">
+          <Key>
+            <PropertyRef Name="idtcpartida" />
+          </Key>
+          <Property Name="idtcpartida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clave_partida" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="partida" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="idtcpartida_anio" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tcpartida_anio">
+          <Key>
+            <PropertyRef Name="idtcpartida_anio" />
+          </Key>
+          <Property Name="idtcpartida_anio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="anio" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tcproovedor_bloqueado">
           <Key>
             <PropertyRef Name="idproovedor" />
@@ -97,6 +113,13 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tcareas' no tiene 
           <Property Name="rfc_proovedor" Type="nchar" MaxLength="13" Nullable="false" />
           <Property Name="proovedor" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="dt_tcproovedor_bloqueado" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tctercero_institucional">
+          <Key>
+            <PropertyRef Name="idtcterceros_institucional" />
+          </Key>
+          <Property Name="idtcterceros_institucional" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_tercero" Type="varchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tctipogasto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -241,6 +264,18 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tdfacturasGrupo' n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tcpartida_tcpartida_anio">
+          <End Role="tcpartida_anio" Type="Self.tcpartida_anio" Multiplicity="1" />
+          <End Role="tcpartida" Type="Self.tcpartida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcpartida_anio">
+              <PropertyRef Name="idtcpartida_anio" />
+            </Principal>
+            <Dependent Role="tcpartida">
+              <PropertyRef Name="idtcpartida_anio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="sel_facturas_fecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechai" Type="date" Mode="In" />
           <Parameter Name="fechaf" Type="date" Mode="In" />
@@ -252,7 +287,10 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tdfacturasGrupo' n
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcpartida" EntityType="Self.tcpartida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcpartida_anio" EntityType="Self.tcpartida_anio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcproovedor_bloqueado" EntityType="Self.tcproovedor_bloqueado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tctercero_institucional" EntityType="Self.tctercero_institucional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcusuarios" EntityType="Self.tcusuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tdfacturas" EntityType="Self.tdfacturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tdoprev" EntityType="Self.tdoprev" Schema="dbo" store:Type="Tables" />
@@ -299,6 +337,10 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_tcpartida_tcpartida_anio" Association="Self.FK_tcpartida_tcpartida_anio">
+            <End Role="tcpartida_anio" EntitySet="tcpartida_anio" />
+            <End Role="tcpartida" EntitySet="tcpartida" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -341,6 +383,13 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="tcproovedor_bloqueado" EntityType="dbFacturasFinancierosModel.tcproovedor_bloqueado" />
           <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
+          <EntitySet Name="tcpartida" EntityType="dbFacturasFinancierosModel.tcpartida" />
+          <EntitySet Name="tcpartida_anio" EntityType="dbFacturasFinancierosModel.tcpartida_anio" />
+          <AssociationSet Name="FK_tcpartida_tcpartida_anio" Association="dbFacturasFinancierosModel.FK_tcpartida_tcpartida_anio">
+            <End Role="tcpartida_anio" EntitySet="tcpartida_anio" />
+            <End Role="tcpartida" EntitySet="tcpartida" />
+          </AssociationSet>
+          <EntitySet Name="tctercero_institucional" EntityType="dbFacturasFinancierosModel.tctercero_institucional" />
         </EntityContainer>
         <EntityType Name="tdfacturas">
           <Key>
@@ -583,6 +632,43 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Name="iniciales" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="tipo" Type="Int32" />
         </EntityType>
+        <EntityType Name="tcpartida">
+          <Key>
+            <PropertyRef Name="idtcpartida" />
+          </Key>
+          <Property Name="idtcpartida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave_partida" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="partida" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="idtcpartida_anio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tcpartida_anio" Relationship="dbFacturasFinancierosModel.FK_tcpartida_tcpartida_anio" FromRole="tcpartida" ToRole="tcpartida_anio" />
+        </EntityType>
+        <EntityType Name="tcpartida_anio">
+          <Key>
+            <PropertyRef Name="idtcpartida_anio" />
+          </Key>
+          <Property Name="idtcpartida_anio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="anio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tcpartida" Relationship="dbFacturasFinancierosModel.FK_tcpartida_tcpartida_anio" FromRole="tcpartida_anio" ToRole="tcpartida" />
+        </EntityType>
+        <Association Name="FK_tcpartida_tcpartida_anio">
+          <End Type="dbFacturasFinancierosModel.tcpartida_anio" Role="tcpartida_anio" Multiplicity="1" />
+          <End Type="dbFacturasFinancierosModel.tcpartida" Role="tcpartida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcpartida_anio">
+              <PropertyRef Name="idtcpartida_anio" />
+            </Principal>
+            <Dependent Role="tcpartida">
+              <PropertyRef Name="idtcpartida_anio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tctercero_institucional">
+          <Key>
+            <PropertyRef Name="idtcterceros_institucional" />
+          </Key>
+          <Property Name="idtcterceros_institucional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_tercero" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -785,6 +871,32 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcpartida">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcpartida">
+              <MappingFragment StoreEntitySet="tcpartida">
+                <ScalarProperty Name="idtcpartida_anio" ColumnName="idtcpartida_anio" />
+                <ScalarProperty Name="partida" ColumnName="partida" />
+                <ScalarProperty Name="clave_partida" ColumnName="clave_partida" />
+                <ScalarProperty Name="idtcpartida" ColumnName="idtcpartida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcpartida_anio">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcpartida_anio">
+              <MappingFragment StoreEntitySet="tcpartida_anio">
+                <ScalarProperty Name="anio" ColumnName="anio" />
+                <ScalarProperty Name="idtcpartida_anio" ColumnName="idtcpartida_anio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tctercero_institucional">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tctercero_institucional">
+              <MappingFragment StoreEntitySet="tctercero_institucional">
+                <ScalarProperty Name="nombre_tercero" ColumnName="nombre_tercero" />
+                <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

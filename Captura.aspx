@@ -22,7 +22,7 @@
                             </div>
                             <div class="p-1 bd-highlight">
                                 <asp:CheckBox ID="chkEjercicio" runat="server" Text="Ejercicio 2023" Checked="True" />
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 d-flex justify-content-end">
@@ -96,17 +96,35 @@
             <PagerStyle HorizontalAlign="Left" />
         </asp:GridView>
         <asp:Panel ID="Panel1" runat="server" Visible="false" DefaultButton="btnguardar">
-            <div class="row">
+
+
+            <div class="row mt-2">
+
+                <div class="d-flex justify-content-center">
+                <%--<div class="col-xl">--%>
+
+                    <asp:LinkButton ID="btnValidaSAT" runat="server" Text="" OnClientClick="callSAT();">VERIFICACIÓN DE COMPROBANTES FISCALES DIGITALES POR INTERNET</asp:LinkButton>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row mt-2">
+
                 <div class="col-xl">
                     <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
+
                 <div class="col-xl">
                     <asp:Label ID="lbconcepto" runat="server" Text="Concepto" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlconcepto" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
+
                 <div class="col-xl">
                     <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlTipopago" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="DdlTipopago_SelectedIndexChanged">
@@ -116,7 +134,26 @@
                         <asp:ListItem Value="3">FASP</asp:ListItem>
                     </asp:DropDownList>
                 </div>
+
+
             </div>
+
+            <div class="row">
+
+                <div class="col-2">
+                    <asp:Label ID="Label2" runat="server" Text="Clave Partida" class="small" Font-Bold="True"></asp:Label>
+                    <asp:TextBox ID="txtPartida" AutoPostBack="true" OnTextChanged="txtPartida_TextChanged" runat="server" CssClass=" form-control"></asp:TextBox>
+                </div>
+
+                <div class="col-xl">
+                    <asp:Label ID="Label1" runat="server" Text="Partida" class="small" Font-Bold="True"></asp:Label>
+                    <asp:DropDownList ID="ddlPartida" runat="server" Enabled="false" CssClass="form-control" DataSourceID="edsPartida" DataTextField="partida" DataValueField="idtcpartida" AppendDataBoundItems="true">
+                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+            </div>
+
             <div class="row">
                 <div class="col-xl">
                     <asp:Label ID="lbop" runat="server" Text="Número Orden de pago" class="small" Font-Bold="True"></asp:Label>
@@ -156,6 +193,16 @@
                     <asp:Label ID="lblfolsuj" runat="server" Text="Folio del sujeto" class="small" Font-Bold="True"></asp:Label>
                     <asp:TextBox ID="tbfolsuj" runat="server" CssClass="form-control" Enabled="False" TextMode="Number" MaxLength="6"></asp:TextBox>
                 </div>
+
+
+                <div class="col-xl">
+                    <asp:Label ID="Label3" runat="server" Text="Terceros Institucionales" class="small" Font-Bold="True"></asp:Label>
+                    <asp:DropDownList ID="ddlTercerosInst" runat="server" CssClass="form-control" DataSourceID="edsTercerosInst" DataTextField="nombre_tercero" DataValueField="idtcterceros_institucional" AppendDataBoundItems="true">
+                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+
             </div>
             <br />
             <asp:Button ID="btnguardar" runat="server" Text="Revisado" CssClass="btn btn-warning" OnClick="Btnguardar_Click" />
@@ -199,5 +246,20 @@
             <asp:Button ID="btnTermina" runat="server" Text="Guardar" CssClass="btn btn-warning" OnClick="BtnTermina_Click" />
         </asp:Panel>
     </div>
+
+    <asp:EntityDataSource ID="edsPartida" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcpartida"></asp:EntityDataSource>
+    <asp:EntityDataSource ID="edsTercerosInst" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tctercero_institucional"></asp:EntityDataSource>
+
+
+
+    <script>
+        function callSAT() {
+            
+            window.open("https://verificacfdi.facturaelectronica.sat.gob.mx/", "Popup", "toolbar=no, location=no,status=yes,menubar=no,scrollbars=yes,resizable=no, width=900,height=500,left=430,top=100");
+
+        }
+    </script>
+
+
 </asp:Content>
 

@@ -117,6 +117,8 @@ namespace RFinancieros_Facturas
             }
         }
 
+
+
         //public void llenarstatus()
         //{
         //    try
@@ -612,16 +614,31 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el egreso','info')", true);
                 return;
             }
+
+            else if (txtPartida.Text.Trim() == "")
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
+                return;
+            }
+            else if (ddlTercerosInst.SelectedValue == "0")
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
+                return;
+            }
+
             try
             {
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[upd_captura_egreso]", conectar)
+                SqlCommand cmd = new SqlCommand("[upd_captura_egreso2]", conectar)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.AddWithValue("@id", Session["Id"]);
                 cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
+                cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+
                 cmd.ExecuteScalar();
                 conectar.Close();
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Se ha captura el egreso al folio fiscal, exitosamente','info')", true);
@@ -739,6 +756,26 @@ namespace RFinancieros_Facturas
         {
             gvcapturistas.PageIndex = e.NewPageIndex;
             LlenarCapturistas();
+        }
+
+        protected void txtPartida_TextChanged(object sender, EventArgs e)
+        {
+            using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
+            {
+                tcpartida partida = ctx.tcpartida.Where(x => x.clave_partida == txtPartida.Text.Trim()).FirstOrDefault();
+                if (partida != null)
+                {
+                    ddlPartida.DataBind();
+                    ddlPartida.SelectedValue = partida.idtcpartida.ToString();
+                }
+                else
+                {
+                    ddlPartida.Items.Clear();
+                    //ddlPartida.Items.Add(new ListItem("--Seleccione--", "0"));
+                    ddlPartida.Text = "NO EXISTE";
+                }
+
+            }
         }
     }
 }
