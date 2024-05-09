@@ -228,6 +228,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Reportes\ReporteEgreso.aspx" />
     <Content Include="Reportes\ReporteEgresoFechas.aspx" />
+    <Content Include="Reportes\ReporteFolioSujeto.aspx" />
     <Content Include="Salir.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -497,6 +498,13 @@
     </Compile>
     <Compile Include="Reportes\ReporteEgresoFechas.aspx.designer.cs">
       <DependentUpon>ReporteEgresoFechas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteFolioSujeto.aspx.cs">
+      <DependentUpon>ReporteFolioSujeto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteFolioSujeto.aspx.designer.cs">
+      <DependentUpon>ReporteFolioSujeto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Salir.aspx.cs">
       <DependentUpon>Salir.aspx</DependentUpon>

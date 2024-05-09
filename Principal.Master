@@ -119,6 +119,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
