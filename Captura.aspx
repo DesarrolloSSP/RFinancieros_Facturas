@@ -115,15 +115,15 @@
 
                 <div class="col-xl">
                     <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
-                    <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control">
+                    <asp:DropDownList ID="ddlareas" runat="server" AutoPostBack="true" CssClass="form-control" OnSelectedIndexChanged="ddlareas_SelectedIndexChanged">
                     </asp:DropDownList>
                 </div>
 
-                <div class="col-xl">
+               <%-- <div class="col-xl">
                     <asp:Label ID="lbconcepto" runat="server" Text="Concepto" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlconcepto" runat="server" CssClass="form-control">
                     </asp:DropDownList>
-                </div>
+                </div>--%>
 
                 <div class="col-xl">
                     <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>

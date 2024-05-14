@@ -18,16 +18,36 @@
                     <asp:DropDownList ID="ddlordenes" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>--%>
+
+
                 <div class="col-xl">
                     <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
+
+
+
+                <div class="col-2">
+                    <asp:Label ID="Label2" runat="server" Text="Clave Partida" class="small" Font-Bold="True"></asp:Label>
+                    <asp:TextBox ID="txtPartida" AutoPostBack="true" OnTextChanged="txtPartida_TextChanged" runat="server" CssClass=" form-control"></asp:TextBox>
+                </div>
+
                 <div class="col-xl">
+                    <asp:Label ID="Label1" runat="server" Text="Partida" class="small" Font-Bold="True"></asp:Label>
+                    <asp:DropDownList ID="ddlPartida" runat="server" Enabled="false" CssClass="form-control" DataSourceID="edsPartida" DataTextField="partida" DataValueField="idtcpartida" AppendDataBoundItems="true">
+                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+
+
+                <%--                <div class="col-xl">
                     <asp:Label ID="lbconcepto" runat="server" Text="Concepto" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlconcepto" runat="server" CssClass="form-control">
                     </asp:DropDownList>
-                </div>
+                </div>--%>
+
+
                 <div class="col-xl">
                     <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>
                     <asp:DropDownList ID="ddlTipopago" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="DdlTipopago_SelectedIndexChanged">
@@ -38,12 +58,16 @@
                     </asp:DropDownList>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xl">
                     <asp:Label ID="lblfolsuj" runat="server" Text="Folio del sujeto" class="small" Font-Bold="True"></asp:Label>
                     <asp:TextBox ID="tbfolsuj" runat="server" CssClass="form-control" Enabled="False" TextMode="Number" MaxLength="6"></asp:TextBox>
                 </div>
             </div>
+
+            <br />
+
         </asp:Panel>
         <div class="row">
             <div class="col-md-12">
@@ -110,11 +134,11 @@
                     <HeaderStyle HorizontalAlign="Center" ForeColor="White" BackColor="#6D132D" />
                     <ItemStyle HorizontalAlign="Center" />
                 </asp:BoundField>
-                     <asp:BoundField DataField="Capturista" HeaderText="Cap" ReadOnly="True">
+                <asp:BoundField DataField="Capturista" HeaderText="Cap" ReadOnly="True">
                     <HeaderStyle HorizontalAlign="Center" ForeColor="White" BackColor="#6D132D" />
                     <ItemStyle HorizontalAlign="Center" />
                 </asp:BoundField>
-                     <asp:BoundField DataField="validador" HeaderText="Val" ReadOnly="True">
+                <asp:BoundField DataField="validador" HeaderText="Val" ReadOnly="True">
                     <HeaderStyle HorizontalAlign="Center" ForeColor="White" BackColor="#6D132D" />
                     <ItemStyle HorizontalAlign="Center" />
                 </asp:BoundField>
@@ -198,4 +222,10 @@
             <asp:Button ID="btnfinalizar" runat="server" Text="Finalizar" CssClass="btn btn-warning" OnClick="Btnfinalizar_Click" />
         </asp:Panel>
     </div>
+
+
+    <asp:EntityDataSource ID="edsPartida" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcpartida"></asp:EntityDataSource>
+
+
+
 </asp:Content>

@@ -82,10 +82,10 @@ namespace RFinancieros_Facturas
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                ddlconcepto.DataSource = cmd.ExecuteReader();
-                ddlconcepto.DataTextField = "nombre";
-                ddlconcepto.DataValueField = "id";
-                ddlconcepto.DataBind();
+                //ddlconcepto.DataSource = cmd.ExecuteReader();
+                //ddlconcepto.DataTextField = "nombre";
+                //ddlconcepto.DataValueField = "id";
+                //ddlconcepto.DataBind();
                 //ddlconcepto.Items.Insert(0, new ListItem("--Concepto--"));
                 conectar.Close();
             }
@@ -199,7 +199,7 @@ namespace RFinancieros_Facturas
                             if (consulta != null)
                             {
                                 ddlareas.SelectedValue = consulta.Idarea.ToString();
-                                ddlconcepto.SelectedValue = consulta.IdPago.ToString();
+                                //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
                                 ddlTipopago.SelectedValue = consulta.Idconcepto.ToString();
                                 tbordpag.Text = consulta.NoOdp;
                                 tbfolint.Text = consulta.FolioInternoFactura;
@@ -357,7 +357,7 @@ namespace RFinancieros_Facturas
         public void EdicionCampos(bool bandera)
         {
             ddlareas.Enabled = bandera;
-            ddlconcepto.Enabled = bandera;
+            //ddlconcepto.Enabled = bandera;
             tbordpag.Enabled = bandera;
             tbfolint.Enabled = bandera;
             tbMotivo.Enabled = bandera;
@@ -472,25 +472,26 @@ namespace RFinancieros_Facturas
                     };
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
                     cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedItem.Value));
-                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlconcepto.SelectedItem.Value));
-                    cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
+                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlconcepto.SelectedItem.Value));
+                    cmd.Parameters.AddWithValue("@idpago", 0);
+                    cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));                    
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
-                    cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Trim());
+                    cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
                     cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@status", sr.Trim());
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
-                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());
-                    cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedItem.Value));
-                    //cmd.Parameters.AddWithValue("@idtercero", Convert.ToInt32(ddlTercerosInst.SelectedItem.Value));
+                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.Trim()); ;
+                    cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
+
 
                     cmd.ExecuteScalar();
                     conectar.Close();
                     ddlareas.SelectedIndex = 0;
                     ddlestatus.SelectedIndex = 0;
-                    ddlconcepto.SelectedIndex = 0;
+                    //ddlconcepto.SelectedIndex = 0;
                     tbMotivo.Text = "";
                     tbordpag.Text = "";
                     tbfolint.Text = "";
@@ -702,7 +703,7 @@ namespace RFinancieros_Facturas
             {
                 ddlareas.SelectedIndex = 0;
                 ddlTipopago.SelectedIndex = 0;
-                ddlconcepto.SelectedIndex = 0;
+               // ddlconcepto.SelectedIndex = 0;
                 tbordpag.Text = "";
                 tbfolint.Text = "";
                 tbMotivo.Text = "";
@@ -713,26 +714,28 @@ namespace RFinancieros_Facturas
                 return x;
             }
 
-            if (ddlareas.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
-                x = false;
-            }
-            if (ddlconcepto.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el concepto','warning')", true);
-                x = false;
-            }
+            //if (ddlareas.SelectedIndex == 0)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
+            //    x = false;
+            //}
+
+            //if (ddlconcepto.SelectedIndex == 0)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el concepto','warning')", true);
+            //    x = false;
+            //}
+
             if (tbordpag.Text.Trim() == "")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la orden de pago','warning')", true);
                 x = false;
             }
-            if (tbfolint.Text.Trim() == "")
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio interno','warning')", true);
-                x = false;
-            }
+            //if (tbfolint.Text.Trim() == "")
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio interno','warning')", true);
+            //    x = false;
+            //}
             if (!User.IsInRole("Administrador") && Session["Estado"].ToString() == "Cancelado")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Este registro se encuentra cancelado, no es posible capturarlo','warning')", true);
@@ -743,11 +746,11 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio del sujeto','warning')", true);
                 x = false;
             }
-            if (!ValidaCp())
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
-                x = false;
-            }
+            //if (!ValidaCp())
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
+            //    x = false;
+            //}
             return x;
         }
 
@@ -800,6 +803,15 @@ namespace RFinancieros_Facturas
                     ddlPartida.Text = "NO EXISTE";
                 }
 
+            }
+        }
+
+        protected void ddlareas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlareas.SelectedIndex == 0)
+            {
+                tbfolint.Enabled = false;
+                tbcp.Enabled = false;
             }
         }
     }
