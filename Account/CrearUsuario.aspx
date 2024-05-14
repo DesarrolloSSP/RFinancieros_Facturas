@@ -12,8 +12,30 @@
                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtnombre"
                         CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
                     <br />
-                    <asp:TextBox runat="server" ID="txtnombre" class="form-control" Width="300px" />
+                    <asp:TextBox runat="server" ID="txtnombre" AutoPostBack="true"  class="form-control" Width="300px" />
                 </li>
+
+
+                <li>
+                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Paterno</asp:Label>
+                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPaterno"
+                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                    <br />
+                    <asp:TextBox runat="server" ID="txtPaterno"  AutoPostBack="true" class="form-control" Width="300px" />
+                </li>
+
+                <li>
+                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Materno</asp:Label>
+                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaterno"
+                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                    <br />
+                    <asp:TextBox runat="server" ID="txtMaterno" OnTextChanged="txtMaterno_TextChanged" AutoPostBack="true" class="form-control" Width="300px" />
+                </li>
+
+
+
+
+
                 <li>
                     <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtUsuario">Usuario</asp:Label>
                     <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario"

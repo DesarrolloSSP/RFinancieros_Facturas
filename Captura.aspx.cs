@@ -216,6 +216,23 @@ namespace RFinancieros_Facturas
                                     ddlestatus.SelectedItem.Text = "Vigente";
                                 }
                                 tbEgreso.Text = consulta.Egreso.ToString();
+
+                                ddlPartida.DataBind();
+                                ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+                                //ddlTercerosInst.SelectedValue = consulta.idtcterceros_institucional == null ? "0" : consulta.idtcterceros_institucional.ToString();
+
+                                tcpartida buscar = ctx.tcpartida.Where(x => x.idtcpartida == consulta.idtcpartida).FirstOrDefault();
+                                if (buscar != null)
+                                {
+                                    txtPartida.Text = buscar.clave_partida.Trim();
+                                }
+                                else
+                                {
+                                    txtPartida.Text = "";
+                                }
+
+
                             }
                         }
                         else
@@ -466,6 +483,9 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());
+                    cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedItem.Value));
+                    //cmd.Parameters.AddWithValue("@idtercero", Convert.ToInt32(ddlTercerosInst.SelectedItem.Value));
+
                     cmd.ExecuteScalar();
                     conectar.Close();
                     ddlareas.SelectedIndex = 0;
@@ -474,6 +494,11 @@ namespace RFinancieros_Facturas
                     tbMotivo.Text = "";
                     tbordpag.Text = "";
                     tbfolint.Text = "";
+
+                    txtPartida.Text = "";
+                    ddlPartida.SelectedIndex = 0;
+                    //ddlTercerosInst.SelectedIndex = 0;
+
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El registro ha sido actualizado: " + Session["Id"] + "','info')", true);
                     Panel1.Visible = false;
                     LlenarFacturas();
@@ -620,11 +645,11 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
                 return;
             }
-            else if (ddlTercerosInst.SelectedValue == "0")
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
-                return;
-            }
+            //else if (ddlTercerosInst.SelectedValue == "0")
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
+            //    return;
+            //}
 
             try
             {
@@ -637,7 +662,7 @@ namespace RFinancieros_Facturas
                 cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
-                cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+                //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
 
                 cmd.ExecuteScalar();
                 conectar.Close();

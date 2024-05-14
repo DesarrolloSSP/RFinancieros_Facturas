@@ -28,7 +28,6 @@ namespace RFinancieros_Facturas.Datos
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<tdfacturas> tdfacturas { get; set; }
         public DbSet<aspnet_Applications> aspnet_Applications { get; set; }
         public DbSet<aspnet_Membership> aspnet_Membership { get; set; }
         public DbSet<aspnet_Roles> aspnet_Roles { get; set; }
@@ -39,10 +38,11 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tdfacturasGrupo> tdfacturasGrupo { get; set; }
         public DbSet<tdoprev> tdoprev { get; set; }
         public DbSet<tcproovedor_bloqueado> tcproovedor_bloqueado { get; set; }
-        public DbSet<tcusuarios> tcusuarios { get; set; }
         public DbSet<tcpartida> tcpartida { get; set; }
         public DbSet<tcpartida_anio> tcpartida_anio { get; set; }
         public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
+        public DbSet<tdfacturas> tdfacturas { get; set; }
+        public DbSet<tcusuarios> tcusuarios { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {

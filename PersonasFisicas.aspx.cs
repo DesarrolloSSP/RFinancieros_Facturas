@@ -23,8 +23,8 @@ namespace RFinancieros_Facturas
             }
             DateTime dt = DateTime.Now;
             tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
-            tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);            
-        }    
+            tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
+        }
 
         public void llenarAreas()
         {
@@ -37,7 +37,7 @@ namespace RFinancieros_Facturas
                 ddlareas.DataTextField = "nombre";
                 ddlareas.DataValueField = "id";
                 ddlareas.DataBind();
-                ddlareas.Items.Insert(0, new ListItem("--Area--"));
+                //ddlareas.Items.Insert(0, new ListItem("--Area--"));
                 conectar.Close();
             }
             catch (Exception ex)
@@ -95,13 +95,13 @@ namespace RFinancieros_Facturas
                 liga = liga.Replace("/&tt", "&tt");
                 liga = liga.Replace("/&fe", "&fe");
                 string[] subs = liga.Split('&');
-                var xx = subs[1].Substring(3,36).ToUpper(); 
-                tbFolio.Text = Convert.ToString(xx); 
+                var xx = subs[1].Substring(3, 36).ToUpper();
+                tbFolio.Text = Convert.ToString(xx);
                 xx = subs[2].ToString().Substring(3, 13).ToUpper();
                 tbrfc.Text = xx;
                 xx = Convert.ToDecimal(subs[4].ToString().Substring(3, subs[4].ToString().Length - 3)).ToString("0.00");
                 tbImporte.Text = xx;
-                 if (liga != "" || liga != null)
+                if (liga != "" || liga != null)
                 {
                     ruta.Visible = true;
                     ruta.Src = liga;
@@ -130,11 +130,11 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio Fiscal','warning')", true);
                 x = false;
             }
-            if (tbImporte.Text.Trim() == "")
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el Importe','warning')", true);
-                x = false;
-            }
+            //if (tbImporte.Text.Trim() == "")
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el Importe','warning')", true);
+            //    x = false;
+            //}
             if (tbrfc.Text.Trim() == "")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el RFC','warning')", true);
@@ -146,11 +146,11 @@ namespace RFinancieros_Facturas
                 x = false;
             }
 
-            if (ddlareas.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
-                x = false;
-            }
+            //if (ddlareas.SelectedIndex == 0)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
+            //    x = false;
+            //}
             if (ddlconcepto.SelectedIndex == 0)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el concepto','warning')", true);
@@ -158,14 +158,14 @@ namespace RFinancieros_Facturas
             }
             if (tbordpag.Text.Trim() == "")
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la orden de pago','warning')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture Número de Oficio/Tarjeta','warning')", true);
                 x = false;
             }
-            if (tbfolint.Text.Trim() == "")
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio interno','warning')", true);
-                x = false;
-            }
+            //if (tbfolint.Text.Trim() == "")
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio interno','warning')", true);
+            //    x = false;
+            //}
             if (chkdevol.Checked && tbMotivo.Text.Trim() == "")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el motivo de la devolución','warning')", true);
@@ -176,11 +176,19 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio del sujeto','warning')", true);
                 x = false;
             }
-            if (!ValidaCp())
+            //if (!ValidaCp())
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
+            //    x = false;
+            //}
+
+
+            if (ddlTercerosInst.SelectedValue == "0")
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar un Tercero Institucional','warning')", true);
                 x = false;
             }
+
             return x;
         }
 
@@ -189,11 +197,11 @@ namespace RFinancieros_Facturas
             bool x = true;
             if (tbcp.Text.Length == 5)
             {
-                x=true;
+                x = true;
             }
             else
             {
-                x=false; 
+                x = false;
             }
             return x;
         }
@@ -202,7 +210,7 @@ namespace RFinancieros_Facturas
         {
             bool x = true;
             try
-            {                
+            {
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                 SqlCommand cmd = new SqlCommand("[sel_folio]", conectar);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -210,9 +218,9 @@ namespace RFinancieros_Facturas
                 cmd.Parameters.AddWithValue("@folio", tbFolio.Text.Trim());
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
                 if (count == 0)
-                {                    
+                {
                     x = false;
-                }                        
+                }
             }
             catch (Exception ex)
             {
@@ -236,25 +244,29 @@ namespace RFinancieros_Facturas
                     {
                         sr = ddlestatus.SelectedItem.Text;
                     }
+
+                    var date_ = DateTime.Now.Date;
+
                     SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                     SqlCommand cmd = new SqlCommand("[ins_persona_fisica]", conectar);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@folio", tbFolio.Text.Trim());
+                    cmd.Parameters.AddWithValue("@folio", tbFolio.Text.Length == 0 ? "" : tbFolio.Text.Trim());
                     cmd.Parameters.AddWithValue("@status", sr.Trim());
                     cmd.Parameters.AddWithValue("@importe", Convert.ToDecimal(tbImporte.Text.Trim()));
-                    cmd.Parameters.AddWithValue("@fechae", Convert.ToDateTime(tbfechae.Text.Trim()));
+                    cmd.Parameters.AddWithValue("@fechae", tbfechae.Text.Length == 0 ? date_ : Convert.ToDateTime(tbfechae.Text.Trim()));
                     cmd.Parameters.AddWithValue("@rfce", tbrfc.Text.Trim());
                     cmd.Parameters.AddWithValue("@rse", tbrazon.Text.Trim());
-                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedItem.Value));
+                    cmd.Parameters.AddWithValue("@idarea", ddlareas.SelectedValue.Length == 0 ? 0 : Convert.ToInt32(ddlareas.SelectedValue));
                     cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlconcepto.SelectedItem.Value));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
-                    cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Trim());
+                    cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim()); ;
                     cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
                     cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
-                    cmd.Parameters.AddWithValue("@cp", Convert.ToInt32(tbcp.Text));
+                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? 0 : Convert.ToInt32(tbcp.Text));
+                    cmd.Parameters.AddWithValue("@idtercero", ddlTercerosInst.SelectedValue.Length == 0 ? 0 : Convert.ToDecimal(ddlTercerosInst.SelectedValue));
                     object inserta = cmd.ExecuteScalar();
                     conectar.Close();
                     if (inserta == null)
@@ -302,12 +314,12 @@ namespace RFinancieros_Facturas
             ddlconcepto.SelectedIndex = 0;
             ddlTipopago.SelectedIndex = 0;
             tbordpag.Text = "";
-            tbfolint.Text = ""; 
+            tbfolint.Text = "";
             tbMotivo.Text = "";
             tbordpag.Text = "";
             tbfolint.Text = "";
             chkdevol.Checked = false;
-            tbMotivo.Text = ""; 
+            tbMotivo.Text = "";
         }
 
         protected void DdlTipopago_SelectedIndexChanged(object sender, EventArgs e)
@@ -323,7 +335,7 @@ namespace RFinancieros_Facturas
         }
 
         protected void chkrecibo_CheckedChanged(object sender, EventArgs e)
-        {     
+        {
             if (chkrecibo.Checked)
             {
                 tbcadena.Enabled = false;
@@ -331,6 +343,13 @@ namespace RFinancieros_Facturas
                 tbverificar.Enabled = false;
                 Guid id = Guid.NewGuid();
                 tbFolio.Text = id.ToString().Trim().ToUpper();
+
+                tbFolio.Enabled = false;
+                tbfechae.Enabled = false;
+                ddlareas.Enabled = false;
+                tbfolint.Enabled = false;
+                tbcp.Enabled = false;
+
             }
             else
             {

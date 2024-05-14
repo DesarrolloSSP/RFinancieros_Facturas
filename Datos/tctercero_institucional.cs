@@ -14,7 +14,14 @@ namespace RFinancieros_Facturas.Datos
     
     public partial class tctercero_institucional
     {
+        public tctercero_institucional()
+        {
+            this.tdfacturas = new HashSet<tdfacturas>();
+        }
+    
         public int idtcterceros_institucional { get; set; }
         public string nombre_tercero { get; set; }
+    
+        public virtual ICollection<tdfacturas> tdfacturas { get; set; }
     }
 }

@@ -16,8 +16,12 @@ namespace RFinancieros_Facturas.Datos
     {
         public int id { get; set; }
         public string login { get; set; }
+        public string paterno { get; set; }
+        public string materno { get; set; }
+        public string nombre_ { get; set; }
         public string nombre { get; set; }
         public string iniciales { get; set; }
         public Nullable<int> tipo { get; set; }
+        public Nullable<System.Guid> userid { get; set; }
     }
 }

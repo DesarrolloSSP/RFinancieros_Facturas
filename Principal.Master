@@ -110,7 +110,9 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" runat="server" href="~/Account/CrearUsuario.aspx">Crear usuario</a></li>
                                     <li><a class="dropdown-item" runat="server" href="~/Account/CambiaRole.aspx">Cambiar Role</a></li>
+                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiarPass.aspx">Cambiar Password</a></li>
                                     <li><a class="dropdown-item" runat="server" href="~/Account/AdmonUsuarios.aspx">Administración</a></li>
+                                    
                                 </ul>
                             </li>
 

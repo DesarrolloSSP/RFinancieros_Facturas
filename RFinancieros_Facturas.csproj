@@ -151,6 +151,7 @@
     <Content Include="Account\AdmonUsuarios3.aspx" />
     <Content Include="Account\AdmonUsuarios.aspx" />
     <Content Include="Account\CambiaRole.aspx" />
+    <Content Include="Account\CambiarPass.aspx" />
     <Content Include="Account\CrearUsuario.aspx" />
     <Content Include="Captura.aspx" />
     <Content Include="CapturaAgrupada.aspx" />
@@ -291,6 +292,13 @@
     </Compile>
     <Compile Include="Account\CambiaRole.aspx.designer.cs">
       <DependentUpon>CambiaRole.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\CambiarPass.aspx.cs">
+      <DependentUpon>CambiarPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\CambiarPass.aspx.designer.cs">
+      <DependentUpon>CambiarPass.aspx</DependentUpon>
     </Compile>
     <Compile Include="Account\CrearUsuario.aspx.cs">
       <DependentUpon>CrearUsuario.aspx</DependentUpon>

@@ -14,11 +14,17 @@ namespace RFinancieros_Facturas.Datos
     
     public partial class tcpartida
     {
+        public tcpartida()
+        {
+            this.tdfacturas = new HashSet<tdfacturas>();
+        }
+    
         public int idtcpartida { get; set; }
         public string clave_partida { get; set; }
         public string partida { get; set; }
         public int idtcpartida_anio { get; set; }
     
         public virtual tcpartida_anio tcpartida_anio { get; set; }
+        public virtual ICollection<tdfacturas> tdfacturas { get; set; }
     }
 }

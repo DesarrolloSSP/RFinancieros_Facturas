@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using RFinancieros_Facturas.Datos;
 
 namespace RFinancieros_Facturas.Account
 {
@@ -26,6 +27,27 @@ namespace RFinancieros_Facturas.Account
             if (!IsPostBack)
             {
                 carga_roles();
+            }
+        }
+
+        protected void crearUsuarioInterno(Guid userid_)
+        {
+            using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
+            {
+                tcusuarios nuevo = new tcusuarios()
+                {
+                    login = txtUsuario.Text.Trim().ToUpper(),
+                    nombre = txtnombre.Text.Trim().ToUpper(),
+                    paterno = txtPaterno.Text.Trim().ToUpper(),
+                    materno = txtMaterno.Text.Trim().ToUpper(),
+                    iniciales = (txtnombre.Text.ToUpper()[0] + txtnombre.Text.Trim().ToUpper() + txtnombre.Text.Trim().ToUpper()[0]),
+                    tipo = 3,//no tiene integridad,
+                    userid = userid_
+
+                };
+                ctx.tcusuarios.Add(nuevo);
+                ctx.SaveChanges();
+
             }
         }
 
@@ -51,10 +73,15 @@ namespace RFinancieros_Facturas.Account
                 if (!Membership.ValidateUser(usuario, password) && (Membership.FindUsersByName(usuario) == null) || Membership.FindUsersByName(usuario).Count == 0 && IsValidEmail(email))
                 {
                     MembershipUser usuarioCreado = Membership.CreateUser(usuario, password, email);
-                    Roles.AddUserToRole(txtUsuario.Text,ddlrole.SelectedValue);
+                    Roles.AddUserToRole(txtUsuario.Text, ddlrole.SelectedValue);
+                    crearUsuarioInterno((Guid)usuarioCreado.ProviderUserKey);
+
+
                     txtUsuario.Text = "";
                     txtPassword.Text = "";
                     txtConfirmaPassword.Text = "";
+
+
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El usuario ha sido creado exitosamente','info')", true);
                 }
                 else
@@ -126,5 +153,35 @@ namespace RFinancieros_Facturas.Account
                 return false;
             }
         }
+
+
+
+        protected void generarIniciales()
+        {
+            txtUsuario.Text = (txtnombre.Text.ToUpper()[0] + txtPaterno.Text.Trim().ToUpper() + txtMaterno.Text.Trim().ToUpper()[0]);
+        }
+
+
+        protected void txtMaterno_TextChanged(object sender, EventArgs e)
+        {
+            generarIniciales();
+        }
+
+
+        //static string ObtenerIniciales(string texto)
+        //{
+        //    // Dividir el texto en palabras
+        //    string[] palabras = texto.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        //    // Tomar la primera letra de cada palabra y convertirla a mayúscula
+        //    var iniciales = palabras.Select(palabra => char.ToUpper(palabra[0]));
+
+        //    // Unir las letras para formar las iniciales
+        //    return string.Join("", iniciales);
+        //}
+
+
+
+
     }
 }

@@ -49,7 +49,7 @@ namespace RFinancieros_Facturas.Account
                     {
                         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                         SqlConnection conexion = new SqlConnection(connectionString);
-                        SqlCommand cmd = new SqlCommand("upd_bloqueo_membership2", conexion);
+                        SqlCommand cmd = new SqlCommand("upd_bloqueo_membership", conexion);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@iduser", Request.QueryString["iduser"]);
                         cmd.Parameters.AddWithValue("@op", Request.QueryString["bloqueo"]);
@@ -68,6 +68,7 @@ namespace RFinancieros_Facturas.Account
 
         private void LlenarUsuarios()
         {
+
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             SqlConnection conexion = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand("[sel_usuarios]", conexion);
@@ -79,6 +80,7 @@ namespace RFinancieros_Facturas.Account
             dgUsuarios.DataSource = dt;
             dgUsuarios.DataBind();
             conexion.Close();
+
         }
 
         protected void ImgBuscar_Click(object sender, ImageClickEventArgs e)
@@ -142,7 +144,7 @@ namespace RFinancieros_Facturas.Account
             Session["usuario"] = usuario;
             ScriptManager.RegisterStartupScript(this, GetType(), "AbrirModal", "AbrirModal();", true);
         }
-      
+
         protected void LinkButton1_Click1(object sender, EventArgs e)
         {
             Response.Redirect("CrearUsuario.aspx");
@@ -154,7 +156,7 @@ namespace RFinancieros_Facturas.Account
             string status;
             string bloqueo;
             foreach (GridViewRow rw in dgUsuarios.Rows)
-            {                
+            {
                 CheckBox cbstatus = rw.FindControl("chkstatus") as CheckBox;
 
                 CheckBox cbbloqueo = rw.FindControl("chkbloq") as CheckBox;

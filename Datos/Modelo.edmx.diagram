@@ -19,13 +19,15 @@
         <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Me__UserI__30C33EC3" />
         <AssociationConnector Association="dbFacturasFinancierosModel.aspnet_UsersInRoles" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdoprev" Width="1.5" PointX="8.375" PointY="3.75" />
-        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcproovedor_bloqueado" Width="1.5" PointX="10.375" PointY="0.75" />
-        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="10.375" PointY="3.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcpartida" Width="1.5" PointX="12.625" PointY="6.875" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcpartida_anio" Width="1.5" PointX="10.375" PointY="7.125" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tcpartida_tcpartida_anio" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctercero_institucional" Width="1.5" PointX="10.375" PointY="9.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="14.875" PointY="5.625" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

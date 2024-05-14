@@ -5,10 +5,23 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <br />
-        <div class="col-xl">
-            <asp:Label ID="lbrecibo" runat="server" Text="Sin folio Fiscal" class="small" Font-Bold="True"></asp:Label>
-            <asp:CheckBox ID="chkrecibo" runat="server" CssClass="form-control" Checked="false" AutoPostBack="true" CausesValidation="true" OnCheckedChanged="chkrecibo_CheckedChanged"/>
+
+        <div class="row">
+
+            <div class="col-3">
+                <asp:Label ID="lbrecibo" runat="server" Text="Sin folio Fiscal" class="small" Font-Bold="True"></asp:Label>
+                <asp:CheckBox ID="chkrecibo" runat="server" CssClass="form-control" Checked="false" AutoPostBack="true" CausesValidation="true" OnCheckedChanged="chkrecibo_CheckedChanged" />
+            </div>
+
+            <div class="col-3">
+                <asp:Label ID="Label3" runat="server" Text="Terceros Institucionales" class="small" Font-Bold="True"></asp:Label>
+                <asp:DropDownList ID="ddlTercerosInst" runat="server" CssClass="form-control" DataSourceID="edsTercerosInst" DataTextField="nombre_tercero" DataValueField="idtcterceros_institucional" AppendDataBoundItems="true">
+                    <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                </asp:DropDownList>
+            </div>
         </div>
+
+
         <div class="row">
             <div class="col-xl">
                 <asp:Label ID="lbcadena" runat="server" Text="QR Factura" class="small" Font-Bold="True"></asp:Label>
@@ -19,6 +32,11 @@
         <div class="col-xl">
             <asp:Button ID="tbverificar" runat="server" Text="Validar" CssClass="btn btn-warning" OnClick="Tbverificar_Click" />
         </div>
+
+
+
+
+
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -45,8 +63,9 @@
                         <asp:TextBox ID="tbfechae" runat="server" CssClass=" form-control" TextMode="Date" required="true"></asp:TextBox>
                     </div>
                     <div class="col-xl">
-                        <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
-                        <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control">
+                        <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True" ></asp:Label>
+                        <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control" AppendDataBoundItems="true">
+                            <asp:ListItem Value="0" >--Seleccione--</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </div>
@@ -66,7 +85,7 @@
                         </asp:DropDownList>
                     </div>
                     <div class="col-xl">
-                        <asp:Label ID="lbop" runat="server" Text="Número Orden de pago" class="small" Font-Bold="True"></asp:Label>
+                        <asp:Label ID="lbop" runat="server" Text="Número de Oficio/Tarjeta" class="small" Font-Bold="True"></asp:Label>
                         <asp:TextBox ID="tbordpag" runat="server" CssClass=" form-control" MaxLength="30"></asp:TextBox>
                     </div>
                 </div>
@@ -116,4 +135,9 @@
             </div>
         </div>
     </div>
+
+
+    <asp:EntityDataSource ID="edsTercerosInst" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tctercero_institucional"></asp:EntityDataSource>
+
+
 </asp:Content>
