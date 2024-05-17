@@ -10,6 +10,7 @@
                 <asp:ImageButton ID="ImgBuscar" runat="server" AutoPostBack="true" ImageUrl="~/Images/buscar.png" Height="40px" Width="40px" ToolTip="Buscar usuario" OnClick="ImgBuscar_Click" />
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="row">

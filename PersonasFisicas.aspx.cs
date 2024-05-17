@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RFinancieros_Facturas.Datos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -50,15 +51,15 @@ namespace RFinancieros_Facturas
         {
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[sel_tipogasto]", conectar);
-                cmd.CommandType = CommandType.StoredProcedure;
-                ddlconcepto.DataSource = cmd.ExecuteReader();
-                ddlconcepto.DataTextField = "nombre";
-                ddlconcepto.DataValueField = "id";
-                ddlconcepto.DataBind();
-                ddlconcepto.Items.Insert(0, new ListItem("--Concepto--"));
-                conectar.Close();
+                //SqlConnection conectar = new ConectarSqlServer().conectarSQL();
+                //SqlCommand cmd = new SqlCommand("[sel_tipogasto]", conectar);
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //ddlconcepto.DataSource = cmd.ExecuteReader();
+                //ddlconcepto.DataTextField = "nombre";
+                //ddlconcepto.DataValueField = "id";
+                //ddlconcepto.DataBind();
+                //ddlconcepto.Items.Insert(0, new ListItem("--Concepto--"));
+                //conectar.Close();
             }
             catch (Exception ex)
             {
@@ -130,11 +131,13 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio Fiscal','warning')", true);
                 x = false;
             }
-            //if (tbImporte.Text.Trim() == "")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el Importe','warning')", true);
-            //    x = false;
-            //}
+
+            if (tbImporte.Text.Trim() == "")
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el Importe','warning')", true);
+                x = false;
+            }
+
             if (tbrfc.Text.Trim() == "")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el RFC','warning')", true);
@@ -151,9 +154,9 @@ namespace RFinancieros_Facturas
             //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
             //    x = false;
             //}
-            if (ddlconcepto.SelectedIndex == 0)
+            if (ddlPartida.SelectedIndex == 0)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el concepto','warning')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la partida','warning')", true);
                 x = false;
             }
             if (tbordpag.Text.Trim() == "")
@@ -257,16 +260,18 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@rfce", tbrfc.Text.Trim());
                     cmd.Parameters.AddWithValue("@rse", tbrazon.Text.Trim());
                     cmd.Parameters.AddWithValue("@idarea", ddlareas.SelectedValue.Length == 0 ? 0 : Convert.ToInt32(ddlareas.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlconcepto.SelectedItem.Value));
+                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim()); ;
                     cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
-                    cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
+                    //cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
+                    cmd.Parameters.AddWithValue("@idconcepto", 0);
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? 0 : Convert.ToInt32(tbcp.Text));
                     cmd.Parameters.AddWithValue("@idtercero", ddlTercerosInst.SelectedValue.Length == 0 ? 0 : Convert.ToDecimal(ddlTercerosInst.SelectedValue));
+                    cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
                     object inserta = cmd.ExecuteScalar();
                     conectar.Close();
                     if (inserta == null)
@@ -311,7 +316,8 @@ namespace RFinancieros_Facturas
             tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
             ddlareas.SelectedIndex = 0;
             ddlestatus.SelectedIndex = 0;
-            ddlconcepto.SelectedIndex = 0;
+            //ddlconcepto.SelectedIndex = 0;
+            ddlPartida.SelectedIndex = 0;
             ddlTipopago.SelectedIndex = 0;
             tbordpag.Text = "";
             tbfolint.Text = "";
@@ -359,5 +365,42 @@ namespace RFinancieros_Facturas
                 tbFolio.Text = "";
             }
         }
+
+        protected void ddlTercerosInst_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (ddlTercerosInst.SelectedValue == "8")//correspondiente a sin especificar
+            {
+                ddlareas.Enabled = true;
+            }
+            else
+            {
+
+                ddlareas.Enabled = false;
+            }
+
+        }
+
+        protected void txtPartida_TextChanged(object sender, EventArgs e)
+        {
+            using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
+            {
+                tcpartida partida = ctx.tcpartida.Where(x => x.clave_partida == txtPartida.Text.Trim()).FirstOrDefault();
+                if (partida != null)
+                {
+                    ddlPartida.DataBind();
+                    ddlPartida.SelectedValue = partida.idtcpartida.ToString();
+                }
+                else
+                {
+                    ddlPartida.Items.Clear();
+                    //ddlPartida.Items.Add(new ListItem("--Seleccione--", "0"));
+                    ddlPartida.Text = "NO EXISTE";
+                }
+
+            }
+        }
+
+
     }
 }

@@ -24,6 +24,15 @@ namespace RFinancieros_Facturas
         protected global::System.Web.UI.WebControls.Panel Panel1;
 
         /// <summary>
+        /// Control btnValidaSAT.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnValidaSAT;
+
+        /// <summary>
         /// Control lbop.
         /// </summary>
         /// <remarks>

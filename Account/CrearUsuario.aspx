@@ -3,92 +3,104 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container">
-        <fieldset>
-            <legend>Formulario de Registro</legend>
-            <ol>
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtnombre">Nombre</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtnombre"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtnombre" AutoPostBack="true"  class="form-control" Width="300px" />
-                </li>
 
 
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Paterno</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPaterno"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtPaterno"  AutoPostBack="true" class="form-control" Width="300px" />
-                </li>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
 
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Materno</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaterno"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtMaterno" OnTextChanged="txtMaterno_TextChanged" AutoPostBack="true" class="form-control" Width="300px" />
-                </li>
-
+            <div class="container">
+                <fieldset>
+                    <legend>Formulario de Registro</legend>
+                    <ol>
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtnombre">Nombre</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtnombre"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtnombre" AutoPostBack="true" TabIndex="1" class="form-control" Width="300px" OnTextChanged="txtnombre_TextChanged" />
+                        </li>
 
 
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Paterno</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPaterno"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtPaterno" AutoPostBack="true" class="form-control" Width="300px" TabIndex="2" OnTextChanged="txtPaterno_TextChanged" />
+                        </li>
+
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPaterno">Materno</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaterno"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtMaterno" OnTextChanged="txtMaterno_TextChanged" AutoPostBack="true" class="form-control" Width="300px" TabIndex="3" />
+                        </li>
 
 
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtUsuario">Usuario</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtUsuario" class="form-control" Width="300px" />
-                </li>
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPassword">Password</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" class="form-control" Width="300px" />
 
-                </li>
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtConfirmaPassword">Confirme password</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtConfirmaPassword"
-                        CssClass="field-validation-error" Display="Dynamic" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtConfirmaPassword" TextMode="Password" class="form-control" Width="300px" />
-                    <br />
-                    <asp:CompareValidator runat="server" ControlToCompare="txtPassword" ControlToValidate="txtConfirmaPassword"
-                        CssClass="field-validation-error" Display="Dynamic" ErrorMessage="La contraseña no coincide" />
-                </li>
-                <%--<li>
+
+
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtUsuario">Usuario</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtUsuario" class="form-control" Width="300px" TabIndex="4" Text="" />
+                        </li>
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtPassword">Password</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtPassword"  class="form-control" Width="300px" TabIndex="5" />
+
+                        </li>
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtConfirmaPassword">Confirme password</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtConfirmaPassword"
+                                CssClass="field-validation-error" Display="Dynamic" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtConfirmaPassword" class="form-control" Width="300px" TabIndex="6" />
+                            <br />
+                            <asp:CompareValidator runat="server" ControlToCompare="txtPassword" ControlToValidate="txtConfirmaPassword"
+                                CssClass="field-validation-error" Display="Dynamic" ErrorMessage="La contraseña no coincide" TabIndex="6" />
+                        </li>
+                        <%--<li>
                         <asp:Label runat="server" AssociatedControlID="txtUsuario">Nombre completo de la Persona</asp:Label>
                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNombreCompleto"
                             CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
                         <br />
                         <asp:TextBox runat="server" ID="txtNombreCompleto" />
                     </li>--%>
-                <li>
-                    <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtemail">email</asp:Label>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtemail"
-                        CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                    <br />
-                    <asp:TextBox runat="server" ID="txtEmail" class="form-control" Width="300px" />
-                </li>
-                <li>
-                    <asp:Label ID="lbrole" runat="server" Text="Role" class="small" Font-Bold="True"></asp:Label>
-                    <asp:DropDownList ID="ddlrole" runat="server" CssClass="form-control" Width="300px">
-                    </asp:DropDownList>
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlrole"
-                        CssClass="field-validation-error" Display="Dynamic" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
-                </li>
-                <%--<li>
+                        <li>
+                            <asp:Label runat="server" class="small" Font-Bold="True" AssociatedControlID="txtemail">email</asp:Label>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtemail"
+                                CssClass="field-validation-error" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                            <br />
+                            <asp:TextBox runat="server" ID="txtEmail" class="form-control" Width="300px" TabIndex="7" />
+                        </li>
+                        <li>
+                            <asp:Label ID="lbrole" runat="server" Text="Role" class="small" Font-Bold="True"></asp:Label>
+                            <asp:DropDownList ID="ddlrole" runat="server" CssClass="form-control" Width="300px" TabIndex="8">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlrole"
+                                CssClass="field-validation-error" Display="Dynamic" ErrorMessage="*" ValidationGroup="CrearNuevoUsuario" ForeColor="Red" />
+                        </li>
+                        <%--<li>
                         <asp:Label runat="server" AssociatedControlID="txtUsuario">Cargo organizacional de la Persona (en caso de que aplique su cargo en la sección de firmas)</asp:Label>
                         <br />
                         <asp:TextBox runat="server" ID="txtCargoOrganizacional" />
                     </li>--%>
-            </ol>
-            <asp:Button ID="btnCrearUsuario" runat="server" Text="REGISTRAR" CausesValidation="true" ValidationGroup="CrearNuevoUsuario" OnClick="btnCrearUsuario_Click" />
-        </fieldset>
-    </div>
+                    </ol>
+                    <asp:Button ID="btnCrearUsuario" runat="server" TabIndex="9" Text="REGISTRAR" CausesValidation="true" ValidationGroup="CrearNuevoUsuario" OnClick="btnCrearUsuario_Click" />
+                </fieldset>
+            </div>
+
+
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+
+
 </asp:Content>

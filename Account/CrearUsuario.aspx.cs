@@ -36,6 +36,7 @@ namespace RFinancieros_Facturas.Account
             {
                 tcusuarios nuevo = new tcusuarios()
                 {
+
                     login = txtUsuario.Text.Trim().ToUpper(),
                     nombre = txtnombre.Text.Trim().ToUpper(),
                     paterno = txtPaterno.Text.Trim().ToUpper(),
@@ -45,9 +46,9 @@ namespace RFinancieros_Facturas.Account
                     userid = userid_
 
                 };
+
                 ctx.tcusuarios.Add(nuevo);
                 ctx.SaveChanges();
-
             }
         }
 
@@ -163,6 +164,16 @@ namespace RFinancieros_Facturas.Account
 
 
         protected void txtMaterno_TextChanged(object sender, EventArgs e)
+        {
+            generarIniciales();
+        }
+
+        protected void txtnombre_TextChanged(object sender, EventArgs e)
+        {
+            generarIniciales();
+        }
+
+        protected void txtPaterno_TextChanged(object sender, EventArgs e)
         {
             generarIniciales();
         }

@@ -6,6 +6,20 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <div class="container">
         <asp:Panel ID="Panel1" runat="server" Visible="true">
+
+
+            <div class="row mt-2">
+
+                <div class="d-flex justify-content-center">
+                    <%--<div class="col-xl">--%>
+
+                    <asp:LinkButton ID="btnValidaSAT" runat="server" Text="" OnClientClick="callSAT();">VERIFICACIÓN DE COMPROBANTES FISCALES DIGITALES POR INTERNET</asp:LinkButton>
+
+                </div>
+
+            </div>
+
+
             <div class="row">
                 <div class="col-xl">
                     <asp:Label ID="lbop" runat="server" Text="Número Orden de pago" class="small" Font-Bold="True"></asp:Label>
@@ -226,6 +240,12 @@
 
     <asp:EntityDataSource ID="edsPartida" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcpartida"></asp:EntityDataSource>
 
+    <script>
+        function callSAT() {
 
+            window.open("https://verificacfdi.facturaelectronica.sat.gob.mx/", "Popup", "toolbar=no, location=no,status=yes,menubar=no,scrollbars=yes,resizable=no, width=900,height=500,left=430,top=100");
+
+        }
+    </script>
 
 </asp:Content>

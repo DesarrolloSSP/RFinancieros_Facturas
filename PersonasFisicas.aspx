@@ -15,7 +15,7 @@
 
             <div class="col-3">
                 <asp:Label ID="Label3" runat="server" Text="Terceros Institucionales" class="small" Font-Bold="True"></asp:Label>
-                <asp:DropDownList ID="ddlTercerosInst" runat="server" CssClass="form-control" DataSourceID="edsTercerosInst" DataTextField="nombre_tercero" DataValueField="idtcterceros_institucional" AppendDataBoundItems="true">
+                <asp:DropDownList ID="ddlTercerosInst" runat="server" AutoPostBack="true" CssClass="form-control" DataSourceID="edsTercerosInst" DataTextField="nombre_tercero" DataValueField="idtcterceros_institucional" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlTercerosInst_SelectedIndexChanged">
                     <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
                 </asp:DropDownList>
             </div>
@@ -63,18 +63,39 @@
                         <asp:TextBox ID="tbfechae" runat="server" CssClass=" form-control" TextMode="Date" required="true"></asp:TextBox>
                     </div>
                     <div class="col-xl">
-                        <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True" ></asp:Label>
+                        <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
                         <asp:DropDownList ID="ddlareas" runat="server" CssClass="form-control" AppendDataBoundItems="true">
-                            <asp:ListItem Value="0" >--Seleccione--</asp:ListItem>
+                            <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </div>
+
                 <div class="row">
+
+                    <div class="col-3">
+                        <asp:Label ID="Label2" runat="server" Text="Clave Partida" class="small" Font-Bold="True"></asp:Label>
+                        <asp:TextBox ID="txtPartida" AutoPostBack="true" OnTextChanged="txtPartida_TextChanged" runat="server" CssClass=" form-control"></asp:TextBox>
+                    </div>
+
                     <div class="col-xl">
+                        <asp:Label ID="Label1" runat="server" Text="Partida" class="small" Font-Bold="True"></asp:Label>
+                        <asp:DropDownList ID="ddlPartida" runat="server" Enabled="false" CssClass="form-control" DataSourceID="edsPartida" DataTextField="partida" DataValueField="idtcpartida" AppendDataBoundItems="true">
+                            <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <%--   <div class="col-xl">
                         <asp:Label ID="lbconcepto" runat="server" Text="Concepto" class="small" Font-Bold="True"></asp:Label>
                         <asp:DropDownList ID="ddlconcepto" runat="server" CssClass="form-control">
                         </asp:DropDownList>
-                    </div>
+                    </div>--%>
+
+
                     <div class="col-xl">
                         <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>
                         <asp:DropDownList ID="ddlTipopago" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="DdlTipopago_SelectedIndexChanged">
@@ -84,11 +105,14 @@
                             <asp:ListItem Value="3">FASP</asp:ListItem>
                         </asp:DropDownList>
                     </div>
+
                     <div class="col-xl">
                         <asp:Label ID="lbop" runat="server" Text="Número de Oficio/Tarjeta" class="small" Font-Bold="True"></asp:Label>
                         <asp:TextBox ID="tbordpag" runat="server" CssClass=" form-control" MaxLength="30"></asp:TextBox>
                     </div>
+
                 </div>
+
                 <div class="row">
                     <div class="col-xl">
                         <asp:Label ID="lbfolint" runat="server" Text="Folio Interno factura" class="small" Font-Bold="True"></asp:Label>
@@ -138,6 +162,6 @@
 
 
     <asp:EntityDataSource ID="edsTercerosInst" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tctercero_institucional"></asp:EntityDataSource>
-
+    <asp:EntityDataSource ID="edsPartida" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcpartida"></asp:EntityDataSource>
 
 </asp:Content>
