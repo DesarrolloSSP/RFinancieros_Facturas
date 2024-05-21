@@ -269,7 +269,7 @@ namespace RFinancieros_Facturas
                     //cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
                     cmd.Parameters.AddWithValue("@idconcepto", 0);
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
-                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? 0 : Convert.ToInt32(tbcp.Text));
+                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.ToString());
                     cmd.Parameters.AddWithValue("@idtercero", ddlTercerosInst.SelectedValue.Length == 0 ? 0 : Convert.ToDecimal(ddlTercerosInst.SelectedValue));
                     cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
                     object inserta = cmd.ExecuteScalar();
@@ -349,13 +349,7 @@ namespace RFinancieros_Facturas
                 tbverificar.Enabled = false;
                 Guid id = Guid.NewGuid();
                 tbFolio.Text = id.ToString().Trim().ToUpper();
-
                 tbFolio.Enabled = false;
-                tbfechae.Enabled = false;
-                ddlareas.Enabled = false;
-                tbfolint.Enabled = false;
-                tbcp.Enabled = false;
-
             }
             else
             {
@@ -383,22 +377,34 @@ namespace RFinancieros_Facturas
 
         protected void txtPartida_TextChanged(object sender, EventArgs e)
         {
-            using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
+            try
             {
-                tcpartida partida = ctx.tcpartida.Where(x => x.clave_partida == txtPartida.Text.Trim()).FirstOrDefault();
-                if (partida != null)
+                using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
                 {
-                    ddlPartida.DataBind();
-                    ddlPartida.SelectedValue = partida.idtcpartida.ToString();
-                }
-                else
-                {
-                    ddlPartida.Items.Clear();
-                    //ddlPartida.Items.Add(new ListItem("--Seleccione--", "0"));
-                    ddlPartida.Text = "NO EXISTE";
-                }
+                    tcpartida partida = ctx.tcpartida.Where(x => x.clave_partida == txtPartida.Text.Trim()).FirstOrDefault();
+                    if (partida != null)
+                    {
+                        ddlPartida.DataBind();
+                        ddlPartida.SelectedValue = partida.idtcpartida.ToString();
+                    }
+                    else
+                    {
+                        ddlPartida.Items.Clear();
+                        ddlPartida.Items.Add(new ListItem("--NO EXISTE PARTIDA--", "0"));
+                        ddlPartida.SelectedValue = "0";
 
+                        txtPartida.Text = "";
+
+                    }
+
+                }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
 

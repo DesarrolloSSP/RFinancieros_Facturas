@@ -116,7 +116,8 @@ namespace RFinancieros_Facturas
                         tbordpag.Text = consulta.NoOdp.ToString();
                         ddlareas.SelectedValue = consulta.Idarea.ToString();
                         //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
-                        ddlTipopago.SelectedValue = consulta.Idconcepto.ToString();
+                        ddlTipopago.DataBind();
+                        ddlTipopago.SelectedValue = consulta.IdPago.ToString();
                         tbfolsuj.Text = consulta.FolioSujeto.ToString();
                         lblnumreg.Text = TotalImporteOdp(consulta.NoOdp.ToString());                        
                         tbcp.Text = consulta.CodigoPostal.ToString();
@@ -411,9 +412,9 @@ namespace RFinancieros_Facturas
                     SqlCommand cmd = new SqlCommand("[upd_datos_factura_agrupada]", conectar);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedItem.Value));
+                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
                     cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idconcepto", 0);
+                  
                     //cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     //cmd.Parameters.AddWithValue("@no", ddlordenes.SelectedItem.Text);

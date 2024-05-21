@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="col-xl">
-                        <asp:Label ID="lbop" runat="server" Text="Número de Oficio/Tarjeta" class="small" Font-Bold="True"></asp:Label>
+                        <asp:Label ID="lbop" runat="server" Text="Número de Oficio/ Tarjeta / No.Op" class="small" Font-Bold="True"></asp:Label>
                         <asp:TextBox ID="tbordpag" runat="server" CssClass=" form-control" MaxLength="30"></asp:TextBox>
                     </div>
 

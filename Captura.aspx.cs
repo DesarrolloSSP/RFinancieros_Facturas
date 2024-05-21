@@ -44,6 +44,7 @@ namespace RFinancieros_Facturas
                 gvfacturas.DataSource = dt;
                 gvfacturas.DataBind();
                 conectar.Close();
+
             }
             catch (Exception ex)
             {
@@ -200,7 +201,8 @@ namespace RFinancieros_Facturas
                             {
                                 ddlareas.SelectedValue = consulta.Idarea.ToString();
                                 //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
-                                ddlTipopago.SelectedValue = consulta.Idconcepto.ToString();
+                                //ddlTipopago.DataBind();
+                                ddlTipopago.SelectedValue = consulta.IdPago.ToString();
                                 tbordpag.Text = consulta.NoOdp;
                                 tbfolint.Text = consulta.FolioInternoFactura;
                                 tbMotivo.Text = consulta.ConceptoDevol.Trim();
@@ -465,27 +467,34 @@ namespace RFinancieros_Facturas
                     {
                         sr = ddlestatus.SelectedItem.Text;
                     }
+
+
+                    //int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
+
+
+
+
                     SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                     SqlCommand cmd = new SqlCommand("[upd_datos_factura]", conectar)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedItem.Value));
-                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlconcepto.SelectedItem.Value));
-                    cmd.Parameters.AddWithValue("@idpago", 0);
-                    cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));                    
+                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
+                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
-                    cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Trim());
+                    cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@status", sr.Trim());
-                    cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
+                    cmd.Parameters.AddWithValue("@foliosujeto", tbfolsuj.Text.Length == 0 ? 0 : Convert.ToInt32(tbfolsuj.Text));
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.Trim()); ;
-                    cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
+                    //cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
 
+                    int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
+                    cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
 
                     cmd.ExecuteScalar();
                     conectar.Close();
@@ -641,11 +650,11 @@ namespace RFinancieros_Facturas
                 return;
             }
 
-            else if (txtPartida.Text.Trim() == "")
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
-                return;
-            }
+            //else if (txtPartida.Text.Trim() == "")
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
+            //    return;
+            //}
             //else if (ddlTercerosInst.SelectedValue == "0")
             //{
             //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
@@ -703,7 +712,7 @@ namespace RFinancieros_Facturas
             {
                 ddlareas.SelectedIndex = 0;
                 ddlTipopago.SelectedIndex = 0;
-               // ddlconcepto.SelectedIndex = 0;
+                // ddlconcepto.SelectedIndex = 0;
                 tbordpag.Text = "";
                 tbfolint.Text = "";
                 tbMotivo.Text = "";
