@@ -233,7 +233,7 @@ namespace RFinancieros_Facturas
         }
 
         protected void Btnguardar_Click(object sender, EventArgs e)
-        
+
         {
             try
             {
@@ -313,6 +313,7 @@ namespace RFinancieros_Facturas
             tbImporte.Text = "";
             tbrfc.Text = "";
             tbrazon.Text = "";
+            txtPartida.Text = "";
             DateTime dt = DateTime.Now;
             tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
             tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
@@ -377,12 +378,19 @@ namespace RFinancieros_Facturas
 
         }
 
+
         protected void txtPartida_TextChanged(object sender, EventArgs e)
+        {
+            mostrarPartida();
+        }
+
+        private void mostrarPartida()
         {
             try
             {
                 using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
                 {
+
                     tcpartida partida = ctx.tcpartida.Where(x => x.clave_partida == txtPartida.Text.Trim()).FirstOrDefault();
                     if (partida != null)
                     {
@@ -394,10 +402,9 @@ namespace RFinancieros_Facturas
                         ddlPartida.Items.Clear();
                         ddlPartida.Items.Add(new ListItem("--NO EXISTE PARTIDA--", "0"));
                         ddlPartida.SelectedValue = "0";
-
                         txtPartida.Text = "";
-
                     }
+
 
                 }
             }
@@ -406,9 +413,6 @@ namespace RFinancieros_Facturas
 
                 throw;
             }
-
         }
-
-
     }
 }
