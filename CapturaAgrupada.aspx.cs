@@ -116,8 +116,8 @@ namespace RFinancieros_Facturas
                         tbordpag.Text = consulta.NoOdp.ToString();
                         ddlareas.SelectedValue = consulta.Idarea.ToString();
                         //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
-                        ddlTipopago.DataBind();
-                        ddlTipopago.SelectedValue = consulta.IdPago.ToString();
+                        ddlTipopago.DataBind();                       
+                        ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
                         tbfolsuj.Text = consulta.FolioSujeto.ToString();
                         lblnumreg.Text = TotalImporteOdp(consulta.NoOdp.ToString());                        
                         tbcp.Text = consulta.CodigoPostal.ToString();
@@ -413,8 +413,8 @@ namespace RFinancieros_Facturas
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
                     cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
-                  
+                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
+                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     //cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     //cmd.Parameters.AddWithValue("@no", ddlordenes.SelectedItem.Text);
@@ -423,6 +423,10 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());
+
+                    int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
+                    cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
+
                     object inserta = cmd.ExecuteScalar();
                     conectar.Close();
                     if (inserta == null)

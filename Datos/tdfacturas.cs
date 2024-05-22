@@ -24,7 +24,8 @@ namespace RFinancieros_Facturas.Datos
         public System.DateTime FechaCertifica { get; set; }
         public string PacCertifico { get; set; }
         public int Idarea { get; set; }
-        public int IdPago { get; set; }
+        public Nullable<int> IdPago { get; set; }
+        public Nullable<int> idtctipo_pago { get; set; }
         public string NoOdp { get; set; }
         public string FolioInternoFactura { get; set; }
         public string ConceptoDevol { get; set; }

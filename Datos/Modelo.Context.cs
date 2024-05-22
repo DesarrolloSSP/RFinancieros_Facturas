@@ -41,8 +41,8 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tcpartida> tcpartida { get; set; }
         public DbSet<tcpartida_anio> tcpartida_anio { get; set; }
         public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
-        public DbSet<tdfacturas> tdfacturas { get; set; }
         public DbSet<tcusuarios> tcusuarios { get; set; }
+        public DbSet<tdfacturas> tdfacturas { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {

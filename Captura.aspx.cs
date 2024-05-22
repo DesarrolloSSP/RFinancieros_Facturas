@@ -156,102 +156,6 @@ namespace RFinancieros_Facturas
             }
         }
 
-        protected void Rd1_CheckedChanged(object sender, EventArgs e)
-        {
-            //Here
-            RadioButton selectButton = (RadioButton)sender;
-            GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
-            int a = row.RowIndex;
-            Session["Id"] = Convert.ToInt32(gvfacturas.DataKeys[a]["Id"]);
-            Session["Estado"] = gvfacturas.Rows[a].Cells[2].Text.Trim();
-            Session["NoOdp"] = Convert.ToString(gvfacturas.DataKeys[a]["NoOdp"]).Trim();
-
-            var valorrfc = gvfacturas.Rows[a].Cells[4].Text.Trim();
-
-            bool existe = ctx.tcproovedor_bloqueado.Any(x => x.rfc_proovedor == valorrfc);
-            if (!existe)
-            {
-                string valor = Session["NoOdp"].ToString();
-                if (valor.Trim() != "")
-                {
-                    lblnumreg.Text = TotalImporteOdp(valor);
-                }
-                else
-                {
-                    lblnumreg.Text = "Importe Total por Odp(): N/A";
-                }
-                foreach (GridViewRow rw in gvfacturas.Rows)
-                {
-                    if (selectButton.Checked)
-                    {
-                        Panel1.Visible = true;
-                        string osito;
-                        string estado = gvfacturas.Rows[a].Cells[9].Text;
-                        AcccionBotones(estado);
-                        if (rw.RowIndex != a)
-                        {
-                            RadioButton rd = rw.FindControl("rd1") as RadioButton;
-                            rd.Checked = false;
-                        }
-                        if (estado == "T" || estado == "C" || estado == "D" || estado == "E")
-                        {
-                            int id = Convert.ToInt32(Session["Id"]);
-                            var consulta = ctx.tdfacturas.Where(p => p.Id == id).FirstOrDefault();
-                            if (consulta != null)
-                            {
-                                ddlareas.SelectedValue = consulta.Idarea.ToString();
-                                //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
-                                //ddlTipopago.DataBind();
-                                ddlTipopago.SelectedValue = consulta.IdPago.ToString();
-                                tbordpag.Text = consulta.NoOdp;
-                                tbfolint.Text = consulta.FolioInternoFactura;
-                                tbMotivo.Text = consulta.ConceptoDevol.Trim();
-                                tbfolsuj.Text = consulta.FolioSujeto.ToString();
-                                tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
-                                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
-                                osito = consulta.Estado;
-                                ddlestatus.DataBind();
-                                ddlestatus.SelectedItem.Text = osito;
-                                if (osito == "Sin efecto")
-                                {
-                                    ddlestatus.DataBind();
-                                    ddlestatus.SelectedItem.Text = "Vigente";
-                                }
-                                tbEgreso.Text = consulta.Egreso.ToString();
-
-                                ddlPartida.DataBind();
-                                ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
-
-                                //ddlTercerosInst.SelectedValue = consulta.idtcterceros_institucional == null ? "0" : consulta.idtcterceros_institucional.ToString();
-
-                                tcpartida buscar = ctx.tcpartida.Where(x => x.idtcpartida == consulta.idtcpartida).FirstOrDefault();
-                                if (buscar != null)
-                                {
-                                    txtPartida.Text = buscar.clave_partida.Trim();
-                                }
-                                else
-                                {
-                                    txtPartida.Text = "";
-                                }
-
-
-                            }
-                        }
-                        else
-                        {
-                            ddlestatus.DataBind();
-                            ddlestatus.SelectedItem.Text = "Vigente";
-                        }
-                    }
-                }
-            }
-            else
-            {
-
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El proovedor se encuentra bloqueado','warning')", true);
-            }
-
-        }
 
         public static string TotalImporteOdp(string Odp)
         {
@@ -404,19 +308,20 @@ namespace RFinancieros_Facturas
             }
         }
 
-        protected void Gvfacturas_PageIndexChanged(object sender, EventArgs e)
+        protected void gvfacturas_PageIndexChanged(object sender, EventArgs e)
         {
-            if (tbbuscar.Text.Trim() != "")
+            //if (tbbuscar.Text.Trim() != "")
+            if (!string.IsNullOrEmpty(tbbuscar.Text.Trim()))
             {
                 BuscarFacturas();
             }
-            else
-            {
-                LlenarFacturas();
-            }
+            //else
+            //{
+            //    LlenarFacturas();
+            //}
         }
 
-        protected void Gvfacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        protected void gvfacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvfacturas.PageIndex = e.NewPageIndex;
             gvfacturas.DataBind();
@@ -468,11 +373,7 @@ namespace RFinancieros_Facturas
                         sr = ddlestatus.SelectedItem.Text;
                     }
 
-
                     //int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
-
-
-
 
                     SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                     SqlCommand cmd = new SqlCommand("[upd_datos_factura]", conectar)
@@ -481,7 +382,8 @@ namespace RFinancieros_Facturas
                     };
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
                     cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
+                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue)); ya no se usa
+                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
                     cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());
@@ -511,7 +413,7 @@ namespace RFinancieros_Facturas
 
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El registro ha sido actualizado: " + Session["Id"] + "','info')", true);
                     Panel1.Visible = false;
-                    LlenarFacturas();
+                    //LlenarFacturas();
                 }
             }
             catch (Exception ex)
@@ -823,5 +725,212 @@ namespace RFinancieros_Facturas
                 tbcp.Enabled = false;
             }
         }
+
+        protected void Rd1_CheckedChanged(object sender, EventArgs e)
+        {
+            //Here
+            try
+            {
+                RadioButton selectButton = (RadioButton)sender;
+                GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
+                int a = row.RowIndex;
+                Session["Id"] = Convert.ToInt32(gvfacturas.DataKeys[a]["Id"]);
+                Session["Estado"] = gvfacturas.Rows[a].Cells[2].Text.Trim();
+                Session["NoOdp"] = Convert.ToString(gvfacturas.DataKeys[a]["NoOdp"]).Trim();
+
+                var valorrfc = gvfacturas.Rows[a].Cells[4].Text.Trim();
+
+                bool existe = ctx.tcproovedor_bloqueado.Any(x => x.rfc_proovedor == valorrfc);
+                if (!existe)
+                {
+                    string valor = Session["NoOdp"].ToString();
+                    if (valor.Trim() != "")
+                    {
+                        lblnumreg.Text = TotalImporteOdp(valor);
+                    }
+                    else
+                    {
+                        lblnumreg.Text = "Importe Total por Odp(): N/A";
+                    }
+
+                    foreach (GridViewRow rw in gvfacturas.Rows)
+                    {
+                        if (selectButton.Checked)
+                        {
+                            Panel1.Visible = true;
+                            string osito;
+                            string estado = gvfacturas.Rows[a].Cells[9].Text;
+                            AcccionBotones(estado);
+                            if (rw.RowIndex != a)
+                            {
+                                RadioButton rd = rw.FindControl("rd1") as RadioButton;
+                                rd.Checked = false;
+                            }
+                            if (estado == "T" || estado == "C" || estado == "D" || estado == "E")
+                            {
+                                int id = Convert.ToInt32(Session["Id"]);
+                                var consulta = ctx.tdfacturas.Where(p => p.Id == id).FirstOrDefault();
+                                if (consulta != null)
+                                {
+                                    ddlareas.SelectedValue = consulta.Idarea.ToString();
+                                    ddlTipopago.SelectedValue = consulta.idtctipo_pago.ToString();
+                                    tbordpag.Text = consulta.NoOdp;
+                                    tbfolint.Text = consulta.FolioInternoFactura;
+                                    tbMotivo.Text = consulta.ConceptoDevol.Trim();
+                                    tbfolsuj.Text = consulta.FolioSujeto.ToString();
+                                    tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
+                                    tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
+                                    osito = consulta.Estado;
+                                    ddlestatus.DataBind();
+                                    ddlestatus.SelectedItem.Text = osito;
+                                    if (osito == "Sin efecto")
+                                    {
+                                        ddlestatus.DataBind();
+                                        ddlestatus.SelectedItem.Text = "Vigente";
+                                    }
+                                    tbEgreso.Text = consulta.Egreso.ToString();
+
+                                    ddlPartida.DataBind();
+                                    ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+
+                                    tcpartida buscar = ctx.tcpartida.Where(x => x.idtcpartida == consulta.idtcpartida).FirstOrDefault();
+                                    if (buscar != null)
+                                    {
+                                        txtPartida.Text = buscar.clave_partida.Trim();
+                                    }
+                                    else
+                                    {
+                                        txtPartida.Text = "";
+                                    }
+
+
+                                }
+                            }
+                            else
+                            {
+                                ddlestatus.DataBind();
+                                ddlestatus.SelectedItem.Text = "Vigente";
+                            }
+                        }
+                    }
+
+                }
+
+                else
+                {
+
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El proovedor se encuentra bloqueado','warning')", true);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
+
+
+
+        }
+
+        protected void gvfacturas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            try
+            {
+
+                if (e.CommandName == "VerDetalle")
+                {
+                    int Id = 0;
+                    Id = int.Parse(e.CommandArgument.ToString());
+
+                    Panel1.Visible = true;
+                    string osito;
+
+                    using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
+                    {
+                        tdfacturas consulta = ctx.tdfacturas.Where(x => x.Id == Id).FirstOrDefault();
+                        if (consulta != null)
+                        {
+                            string estado = consulta.Estreg;
+                            AcccionBotones(estado);
+
+                            if (estado == "T" || estado == "C" || estado == "D" || estado == "E" || estado == "P")
+                            {
+                                lblFolioSeleccionado.Text = "Folio seleccionado:" + " " + consulta.Folio;
+                                ddlareas.SelectedValue = consulta.Idarea.ToString();
+                                ddlTipopago.DataBind();
+                                ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
+                                tbordpag.Text = consulta.NoOdp;
+                                tbfolint.Text = consulta.FolioInternoFactura;
+                                tbMotivo.Text = consulta.ConceptoDevol.Trim();
+                                tbfolsuj.Text = consulta.FolioSujeto.ToString();
+                                tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
+                                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
+                                osito = consulta.Estado;
+                                ddlestatus.DataBind();
+                                ddlestatus.SelectedItem.Text = osito;
+
+                                if (osito == "Sin efecto")
+                                {
+                                    ddlestatus.DataBind();
+                                    ddlestatus.SelectedItem.Text = "Vigente";
+                                }
+                                tbEgreso.Text = consulta.Egreso.ToString();
+
+                                ddlPartida.DataBind();
+                                ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+                                Session["Id"] = consulta.Id;
+                                Session["Estado"] = consulta.Estado;
+                                Session["NoOdp"] = consulta.NoOdp;
+
+                                string valor = Session["NoOdp"].ToString();
+                                if (valor.Trim() != "")
+                                {
+                                    lblnumreg.Text = TotalImporteOdp(valor);
+                                }
+                                else
+                                {
+                                    lblnumreg.Text = "Importe Total por Odp(): N/A";
+                                }
+
+
+
+                                tcpartida buscar = ctx.tcpartida.Where(x => x.idtcpartida == consulta.idtcpartida).FirstOrDefault();
+                                if (buscar != null)
+                                {
+                                    txtPartida.Text = buscar.clave_partida.Trim();
+                                }
+                                else
+                                {
+                                    txtPartida.Text = "";
+                                }
+
+                            }
+
+                            else
+                            {
+                                ddlestatus.DataBind();
+                                ddlestatus.SelectedItem.Text = "Vigente";
+                            }
+
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                //throw;
+            }
+
+        }
+
+
     }
 }

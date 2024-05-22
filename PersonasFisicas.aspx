@@ -103,6 +103,10 @@
                             <asp:ListItem Value="1">Comprobación de sujeto</asp:ListItem>
                             <asp:ListItem Value="2">Fondo revolvente</asp:ListItem>
                             <asp:ListItem Value="3">FASP</asp:ListItem>
+                            <asp:ListItem Value="4">FOFISP</asp:ListItem>
+                            <asp:ListItem Value="5">N/A</asp:ListItem>
+
+
                         </asp:DropDownList>
                     </div>
 

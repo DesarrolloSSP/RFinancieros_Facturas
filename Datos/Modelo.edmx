@@ -161,7 +161,8 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tctipogasto' no ti
           <Property Name="FechaCertifica" Type="datetime" Nullable="false" />
           <Property Name="PacCertifico" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Idarea" Type="int" Nullable="false" />
-          <Property Name="IdPago" Type="int" Nullable="false" />
+          <Property Name="IdPago" Type="int" />
+          <Property Name="idtctipo_pago" Type="int" />
           <Property Name="NoOdp" Type="varchar" MaxLength="30" />
           <Property Name="FolioInternoFactura" Type="varchar" MaxLength="50" />
           <Property Name="ConceptoDevol" Type="varchar" MaxLength="300" />
@@ -426,6 +427,7 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             <End Role="tcpartida" EntitySet="tcpartida" />
           </AssociationSet>
           <EntitySet Name="tctercero_institucional" EntityType="dbFacturasFinancierosModel.tctercero_institucional" />
+          <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
           <EntitySet Name="tdfacturas" EntityType="dbFacturasFinancierosModel.tdfacturas" />
           <AssociationSet Name="FK_tdfacturas_tcpartida" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida">
             <End Role="tcpartida" EntitySet="tcpartida" />
@@ -435,8 +437,7 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
-          <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -675,6 +676,20 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Name="nombre_tercero" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" FromRole="tctercero_institucional" ToRole="tdfacturas" />
         </EntityType>
+        <EntityType Name="tcusuarios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="paterno" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="materno" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="nombre_" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="iniciales" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="Int32" />
+          <Property Name="userid" Type="Guid" />
+        </EntityType>
         <EntityType Name="tdfacturas">
           <Key>
             <PropertyRef Name="Id" />
@@ -689,7 +704,8 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Name="FechaCertifica" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PacCertifico" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Idarea" Type="Int32" Nullable="false" />
-          <Property Name="IdPago" Type="Int32" Nullable="false" />
+          <Property Name="IdPago" Type="Int32" />
+          <Property Name="idtctipo_pago" Type="Int32" />
           <Property Name="NoOdp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="FolioInternoFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ConceptoDevol" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
@@ -735,21 +751,7 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tcusuarios">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="login" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="paterno" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="materno" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="nombre_" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="iniciales" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="tipo" Type="Int32" />
-          <Property Name="userid" Type="Guid" />
-        </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -936,6 +938,21 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tcusuarios">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcusuarios">
+              <MappingFragment StoreEntitySet="tcusuarios">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="iniciales" ColumnName="iniciales" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="nombre_" ColumnName="nombre_" />
+                <ScalarProperty Name="materno" ColumnName="materno" />
+                <ScalarProperty Name="paterno" ColumnName="paterno" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tdfacturas">
             <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tdfacturas">
               <MappingFragment StoreEntitySet="tdfacturas">
@@ -957,6 +974,7 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
                 <ScalarProperty Name="ConceptoDevol" ColumnName="ConceptoDevol" />
                 <ScalarProperty Name="FolioInternoFactura" ColumnName="FolioInternoFactura" />
                 <ScalarProperty Name="NoOdp" ColumnName="NoOdp" />
+                <ScalarProperty Name="idtctipo_pago" ColumnName="idtctipo_pago" />
                 <ScalarProperty Name="IdPago" ColumnName="IdPago" />
                 <ScalarProperty Name="Idarea" ColumnName="Idarea" />
                 <ScalarProperty Name="PacCertifico" ColumnName="PacCertifico" />
@@ -968,21 +986,6 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Folio" ColumnName="Folio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tcusuarios">
-            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcusuarios">
-              <MappingFragment StoreEntitySet="tcusuarios">
-                <ScalarProperty Name="userid" ColumnName="userid" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="iniciales" ColumnName="iniciales" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="nombre_" ColumnName="nombre_" />
-                <ScalarProperty Name="materno" ColumnName="materno" />
-                <ScalarProperty Name="paterno" ColumnName="paterno" />
-                <ScalarProperty Name="login" ColumnName="login" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

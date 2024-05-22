@@ -233,6 +233,7 @@ namespace RFinancieros_Facturas
         }
 
         protected void Btnguardar_Click(object sender, EventArgs e)
+        
         {
             try
             {
@@ -260,7 +261,8 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@rfce", tbrfc.Text.Trim());
                     cmd.Parameters.AddWithValue("@rse", tbrazon.Text.Trim());
                     cmd.Parameters.AddWithValue("@idarea", ddlareas.SelectedValue.Length == 0 ? 0 : Convert.ToInt32(ddlareas.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
+                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
+                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim()); ;
                     cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Trim());

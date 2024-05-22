@@ -24,11 +24,11 @@
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcpartida_anio" Width="1.5" PointX="10.375" PointY="7.125" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tcpartida_tcpartida_anio" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctercero_institucional" Width="1.5" PointX="10.375" PointY="9.75" />
-        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="14.875" PointY="5.625" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="14.875" PointY="5.5" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" />
-        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="0.75" PointY="0.75" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
