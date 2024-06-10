@@ -337,6 +337,7 @@ namespace RFinancieros_Facturas
         {
             try
             {
+
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                 SqlCommand cmd = new SqlCommand("sel_facturas_bus", conectar)
                 {

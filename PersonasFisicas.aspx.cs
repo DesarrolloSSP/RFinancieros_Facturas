@@ -24,7 +24,7 @@ namespace RFinancieros_Facturas
             }
             DateTime dt = DateTime.Now;
             tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
-            tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
+            //tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
         }
 
         public void llenarAreas()
@@ -257,7 +257,7 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@folio", tbFolio.Text.Length == 0 ? "" : tbFolio.Text.Trim());
                     cmd.Parameters.AddWithValue("@status", sr.Trim());
                     cmd.Parameters.AddWithValue("@importe", Convert.ToDecimal(tbImporte.Text.Trim()));
-                    cmd.Parameters.AddWithValue("@fechae", tbfechae.Text.Length == 0 ? date_ : Convert.ToDateTime(tbfechae.Text.Trim()));
+                    cmd.Parameters.AddWithValue("@fechae", tbfechae.Text.Length > 0 ? Convert.ToDateTime(tbfechae.Text.Trim()) : date_);
                     cmd.Parameters.AddWithValue("@rfce", tbrfc.Text.Trim());
                     cmd.Parameters.AddWithValue("@rse", tbrazon.Text.Trim());
                     cmd.Parameters.AddWithValue("@idarea", ddlareas.SelectedValue.Length == 0 ? 0 : Convert.ToInt32(ddlareas.SelectedValue));
