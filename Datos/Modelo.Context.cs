@@ -44,19 +44,6 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tcusuarios> tcusuarios { get; set; }
         public DbSet<tdfacturas> tdfacturas { get; set; }
     
-        public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
-        {
-            var fechaiParameter = fechai.HasValue ?
-                new ObjectParameter("fechai", fechai) :
-                new ObjectParameter("fechai", typeof(System.DateTime));
-    
-            var fechafParameter = fechaf.HasValue ?
-                new ObjectParameter("fechaf", fechaf) :
-                new ObjectParameter("fechaf", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_facturas_fecha_Result>("sel_facturas_fecha", fechaiParameter, fechafParameter);
-        }
-    
         public virtual ObjectResult<sel_facturas_bus_Result> sel_facturas_bus(string valor, string usuario)
         {
             var valorParameter = valor != null ?
@@ -68,6 +55,19 @@ namespace RFinancieros_Facturas.Datos
                 new ObjectParameter("usuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_facturas_bus_Result>("sel_facturas_bus", valorParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
+        {
+            var fechaiParameter = fechai.HasValue ?
+                new ObjectParameter("fechai", fechai) :
+                new ObjectParameter("fechai", typeof(System.DateTime));
+    
+            var fechafParameter = fechaf.HasValue ?
+                new ObjectParameter("fechaf", fechaf) :
+                new ObjectParameter("fechaf", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_facturas_fecha_Result>("sel_facturas_fecha", fechaiParameter, fechafParameter);
         }
     }
 }

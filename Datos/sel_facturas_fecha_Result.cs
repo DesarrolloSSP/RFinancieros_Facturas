@@ -24,6 +24,7 @@ namespace RFinancieros_Facturas.Datos
         public string PacCertifico { get; set; }
         public int Idarea { get; set; }
         public int IdPago { get; set; }
+        public Nullable<int> idtctipo_pago { get; set; }
         public string NoOdp { get; set; }
         public string FolioInternoFactura { get; set; }
         public string ConceptoDevol { get; set; }
@@ -40,5 +41,10 @@ namespace RFinancieros_Facturas.Datos
         public Nullable<int> FolioSujeto { get; set; }
         public string Validador { get; set; }
         public string CodigoPostal { get; set; }
+        public Nullable<int> idtcpartida { get; set; }
+        public Nullable<int> idtcterceros_institucional { get; set; }
+        public string tipo_pago { get; set; }
+        public string clave_partida { get; set; }
+        public string partida { get; set; }
     }
 }
