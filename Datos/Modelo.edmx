@@ -778,9 +778,11 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Type="String" Name="CodigoPostal" Nullable="true" MaxLength="5" />
           <Property Type="Int32" Name="idtcpartida" Nullable="true" />
           <Property Type="Int32" Name="idtcterceros_institucional" Nullable="true" />
+          <Property Type="String" Name="nombre_tercero" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="tipo_pago" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="clave_partida" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="partida" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Concepto_Devolución" Nullable="true" MaxLength="300" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1041,9 +1043,11 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
                 <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
                 <ScalarProperty Name="idtcpartida" ColumnName="idtcpartida" />
                 <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
+                <ScalarProperty Name="nombre_tercero" ColumnName="nombre_tercero" />
                 <ScalarProperty Name="tipo_pago" ColumnName="tipo_pago" />
                 <ScalarProperty Name="clave_partida" ColumnName="clave_partida" />
                 <ScalarProperty Name="partida" ColumnName="partida" />
+                <ScalarProperty Name="Concepto_Devolución" ColumnName="Concepto_Devolución" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
