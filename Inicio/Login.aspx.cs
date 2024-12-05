@@ -12,7 +12,7 @@ namespace RFinancieros_Facturas.Inicio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Login1.Focus();
+            //this.Login1.Focus();
             System.Web.Security.FormsAuthentication.SignOut();
             Session.Abandon();
         }
@@ -21,11 +21,11 @@ namespace RFinancieros_Facturas.Inicio
         {
             try
             {
-                if (Membership.ValidateUser(Login1.UserName, Login1.Password))
+                if (Membership.ValidateUser(UserName.Text, Password.Text))
                 {
-                    string[] roles = Roles.GetRolesForUser(Login1.UserName);
+                    string[] roles = Roles.GetRolesForUser(UserName.Text);
                     int myIndex = Array.IndexOf(roles, "Administrador");
-                    FormsAuthentication.RedirectFromLoginPage(Login1.UserName, false);
+                    FormsAuthentication.RedirectFromLoginPage(UserName.Text, false);
                     if (myIndex != -1)
                     {
                         Response.Redirect("../CargaDatos.aspx");
