@@ -61,9 +61,17 @@
             </Columns>
         </asp:GridView>
 
+        <div class="row mt-5">
+
+            <div class="col-auto">
+                <asp:Button ID="btnEliminar" OnClientClick="return confirm('¿Estás seguro de que deseas eliminar todos los registros?');" OnClick="btnEliminar_Click" runat="server" Text="Eliminar" CssClass="btn btn-danger" />
+            </div>
+
+        </div>
+
     </div>
 
-    
+
 
     <br />
     <br />

@@ -9,7 +9,7 @@
         bottom: 0px;
         height: 20dvh;
         width: 100dvw;*/
-        /*background-color: var(--color-principal);*/
+    /*background-color: var(--color-principal);*/
     /*}*/
 
     .footer-texto {
@@ -95,71 +95,141 @@
         <asp:ContentPlaceHolder ID="head" runat="server">
             <asp:UpdatePanel ID="UpdatePanel2" runat="server"></asp:UpdatePanel>
         </asp:ContentPlaceHolder>
+
+
         <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 89px !important">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
                         <img src="~/Images/logo.png" style="width: 30% !important" runat="server" alt="...">
                     </a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto  ">
-                        </ul>
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" runat="server" id="A1" href="~/CargarOp.aspx">Cargar OPs</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" runat="server" id="linkcargadatos" href="~/CargaDatos.aspx">Carga de datos SAT</a>
-                            </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Captura</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" runat="server" href="~/Captura.aspx">Captura Normal</a></li>
-                                    <%--<li>
+                    <asp:LoginView ID="LoginView5" runat="server">
+
+                        <RoleGroups>
+
+
+                            <asp:RoleGroup Roles="Administrador">
+                                <ContentTemplate>
+
+                                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                        <ul class="navbar-nav me-auto  ">
+                                        </ul>
+                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" runat="server" id="A1" href="~/CargarOp.aspx">Cargar OPs</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" runat="server" id="linkcargadatos" href="~/CargaDatos.aspx">Carga de datos SAT</a>
+                                            </li>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Captura</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Captura.aspx">Captura Normal</a></li>
+                                                    <%--<li>
                                         <hr class="dropdown-divider">
                                     </li>--%>
-                                    <li><a class="dropdown-item" runat="server" href="~/CapturaAgrupada.aspx">Captura Agrupada</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/PersonasFisicas.aspx">Captura de folios no localizados</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/EliminaFolio.aspx">Eliminar Folio</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/EliminarOp.aspx">Eliminar Orden de Pago</a></li>
-                                    <%--<li><a class="dropdown-item" href="#">Something else here</a></li>--%>
-                                </ul>
-                            </li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/CapturaAgrupada.aspx">Captura Agrupada</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/PersonasFisicas.aspx">Captura de folios no localizados</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/EliminaFolio.aspx">Eliminar Folio</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/EliminarOp.aspx">Eliminar Orden de Pago</a></li>
+                                                    <%--<li><a class="dropdown-item" href="#">Something else here</a></li>--%>
+                                                </ul>
+                                            </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" runat="server" href="~/Account/CrearUsuario.aspx">Crear usuario</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiaRole.aspx">Cambiar Role</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiarPass.aspx">Cambiar Password</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/Account/AdmonUsuarios.aspx">Administración</a></li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Account/CrearUsuario.aspx">Crear usuario</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiaRole.aspx">Cambiar Role</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Account/CambiarPass.aspx">Cambiar Password</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Account/AdmonUsuarios.aspx">Administración</a></li>
 
-                                </ul>
-                            </li>
+                                                </ul>
+                                            </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
-                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
-                                </ul>
-                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
+                                                </ul>
+                                            </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" runat="server" href="~/ExportarDatos.aspx">Exportar</a>
-                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" runat="server" href="~/ExportarDatos.aspx">Exportar</a>
+                                            </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" runat="server" href="~/Xml/CargarXml.aspx">XML</a>
-                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" runat="server" href="~/Xml/CargarXml.aspx">XML</a>
+                                            </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" runat="server" href="~/Salir.aspx">Salir</a>
-                            </li>
-                        </ul>
-                    </div>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" runat="server" href="~/Salir.aspx">Salir</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </ContentTemplate>
+                            </asp:RoleGroup>
+
+
+                            <asp:RoleGroup Roles="Revisor">
+                                <ContentTemplate>
+
+                                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                        <ul class="navbar-nav me-auto  ">
+                                        </ul>
+                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" runat="server" id="A1" href="~/CargarOp.aspx">Cargar OPs</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link active" runat="server" id="linkcargadatos" href="~/CargaDatos.aspx">Carga de datos SAT</a>
+                                            </li>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Captura</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Captura.aspx">Captura Normal</a></li>
+                                                    <%--<li>
+                                        <hr class="dropdown-divider">
+                                    </li>--%>
+                                                    <li><a class="dropdown-item" runat="server" href="~/CapturaAgrupada.aspx">Captura Agrupada</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/PersonasFisicas.aspx">Captura de folios no localizados</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/EliminaFolio.aspx">Eliminar Folio</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/EliminarOp.aspx">Eliminar Orden de Pago</a></li>
+                                                    <%--<li><a class="dropdown-item" href="#">Something else here</a></li>--%>
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" runat="server" href="~/Salir.aspx">Salir</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </ContentTemplate>
+                            </asp:RoleGroup>
+
+
+                        </RoleGroups>
+                    </asp:LoginView>
+
                 </div>
             </nav>
 
@@ -230,7 +300,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12" style="color: white">
                             <p class="align-self-center text-center">Se prohíbe la reproducción total o parcial contenida en este sistema informático sin el consentimiento expreso y por escrito de la Secretaría de Seguridad Pública del Estado de Veracruz. Esta plataforma digital deberá ser utilizada únicamente por el personal autorizado. El acceso no autorizado a sistemas informáticos es un delito grave.</p>
-                            <p class="align-self-center text-center">&copy; <%= DateTime.Now.Year %> - DERECHOS RESERVADOS.</p>                            
+                            <p class="align-self-center text-center">&copy; <%= DateTime.Now.Year %> - DERECHOS RESERVADOS.</p>
                         </div>
                     </div>
                 </div>

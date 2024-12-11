@@ -51,22 +51,13 @@ namespace RFinancieros_Facturas
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
 
         /// <summary>
-        /// Control A1.
+        /// Control LoginView5.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor A1;
-
-        /// <summary>
-        /// Control linkcargadatos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor linkcargadatos;
+        protected global::System.Web.UI.WebControls.LoginView LoginView5;
 
         /// <summary>
         /// Control lbnombre.
