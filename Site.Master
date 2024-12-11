@@ -2,9 +2,14 @@
 
 <!DOCTYPE html>
 
+<style>
+
+</style>
+
+
 <html lang="es">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
@@ -13,7 +18,7 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
@@ -62,8 +67,21 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
-            <footer>
+            <%--  <footer>
                 <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+            </footer>--%>
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Secretaría de Seguridad Pública 2023</div>
+                        <div>
+                            <%--<a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>--%>
+                        </div>
+                    </div>
+                </div>
             </footer>
         </div>
 

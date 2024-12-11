@@ -79,6 +79,19 @@
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="FacturasXml">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Folio" Type="varchar" MaxLength="255" />
+          <Property Name="EmisorNombre" Type="varchar" MaxLength="255" />
+          <Property Name="ReceptorNombre" Type="varchar" MaxLength="255" />
+          <Property Name="Cantidad" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Importe" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="SubTotal" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tcareas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="tcareas">
@@ -322,6 +335,7 @@ advertencia 6002: La tabla o vista 'dbFacturasFinancieros.dbo.tdfacturasGrupo' n
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacturasXml" EntityType="Self.FacturasXml" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcpartida" EntityType="Self.tcpartida" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcpartida_anio" EntityType="Self.tcpartida_anio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcproovedor_bloqueado" EntityType="Self.tcproovedor_bloqueado" Schema="dbo" store:Type="Tables" />
@@ -445,6 +459,7 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
             <Parameter Name="fechai" Mode="In" Type="DateTime" />
             <Parameter Name="fechaf" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="FacturasXml" EntityType="dbFacturasFinancierosModel.FacturasXml" />
           </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -784,6 +799,19 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
           <Property Type="String" Name="partida" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Concepto_Devolución" Nullable="true" MaxLength="300" />
         </ComplexType>
+        <EntityType Name="FacturasXml">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Folio" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EmisorNombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptorNombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Importe" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SubTotal" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1051,6 +1079,20 @@ FROM [dbo].[tdfacturasGrupo] AS [tdfacturasGrupo]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="FacturasXml">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.FacturasXml">
+              <MappingFragment StoreEntitySet="FacturasXml">
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ReceptorNombre" ColumnName="ReceptorNombre" />
+                <ScalarProperty Name="EmisorNombre" ColumnName="EmisorNombre" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

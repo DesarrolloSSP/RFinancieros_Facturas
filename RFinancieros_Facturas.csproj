@@ -215,6 +215,7 @@
     <Content Include="Inicio\Web.config" />
     <Content Include="PersonasFisicas.aspx" />
     <Content Include="Principal.Master" />
+    <Content Include="Xml\CargarXml.aspx" />
     <EntityDeploy Include="Datos\Modelo.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Modelo.Designer.cs</LastGenOutput>
@@ -391,6 +392,9 @@
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\aspnet_Users.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\FacturasXml.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\ModelFacturas.Context.cs">
@@ -571,6 +575,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Xml\CargarXml.aspx.cs">
+      <DependentUpon>CargarXml.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Xml\CargarXml.aspx.designer.cs">
+      <DependentUpon>CargarXml.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

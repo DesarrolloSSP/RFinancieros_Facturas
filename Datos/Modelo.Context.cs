@@ -43,6 +43,7 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
         public DbSet<tcusuarios> tcusuarios { get; set; }
         public DbSet<tdfacturas> tdfacturas { get; set; }
+        public DbSet<FacturasXml> FacturasXml { get; set; }
     
         public virtual ObjectResult<sel_facturas_bus_Result> sel_facturas_bus(string valor, string usuario)
         {
