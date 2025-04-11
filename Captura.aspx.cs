@@ -899,6 +899,8 @@ namespace RFinancieros_Facturas
                                 ddlPartida.DataBind();
                                 ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
 
+                                ddlNoContrato.Items.Clear();
+                                ddlNoContrato.Items.Add(new ListItem("--Seleccione--", "-1"));
                                 ddlNoContrato.DataBind();
                                 ddlNoContrato.SelectedValue = consulta.idtc_contrato == null ? "0" : consulta.idtc_contrato.ToString();
 
