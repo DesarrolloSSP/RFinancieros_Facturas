@@ -28,35 +28,20 @@ namespace RFinancieros_Facturas.Datos
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<tcContrato> tcContrato { get; set; }
+        public DbSet<tctipogasto> tctipogasto { get; set; }
+        public DbSet<tcusuarios> tcusuarios { get; set; }
+        public DbSet<tdfacturas> tdfacturas { get; set; }
+        public DbSet<tdoprev> tdoprev { get; set; }
+        public DbSet<tcpartida> tcpartida { get; set; }
+        public DbSet<FacturasXml> FacturasXml { get; set; }
+        public DbSet<tcproovedor_bloqueado> tcproovedor_bloqueado { get; set; }
+        public DbSet<Memberships> Memberships { get; set; }
         public DbSet<aspnet_Applications> aspnet_Applications { get; set; }
         public DbSet<aspnet_Membership> aspnet_Membership { get; set; }
         public DbSet<aspnet_Roles> aspnet_Roles { get; set; }
-        public DbSet<aspnet_SchemaVersions> aspnet_SchemaVersions { get; set; }
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
-        public DbSet<tcareas> tcareas { get; set; }
-        public DbSet<tctipogasto> tctipogasto { get; set; }
-        public DbSet<tdfacturasGrupo> tdfacturasGrupo { get; set; }
-        public DbSet<tdoprev> tdoprev { get; set; }
-        public DbSet<tcproovedor_bloqueado> tcproovedor_bloqueado { get; set; }
-        public DbSet<tcpartida> tcpartida { get; set; }
-        public DbSet<tcpartida_anio> tcpartida_anio { get; set; }
-        public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
-        public DbSet<tcusuarios> tcusuarios { get; set; }
-        public DbSet<tdfacturas> tdfacturas { get; set; }
-        public DbSet<FacturasXml> FacturasXml { get; set; }
-    
-        public virtual ObjectResult<sel_facturas_bus_Result> sel_facturas_bus(string valor, string usuario)
-        {
-            var valorParameter = valor != null ?
-                new ObjectParameter("valor", valor) :
-                new ObjectParameter("valor", typeof(string));
-    
-            var usuarioParameter = usuario != null ?
-                new ObjectParameter("usuario", usuario) :
-                new ObjectParameter("usuario", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_facturas_bus_Result>("sel_facturas_bus", valorParameter, usuarioParameter);
-        }
+        public DbSet<tcstatus> tcstatus { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {

@@ -48,5 +48,6 @@ namespace RFinancieros_Facturas.Datos
         public string clave_partida { get; set; }
         public string partida { get; set; }
         public string Concepto_Devolución { get; set; }
+        public string NoContrato { get; set; }
     }
 }

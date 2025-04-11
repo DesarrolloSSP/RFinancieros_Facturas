@@ -399,6 +399,15 @@ namespace RFinancieros_Facturas
                     int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
                     cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
 
+
+                    int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
+                    cmd.Parameters.AddWithValue("@idpartida", (object)idContrato ?? 0);
+
+
+
+
+
+
                     cmd.ExecuteScalar();
                     conectar.Close();
                     ddlareas.SelectedIndex = 0;
@@ -445,6 +454,7 @@ namespace RFinancieros_Facturas
                 {
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Este folio fiscal no contiene una order de pago','warning')", true);
                 }
+
             }
             catch (Exception ex)
             {
@@ -658,6 +668,14 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio del sujeto','warning')", true);
                 x = false;
             }
+
+            if (ddlNoContrato.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+                x = false;
+            }
+
+
             //if (!ValidaCp())
             //{
             //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
@@ -880,6 +898,9 @@ namespace RFinancieros_Facturas
 
                                 ddlPartida.DataBind();
                                 ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+                                ddlNoContrato.DataBind();
+                                ddlNoContrato.SelectedValue = consulta.idtc_contrato == null ? "0" : consulta.idtc_contrato.ToString();
 
                                 Session["Id"] = consulta.Id;
                                 Session["Estado"] = consulta.Estado;

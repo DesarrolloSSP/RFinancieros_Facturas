@@ -12,9 +12,10 @@ namespace RFinancieros_Facturas.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class tcareas
+    public partial class tcContrato
     {
-        public int id { get; set; }
-        public string nombre { get; set; }
+        public int idtc_contrato { get; set; }
+        public string nocontrato { get; set; }
+        public int anio { get; set; }
     }
 }

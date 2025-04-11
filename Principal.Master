@@ -149,6 +149,16 @@
                                                 </ul>
                                             </li>
 
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown22" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admon módulos</a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown22">
+                                                    <li><a class="dropdown-item" runat="server" href="~/Admon/AdmonContratos.aspx">Admon contratos</a></li>
+                                                    <%--<li><a class="dropdown-item" runat="server" href="~/Account/CambiaRole.aspx">Cambiar Role</a></li>--%>
+                                                </ul>
+                                            </li>
+
+
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

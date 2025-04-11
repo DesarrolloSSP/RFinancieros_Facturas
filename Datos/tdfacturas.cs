@@ -44,8 +44,8 @@ namespace RFinancieros_Facturas.Datos
         public string CodigoPostal { get; set; }
         public Nullable<int> idtcpartida { get; set; }
         public Nullable<int> idtcterceros_institucional { get; set; }
+        public Nullable<int> idtc_contrato { get; set; }
     
         public virtual tcpartida tcpartida { get; set; }
-        public virtual tctercero_institucional tctercero_institucional { get; set; }
     }
 }
