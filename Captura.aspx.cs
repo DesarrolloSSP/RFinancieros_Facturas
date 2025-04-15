@@ -401,11 +401,7 @@ namespace RFinancieros_Facturas
 
 
                     int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
-                    cmd.Parameters.AddWithValue("@idpartida", (object)idContrato ?? 0);
-
-
-
-
+                    cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
 
 
                     cmd.ExecuteScalar();
