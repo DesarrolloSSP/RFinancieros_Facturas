@@ -140,6 +140,13 @@
           <Property Name="nombre" Type="nvarchar" MaxLength="50" />
           <Property Name="idstatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="tctercero_institucional">
+          <Key>
+            <PropertyRef Name="idtcterceros_institucional" />
+          </Key>
+          <Property Name="idtcterceros_institucional" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_tercero" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
         <EntityType Name="tctipogasto">
           <Key>
             <PropertyRef Name="id" />
@@ -278,6 +285,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tdfacturas_tcContrato">
+          <End Role="tcContrato" Type="Self.tcContrato" Multiplicity="0..1" />
+          <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcContrato">
+              <PropertyRef Name="idtc_contrato" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtc_contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tdfacturas_tcpartida">
           <End Role="tcpartida" Type="Self.tcpartida" Multiplicity="0..1" />
           <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
@@ -287,6 +306,18 @@
             </Principal>
             <Dependent Role="tdfacturas">
               <PropertyRef Name="idtcpartida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tdfacturas_tctercero_institucional">
+          <End Role="tctercero_institucional" Type="Self.tctercero_institucional" Multiplicity="0..1" />
+          <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tctercero_institucional">
+              <PropertyRef Name="idtcterceros_institucional" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtcterceros_institucional" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -306,6 +337,7 @@
           <EntitySet Name="tcpartida" EntityType="Self.tcpartida" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcproovedor_bloqueado" EntityType="Self.tcproovedor_bloqueado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcstatus" EntityType="Self.tcstatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tctercero_institucional" EntityType="Self.tctercero_institucional" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tctipogasto" EntityType="Self.tctipogasto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcusuarios" EntityType="Self.tcusuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tdfacturas" EntityType="Self.tdfacturas" Schema="dbo" store:Type="Tables" />
@@ -334,8 +366,16 @@
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_tdfacturas_tcContrato" Association="Self.FK_tdfacturas_tcContrato">
+            <End Role="tcContrato" EntitySet="tcContrato" />
+            <End Role="tdfacturas" EntitySet="tdfacturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_tdfacturas_tcpartida" Association="Self.FK_tdfacturas_tcpartida">
             <End Role="tcpartida" EntitySet="tcpartida" />
+            <End Role="tdfacturas" EntitySet="tdfacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tdfacturas_tctercero_institucional" Association="Self.FK_tdfacturas_tctercero_institucional">
+            <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
         </EntityContainer>
@@ -350,6 +390,7 @@
           <Property Name="idtc_contrato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nocontrato" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="anio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" FromRole="tcContrato" ToRole="tdfacturas" />
         </EntityType>
         <EntityContainer Name="dbFacturasFinancierosEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tcContrato" EntityType="Self.tcContrato" />
@@ -394,6 +435,15 @@
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
           <EntitySet Name="tcstatus" EntityType="dbFacturasFinancierosModel.tcstatus" />
+          <EntitySet Name="tctercero_institucional" EntityType="dbFacturasFinancierosModel.tctercero_institucional" />
+          <AssociationSet Name="FK_tdfacturas_tcContrato" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato">
+            <End Role="tcContrato" EntitySet="tcContrato" />
+            <End Role="tdfacturas" EntitySet="tdfacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tdfacturas_tctercero_institucional" Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional">
+            <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
+            <End Role="tdfacturas" EntitySet="tdfacturas" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sel_facturas_fecha_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -491,6 +541,8 @@
           <Property Name="idtcterceros_institucional" Type="Int32" />
           <Property Name="idtc_contrato" Type="Int32" />
           <NavigationProperty Name="tcpartida" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" FromRole="tdfacturas" ToRole="tcpartida" />
+          <NavigationProperty Name="tcContrato" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" FromRole="tdfacturas" ToRole="tcContrato" />
+          <NavigationProperty Name="tctercero_institucional" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" FromRole="tdfacturas" ToRole="tctercero_institucional" />
         </EntityType>
         <EntityType Name="tdoprev">
           <Key>
@@ -694,6 +746,38 @@
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="idstatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="tctercero_institucional">
+          <Key>
+            <PropertyRef Name="idtcterceros_institucional" />
+          </Key>
+          <Property Name="idtcterceros_institucional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_tercero" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" FromRole="tctercero_institucional" ToRole="tdfacturas" />
+        </EntityType>
+        <Association Name="FK_tdfacturas_tcContrato">
+          <End Type="dbFacturasFinancierosModel.tcContrato" Role="tcContrato" Multiplicity="0..1" />
+          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcContrato">
+              <PropertyRef Name="idtc_contrato" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtc_contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tdfacturas_tctercero_institucional">
+          <End Type="dbFacturasFinancierosModel.tctercero_institucional" Role="tctercero_institucional" Multiplicity="0..1" />
+          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tctercero_institucional">
+              <PropertyRef Name="idtcterceros_institucional" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtcterceros_institucional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -954,6 +1038,14 @@
               <MappingFragment StoreEntitySet="tcstatus">
                 <ScalarProperty Name="idstatus" ColumnName="idstatus" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tctercero_institucional">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tctercero_institucional">
+              <MappingFragment StoreEntitySet="tctercero_institucional">
+                <ScalarProperty Name="nombre_tercero" ColumnName="nombre_tercero" />
+                <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

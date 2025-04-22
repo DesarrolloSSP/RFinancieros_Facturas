@@ -25,6 +25,9 @@
         <AssociationConnector Association="dbFacturasFinancierosModel.FK__aspnet_Me__UserI__30C33EC3" />
         <AssociationConnector Association="dbFacturasFinancierosModel.aspnet_UsersInRoles" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcstatus" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctercero_institucional" Width="1.5" PointX="7.375" PointY="9.875" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

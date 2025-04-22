@@ -47,5 +47,7 @@ namespace RFinancieros_Facturas.Datos
         public Nullable<int> idtc_contrato { get; set; }
     
         public virtual tcpartida tcpartida { get; set; }
+        public virtual tcContrato tcContrato { get; set; }
+        public virtual tctercero_institucional tctercero_institucional { get; set; }
     }
 }

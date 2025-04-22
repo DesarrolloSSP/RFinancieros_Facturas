@@ -331,6 +331,7 @@ namespace RFinancieros_Facturas
         public bool ValidaDatos()
         {
             bool y = true;
+
             if (tbfolintf.Text.Trim().Length == 0)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario el folio interno factura','warning')", true);
@@ -342,6 +343,14 @@ namespace RFinancieros_Facturas
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
                 y = false;
             }
+
+            if (ddlNoContrato.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+                y = false;
+            }
+
+
             return y;
         }
 
@@ -426,6 +435,10 @@ namespace RFinancieros_Facturas
 
                     int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
                     cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
+
+                    int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
+                    cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
+
 
                     object inserta = cmd.ExecuteScalar();
                     conectar.Close();

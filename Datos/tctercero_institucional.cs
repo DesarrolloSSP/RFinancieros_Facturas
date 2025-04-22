@@ -12,16 +12,15 @@ namespace RFinancieros_Facturas.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class tcContrato
+    public partial class tctercero_institucional
     {
-        public tcContrato()
+        public tctercero_institucional()
         {
             this.tdfacturas = new HashSet<tdfacturas>();
         }
     
-        public int idtc_contrato { get; set; }
-        public string nocontrato { get; set; }
-        public int anio { get; set; }
+        public int idtcterceros_institucional { get; set; }
+        public string nombre_tercero { get; set; }
     
         public virtual ICollection<tdfacturas> tdfacturas { get; set; }
     }
