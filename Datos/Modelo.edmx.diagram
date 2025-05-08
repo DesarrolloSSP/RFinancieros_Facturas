@@ -28,6 +28,7 @@
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctercero_institucional" Width="1.5" PointX="7.375" PointY="9.875" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" />
         <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcfactura_estatus" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

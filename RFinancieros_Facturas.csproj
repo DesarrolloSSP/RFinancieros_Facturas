@@ -463,6 +463,9 @@
     <Compile Include="Datos\tcContrato.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\tcfactura_estatus.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\tcpartida.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>

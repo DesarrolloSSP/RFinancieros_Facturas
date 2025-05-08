@@ -115,6 +115,13 @@
           <Property Name="nocontrato" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="anio" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="tcfactura_estatus">
+          <Key>
+            <PropertyRef Name="idtcfactura_estatus" />
+          </Key>
+          <Property Name="idtcfactura_estatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estatus" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="tcpartida">
           <Key>
             <PropertyRef Name="idtcpartida" />
@@ -334,6 +341,7 @@
           <EntitySet Name="FacturasXml" EntityType="Self.FacturasXml" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcContrato" EntityType="Self.tcContrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tcfactura_estatus" EntityType="Self.tcfactura_estatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcpartida" EntityType="Self.tcpartida" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcproovedor_bloqueado" EntityType="Self.tcproovedor_bloqueado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcstatus" EntityType="Self.tcstatus" Schema="dbo" store:Type="Tables" />
@@ -444,6 +452,7 @@
             <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
+          <EntitySet Name="tcfactura_estatus" EntityType="dbFacturasFinancierosModel.tcfactura_estatus" />
         </EntityContainer>
         <ComplexType Name="sel_facturas_fecha_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -778,6 +787,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tcfactura_estatus">
+          <Key>
+            <PropertyRef Name="idtcfactura_estatus" />
+          </Key>
+          <Property Name="idtcfactura_estatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estatus" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1046,6 +1062,14 @@
               <MappingFragment StoreEntitySet="tctercero_institucional">
                 <ScalarProperty Name="nombre_tercero" ColumnName="nombre_tercero" />
                 <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcfactura_estatus">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcfactura_estatus">
+              <MappingFragment StoreEntitySet="tcfactura_estatus">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="idtcfactura_estatus" ColumnName="idtcfactura_estatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

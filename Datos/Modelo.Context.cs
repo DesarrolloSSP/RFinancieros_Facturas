@@ -43,6 +43,7 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<tcstatus> tcstatus { get; set; }
         public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
+        public DbSet<tcfactura_estatus> tcfactura_estatus { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {
