@@ -192,6 +192,13 @@ namespace RFinancieros_Facturas
                 x = false;
             }
 
+            if (ddlNoContrato.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+                x = false;
+            }
+
+
             return x;
         }
 
@@ -274,6 +281,10 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.ToString());
                     cmd.Parameters.AddWithValue("@idtercero", ddlTercerosInst.SelectedValue.Length == 0 ? 0 : Convert.ToDecimal(ddlTercerosInst.SelectedValue));
                     cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
+
+                    int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
+                    cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
+
                     object inserta = cmd.ExecuteScalar();
                     conectar.Close();
                     if (inserta == null)

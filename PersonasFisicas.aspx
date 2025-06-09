@@ -150,11 +150,29 @@
                             </div>
                         </div>
                         <div class="row">
+
+
                             <div class="col-xl">
                                 <asp:Label ID="lblfolsuj" runat="server" Text="Folio del sujeto" class="small" Font-Bold="True"></asp:Label>
                                 <asp:TextBox ID="tbfolsuj" runat="server" CssClass="form-control" Enabled="False" TextMode="Number" MaxLength="6"></asp:TextBox>
                             </div>
+
+
+                            <div class="col-xl">
+
+                                <asp:Label ID="Label4" runat="server" Text="No. Contrato" class="small" Font-Bold="True"></asp:Label>
+                                <asp:DropDownList ID="ddlNoContrato" runat="server" CssClass="form-control" DataSourceID="edsNoContrato" DataTextField="nocontrato" DataValueField="idtc_contrato" AppendDataBoundItems="true">
+                                    <asp:ListItem Value="-1">--Seleccione--</asp:ListItem>
+                                </asp:DropDownList>
+
+                                <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato"></asp:EntityDataSource>
+
+                            </div>
+
                         </div>
+
+
+
                         <br />
                         <asp:Button ID="btnguardar" runat="server" Text="Guardar" CssClass="btn btn-warning" OnClick="Btnguardar_Click" />
                     </div>
