@@ -165,6 +165,7 @@
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteAuditoria.aspx">Auditoría</a></li>
                                                 </ul>
                                             </li>
 
@@ -222,6 +223,7 @@
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgreso.aspx">Egreso</a></li>
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteEgresoFechas.aspx">Egreso por Fechas</a></li>
                                                     <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteFolioSujeto.aspx">Folio del Sujeto</a></li>
+                                                    <li><a class="dropdown-item" runat="server" href="~/Reportes/ReporteAuditoria.aspx">Auditoría</a></li>
                                                 </ul>
                                             </li>
 
