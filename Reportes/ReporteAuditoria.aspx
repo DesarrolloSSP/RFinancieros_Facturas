@@ -48,7 +48,7 @@
         <div class="row">
             <center>
                 <div class="col-md-3">
-                    <asp:Button ID="btnVerReporte" runat="server" Text="Ver Reporte" OnClick="btnVerReporte_Click" ValidationGroup="Save" />
+                    <asp:Button ID="btnVerReporte" runat="server" Text="Descargar Excel" OnClick="btnVerReporte_Click" ValidationGroup="Save" />
                 </div>
 
                 <br />

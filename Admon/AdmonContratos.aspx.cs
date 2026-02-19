@@ -24,17 +24,42 @@ namespace RFinancieros_Facturas.Admon
 
         private void CargarContratos()
         {
-            var query = db.tcContrato.Where(x => x.idtc_contrato != 0).ToList();
+            //var query = db.tcContrato.Where(x => x.idtc_contrato != 0).ToList();
 
-            // Si no hay registros, agregamos un dummy sólo para mostrar el footer
+            //var query = db.sel_contratos().Where(x => x.idtc_contrato != 0).ToList();
+
+
+            var query = db.tcContrato
+                .Where(x => x.idtc_contrato != 0)
+                .Select(x => new
+                {
+                    x.idtc_contrato,
+                    x.nocontrato,
+                    x.anio,
+                    Estado = (bool)x.activo ? "Activo" : "Inactivo"
+                })
+                .ToList();
+
+
+
             bool isEmpty = !query.Any();
             if (isEmpty)
             {
-                query.Add(new tcContrato { idtc_contrato = -1, nocontrato = "", anio = 0 });
+                query.Add(new
+                {
+                    idtc_contrato = -1,
+                    nocontrato = "",
+                    anio = 0,
+                    Estado = "Inactivo"
+                });
             }
 
             gvContratos.DataSource = query;
             gvContratos.DataBind();
+
+
+
+
 
             // Si era dummy, lo ocultamos después de que se cargue
             if (isEmpty)
@@ -94,6 +119,34 @@ namespace RFinancieros_Facturas.Admon
                     LlenarAños(ddlAñoNuevo);
                 }
             }
+
+            // Footer (nuevo registro)
+            if (e.Row.RowType == DataControlRowType.Footer)
+            {
+                DropDownList ddlActivoNuevo = (DropDownList)e.Row.FindControl("ddlActivoNuevo");
+                if (ddlActivoNuevo != null)
+                {
+                    LlenarContratos(ddlActivoNuevo);
+                }
+            }
+
+            // Editar fila existente
+            if (e.Row.RowType == DataControlRowType.DataRow && (e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+                DropDownList ddlActivoEdit = (DropDownList)e.Row.FindControl("ddlActivoEdit");
+                if (ddlActivoEdit != null)
+                {
+                    LlenarContratos(ddlActivoEdit);
+
+                    // Seleccionar el valor actual de la fila
+                    string estado = DataBinder.Eval(e.Row.DataItem, "Estado").ToString();
+                    ddlActivoEdit.SelectedValue = estado == "Activo" ? "true" : "false";
+
+                }
+            }
+
+
+
         }
 
 
@@ -112,6 +165,18 @@ namespace RFinancieros_Facturas.Admon
                 ddl.Items.Add(new ListItem(año.ToString(), año.ToString()));
             }
         }
+
+
+        private void LlenarContratos(DropDownList ddl)
+        {
+            ddl.Items.Clear();
+            ddl.Items.Add(new ListItem("-- Seleccione --", "")); // opción vacía
+
+            // Opciones de estado
+            ddl.Items.Add(new ListItem("Activo", "true"));
+            ddl.Items.Add(new ListItem("Inactivo", "false"));
+        }
+
 
 
         protected void gvContratos_RowEditing(object sender, GridViewEditEventArgs e)
@@ -140,6 +205,7 @@ namespace RFinancieros_Facturas.Admon
 
                 // Buscar el DropDownList del año
                 DropDownList ddlAño = (DropDownList)row.FindControl("ddlAñoEdit");
+                DropDownList ddlActivo = (DropDownList)row.FindControl("ddlActivoEdit");
 
                 if (string.IsNullOrEmpty(noContrato))
                 {
@@ -153,12 +219,15 @@ namespace RFinancieros_Facturas.Admon
                 }
 
                 int anio = int.Parse(ddlAño.SelectedValue);
+                bool activo = bool.Parse(ddlActivo.SelectedValue);
+
 
                 tcContrato contrato = db.tcContrato.Find(id);
                 if (contrato != null)
                 {
                     contrato.nocontrato = noContrato;
                     contrato.anio = anio;
+                    contrato.activo = activo;
 
                     db.SaveChanges();
                 }
@@ -168,9 +237,9 @@ namespace RFinancieros_Facturas.Admon
             }
             catch (Exception ex)
             {
-                
+
                 // lblError.Text = ex.Message;
-                
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "error", $"alert('{ex.Message}');", true);
             }
         }
@@ -195,25 +264,32 @@ namespace RFinancieros_Facturas.Admon
                 GridViewRow footer = gvContratos.FooterRow;
                 TextBox txtNoContrato = (TextBox)footer.FindControl("txtNoContratoNuevo");
                 DropDownList ddlAño = (DropDownList)footer.FindControl("ddlAñoNuevo");
+                DropDownList ddlActivo = (DropDownList)footer.FindControl("ddlActivoNuevo");
+
+
 
                 string noContrato = txtNoContrato.Text.Trim().ToUpper();
                 int anio = int.Parse(ddlAño.SelectedValue);
+                //int activo = int.Parse(ddlActivo.SelectedValue);
+                bool activo = bool.Parse(ddlActivo.SelectedValue);
 
-                
+
+
                 bool yaExiste = db.tcContrato.Any(c => c.nocontrato == noContrato && c.anio == anio);
 
                 if (yaExiste)
                 {
-                    
+
                     ScriptManager.RegisterStartupScript(this, GetType(), "error", "alert('Ya existe un contrato con ese número y año.');", true);
                     return;
                 }
 
-                
+
                 tcContrato nuevo = new tcContrato
                 {
                     nocontrato = noContrato,
-                    anio = anio
+                    anio = anio,
+                    activo = activo
                 };
 
                 db.tcContrato.Add(nuevo);

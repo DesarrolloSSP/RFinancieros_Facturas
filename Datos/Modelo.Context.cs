@@ -57,5 +57,10 @@ namespace RFinancieros_Facturas.Datos
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_facturas_fecha_Result>("sel_facturas_fecha", fechaiParameter, fechafParameter);
         }
+    
+        public virtual ObjectResult<sel_contratos_Result> sel_contratos()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sel_contratos_Result>("sel_contratos");
+        }
     }
 }

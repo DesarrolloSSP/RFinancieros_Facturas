@@ -458,6 +458,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Modelo.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Datos\sel_contratos_Result.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\sel_facturas_fecha_Result.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
@@ -526,6 +529,7 @@
     <Compile Include="ExportarDatos.aspx.designer.cs">
       <DependentUpon>ExportarDatos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Funciones\AuditoriaResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

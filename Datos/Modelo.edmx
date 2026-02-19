@@ -114,6 +114,7 @@
           <Property Name="idtc_contrato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nocontrato" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="anio" Type="int" Nullable="false" />
+          <Property Name="activo" Type="bit" />
         </EntityType>
         <EntityType Name="tcfactura_estatus">
           <Key>
@@ -328,6 +329,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sel_contratos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sel_facturas_fecha" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fechai" Type="date" Mode="In" />
           <Parameter Name="fechaf" Type="date" Mode="In" />
@@ -399,6 +401,7 @@
           <Property Name="nocontrato" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="anio" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" FromRole="tcContrato" ToRole="tdfacturas" />
+          <Property Name="activo" Type="Boolean" />
         </EntityType>
         <EntityContainer Name="dbFacturasFinancierosEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tcContrato" EntityType="Self.tcContrato" />
@@ -453,6 +456,7 @@
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
           <EntitySet Name="tcfactura_estatus" EntityType="dbFacturasFinancierosModel.tcfactura_estatus" />
+          <FunctionImport Name="sel_contratos" ReturnType="Collection(dbFacturasFinancierosModel.sel_contratos_Result)" />
         </EntityContainer>
         <ComplexType Name="sel_facturas_fecha_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -794,6 +798,12 @@
           <Property Name="idtcfactura_estatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="estatus" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sel_contratos_Result">
+          <Property Type="Int32" Name="idtc_contrato" Nullable="false" />
+          <Property Type="String" Name="nocontrato" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="anio" Nullable="false" />
+          <Property Type="Boolean" Name="activo" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -803,6 +813,7 @@
           <EntitySetMapping Name="tcContrato">
             <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tcContrato">
               <MappingFragment StoreEntitySet="tcContrato">
+                <ScalarProperty Name="activo" ColumnName="activo" />
                 <ScalarProperty Name="idtc_contrato" ColumnName="idtc_contrato" />
                 <ScalarProperty Name="nocontrato" ColumnName="nocontrato" />
                 <ScalarProperty Name="anio" ColumnName="anio" />
@@ -1073,6 +1084,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sel_contratos" FunctionName="dbFacturasFinancierosModel.Store.sel_contratos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dbFacturasFinancierosModel.sel_contratos_Result">
+                <ScalarProperty Name="idtc_contrato" ColumnName="idtc_contrato" />
+                <ScalarProperty Name="nocontrato" ColumnName="nocontrato" />
+                <ScalarProperty Name="anio" ColumnName="anio" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

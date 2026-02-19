@@ -237,7 +237,7 @@
                                 <asp:ListItem Value="-1">--Seleccione--</asp:ListItem>
                             </asp:DropDownList>
 
-                            <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato"></asp:EntityDataSource>
+                            <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato" Where="it.activo = true"></asp:EntityDataSource>
 
                         </div>
 
