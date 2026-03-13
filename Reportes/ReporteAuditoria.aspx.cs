@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office.Word;
 using Microsoft.Reporting.WebForms;
 using RFinancieros_Facturas.Datos;
 using RFinancieros_Facturas.Funciones;
@@ -36,6 +37,9 @@ namespace RFinancieros_Facturas.Reportes
      string rfc,
      string estatus)
         {
+          
+
+
             var resultados = new List<AuditoriaResult>();
             string connString = ConfigurationManager
                 .ConnectionStrings["dbFacturasFinancieros"].ConnectionString;
@@ -43,6 +47,7 @@ namespace RFinancieros_Facturas.Reportes
             using (var conn = new SqlConnection(connString))
             using (var cmd = new SqlCommand("sel_egreso_fechas_Auditoria", conn))
             {
+                cmd.CommandTimeout = 120; 
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add("@fechai", SqlDbType.Date).Value = fechaInicio.Date;

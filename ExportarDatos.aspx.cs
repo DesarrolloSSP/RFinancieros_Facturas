@@ -256,10 +256,11 @@ namespace RFinancieros_Facturas
                 // Aquí podrías loggear el error
                 // lblError.Text = "Error al exportar: " + ex.Message;
             }
+
+
         }
 
-
-
-
     }
+
+
 }
