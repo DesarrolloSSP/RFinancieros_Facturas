@@ -99,9 +99,9 @@
 
 
             <asp:TemplateField HeaderText="Activo">
-            <ItemTemplate>
-    <asp:Label ID="lblActivo" runat="server" Text='<%# Eval("Estado") %>' />
-</ItemTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="lblActivo" runat="server" Text='<%# Eval("Estado") %>' />
+                </ItemTemplate>
 
 
 
@@ -126,7 +126,7 @@
         </Columns>
     </asp:GridView>
 
-
+    <br />
 
 
 
