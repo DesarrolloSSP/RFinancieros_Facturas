@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="AdmonContratos.aspx.cs" Inherits="RFinancieros_Facturas.Admon.AdmonContratos" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="AdmonContratos.aspx.cs" Inherits="RFinancieros_Facturas.Admon.AdmonContratos" MaintainScrollPositionOnPostback="true"  %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -46,14 +46,14 @@
     <h2>Administración de Contratos</h2>
 
 
-    <asp:GridView ID="gvContratos" runat="server" CssClass="tabla-contratos"
+    <asp:GridView ID="gvContratos" runat="server" CssClass="tabla-contratos" PageSize="10" AllowPaging="True"
         DataKeyNames="idtc_contrato" AutoGenerateColumns="False" ShowFooter="True"
         OnRowEditing="gvContratos_RowEditing"
         OnRowUpdating="gvContratos_RowUpdating"
         OnRowCancelingEdit="gvContratos_RowCancelingEdit"
         OnRowDeleting="gvContratos_RowDeleting"
         OnRowCommand="gvContratos_RowCommand"
-        OnRowDataBound="gvContratos_RowDataBound">
+        OnRowDataBound="gvContratos_RowDataBound" OnPageIndexChanging="gvContratos_PageIndexChanging">
 
         <Columns>
             <asp:BoundField DataField="idtc_contrato" HeaderText="ID" ReadOnly="true" />
@@ -113,12 +113,23 @@
                     <asp:RequiredFieldValidator ID="rfvActivo" runat="server"
                         ControlToValidate="ddlActivoNuevo"
                         InitialValue=""
-                        ErrorMessage="* Selecciona un contrato"
+                        ErrorMessage="* Selecciona un estatus"
                         ForeColor="Red"
                         Display="Dynamic"
                         ValidationGroup="InsertarContrato" />
                 </FooterTemplate>
             </asp:TemplateField>
+
+            <asp:TemplateField ShowHeader="False">
+                <FooterTemplate>
+                    <asp:LinkButton ID="btnInsertar" runat="server"
+                        CommandName="Insert" Text="Agregar"
+                        CssClass="btn-insertar"
+                        CausesValidation="true"
+                        ValidationGroup="InsertarContrato" />
+                </FooterTemplate>
+            </asp:TemplateField>
+
 
 
 

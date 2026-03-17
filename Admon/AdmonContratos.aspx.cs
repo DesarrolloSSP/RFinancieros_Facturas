@@ -30,7 +30,7 @@ namespace RFinancieros_Facturas.Admon
 
 
             var query = db.tcContrato
-                .Where(x => x.idtc_contrato != 0)
+                .Where(x => x.idtc_contrato != 0).OrderByDescending(x => x.anio)
                 .Select(x => new
                 {
                     x.idtc_contrato,
@@ -300,7 +300,11 @@ namespace RFinancieros_Facturas.Admon
 
         }
 
-
+        protected void gvContratos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvContratos.PageIndex = e.NewPageIndex;
+            CargarContratos();
+        }
     }
 
 }
