@@ -872,7 +872,20 @@ namespace RFinancieros_Facturas
                             if (estado == "T" || estado == "C" || estado == "D" || estado == "E" || estado == "P")
                             {
                                 lblFolioSeleccionado.Text = "Folio seleccionado:" + " " + consulta.Folio;
-                                ddlareas.SelectedValue = consulta.Idarea.ToString();
+
+
+                                var valor_area = consulta.Idarea.ToString();
+                                if (ddlareas.Items.FindByValue(valor_area) != null)
+                                {
+                                    ddlareas.SelectedValue = valor_area;
+                                }
+                                else
+                                {
+                                    ddlareas.SelectedValue = "0";
+                                }
+
+                                //ddlareas.DataBind();
+                                //ddlareas.SelectedValue = consulta.Idarea == null ? "0" : consulta.Idarea.ToString();
                                 ddlTipopago.DataBind();
                                 ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
                                 tbordpag.Text = consulta.NoOdp;

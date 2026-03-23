@@ -32,6 +32,7 @@
         </div>
         <asp:UpdatePanel runat="server">
             <ContentTemplate>
+                <asp:Label ID="lblTotal" runat="server" Text=""></asp:Label>
                 <asp:GridView ID="dgUsuarios" runat="server" class="table table-bordered" Font-Size="Small" AllowPaging="True" DataKeyNames="UserId,Status,Usuario,Bloqueo" OnRowDataBound="DgUsuarios_RowDataBound"
                     PageSize="15" OnPageIndexChanging="DgUsuarios_PageIndexChanging" AutoGenerateColumns="False"
                     OnRowCommand="DgUsuarios_RowCommand">

@@ -246,26 +246,7 @@
             </nav>
 
 
-            <%--        <contenttemplate>
-                <asp:Menu ID="Menu" CssClass="ClassMenu" align="right" runat="server" DynamicHorizontalOffset="0" Orientation="Horizontal">
-                    <Items>
-                        <asp:MenuItem NavigateUrl="~/CargaDatos.aspx" Text="Carga datos" Value="Cargar datos"></asp:MenuItem>
-                        <asp:MenuItem Text="Captura" Value="Captura">
-                            <asp:MenuItem NavigateUrl="~/Captura.aspx" Text="Personas Físicas" Value="Personas Físicas"></asp:MenuItem>
-                            <asp:MenuItem NavigateUrl="~/CapturaAgrupada.aspx" Text="Captura Agrupada" Value="Captura Agrupada"></asp:MenuItem>
-                        </asp:MenuItem>
-                        <asp:MenuItem NavigateUrl="~/Account/CrearUsuario.aspx" Text="Crear Usuario" Value="Crear Usuario"></asp:MenuItem>
-                        <asp:MenuItem NavigateUrl="~/Salir.aspx" Text="Salir" Value="Salir"></asp:MenuItem>
-                    </Items>
-                    <StaticMenuItemStyle BackColor="#C4C6CA" ForeColor="#000" HorizontalPadding="20px" VerticalPadding="10px" />
-                    <StaticHoverStyle BackColor="#666666" ForeColor="White" />
-                    <StaticSelectedStyle BackColor="#1C5E55" />
-                    <DynamicMenuItemStyle HorizontalPadding="15px" VerticalPadding="10px" />
-                    <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
-                    <DynamicMenuStyle BackColor="#E3EAEB" />
-                    <DynamicSelectedStyle BackColor="#1C5E55" />
-                </asp:Menu>
-            </contenttemplate>--%>
+
             <div class="row" style="background: #6D132D; cursor: pointer;" align="left">
                 <div class="col-md-12">
                     <div class=" pull-left">

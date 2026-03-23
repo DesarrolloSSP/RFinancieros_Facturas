@@ -62,26 +62,62 @@ namespace RFinancieros_Facturas.Account
                 {
                     _ = ex.Message;
                 }
+
                 LlenarUsuarios();
+
             }
         }
 
+
+
         private void LlenarUsuarios()
         {
+            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["connectionStore"].ConnectionString;
+            using (SqlConnection conexion = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("[sel_usuarios]", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection conexion = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand("[sel_usuarios]", conexion);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@valor", tbBuscarx.Text.Trim());
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            dgUsuarios.DataSource = dt;
-            dgUsuarios.DataBind();
-            conexion.Close();
+                string valor = tbBuscarx.Text;
 
+                SqlParameter p = new SqlParameter("@valor", SqlDbType.VarChar, 50);
+
+                if (string.IsNullOrWhiteSpace(valor))
+                {
+                    p.Value = DBNull.Value;
+                }
+                else
+                {
+                    p.Value = valor.Trim();
+                }
+
+                cmd.Parameters.Add(p);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dgUsuarios.DataSource = dt;
+                dgUsuarios.DataBind();
+
+                // Aquí sí deberías ver 24 cuando el textbox está vacío
+                lblTotal.Text = "Total de usuarios: " + dt.Rows.Count.ToString();
+                //Response.Write("<script>alert('valor: [" + valor + "]');</script>");
+
+                //Response.Write("<br/>Longitud: " + valor.Length);
+                //foreach (char c in valor)
+                //{
+                //    Response.Write("<br/>ASCII: " + (int)c);
+                //}
+
+
+
+            }
         }
+
+
+
 
         protected void ImgBuscar_Click(object sender, ImageClickEventArgs e)
         {
