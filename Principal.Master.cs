@@ -16,7 +16,7 @@ namespace RFinancieros_Facturas
             u = Membership.GetUser(Context.User.Identity.Name);
             if (!IsPostBack)
             {
-                lbnombre.Text = u.UserName; 
+                //lbnombre.Text = u.UserName; 
             }
         }
     }
