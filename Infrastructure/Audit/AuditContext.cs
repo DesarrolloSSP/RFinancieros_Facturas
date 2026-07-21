@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace RFinancieros_Facturas.Infrastructure.Audit
 {
     public class AuditContext
@@ -12,5 +14,10 @@ namespace RFinancieros_Facturas.Infrastructure.Audit
         public string StoredProcedure { get; set; }
 
         public string SessionId { get; set; }
+
+        public DateTime Timestamp
+        {
+            get { return DateTime.Now; }
+        }
     }
 }

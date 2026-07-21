@@ -18,6 +18,40 @@ namespace RFinancieros_Facturas.Infrastructure.Audit.Repositories
                 .ConnectionString;
         }
 
+        public long Save(AuditEntry entry)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        long auditId = InsertAuditHeader(
+                            connection,
+                            transaction,
+                            entry);
+
+                        InsertAuditDetails(
+                            connection,
+                            transaction,
+                            auditId,
+                            entry.Cambios);
+
+                        transaction.Commit();
+
+                        return auditId;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
         public long InsertAudit(AuditEntry entry)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))

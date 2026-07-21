@@ -1,20 +1,18 @@
 ﻿using RFinancieros_Facturas.Datos;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 
 namespace RFinancieros_Facturas
 {
     public partial class Captura : System.Web.UI.Page
     {
         public int Id;
-        dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities();
+        private readonly dbFacturasFinancierosEntities ctx =
+                        new dbFacturasFinancierosEntities();
         protected void Page_Load(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
@@ -24,121 +22,190 @@ namespace RFinancieros_Facturas
                 LlenarFacturas();
                 LlenarAreas();
                 LlenarTipoGasto();
-                LlenarCapturistas();
-                //llenarstatus(); 
+                LlenarCapturistas();               
             }
         }
 
+        #region Catálogos 
         private void LlenarFacturas()
         {
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[sel_facturas]", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("[sel_facturas]", conectar))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                gvfacturas.DataSource = dt;
-                gvfacturas.DataBind();
-                conectar.Close();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    DataTable dt = new DataTable();
 
+                    adapter.Fill(dt);
+
+                    gvfacturas.DataSource = dt;
+                    gvfacturas.DataBind();
+                }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         private void LlenarCapturistas()
         {
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[sel_capturista]", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("[sel_capturista]", conectar))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                gvcapturistas.DataSource = dt;
-                gvcapturistas.DataBind();
-                conectar.Close();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    gvcapturistas.DataSource = dt;
+                    gvcapturistas.DataBind();
+                }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         private void LlenarTipoGasto()
         {
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[sel_tipogasto]", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("[sel_tipogasto]", conectar))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                //ddlconcepto.DataSource = cmd.ExecuteReader();
-                //ddlconcepto.DataTextField = "nombre";
-                //ddlconcepto.DataValueField = "id";
-                //ddlconcepto.DataBind();
-                //ddlconcepto.Items.Insert(0, new ListItem("--Concepto--"));
-                conectar.Close();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //ddlconcepto.DataSource = cmd.ExecuteReader();
+                    //ddlconcepto.DataTextField = "nombre";
+                    //ddlconcepto.DataValueField = "id";
+                    //ddlconcepto.DataBind();
+                    //ddlconcepto.Items.Insert(0, new ListItem("--Concepto--"));
+                }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         public void LlenarAreas()
         {
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("sel_areas", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("sel_areas", conectar))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                ddlareas.DataSource = cmd.ExecuteReader();
-                ddlareas.DataTextField = "nombre";
-                ddlareas.DataValueField = "id";
-                ddlareas.DataBind();
-                //ddlareas.Items.Insert(0, new ListItem("--Area--"));
-                conectar.Close();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        ddlareas.DataSource = reader;
+                        ddlareas.DataTextField = "nombre";
+                        ddlareas.DataValueField = "id";
+                        ddlareas.DataBind();
+                    }
+
+                    //ddlareas.Items.Insert(0, new ListItem("--Area--"));
+                }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
+        #endregion
 
+        #region Métodos auxiliares
+        private void RefrescarFacturas()
+        {
+            if (string.IsNullOrWhiteSpace(tbbuscar.Text))
+            {
+                LlenarFacturas();
+            }
+            else
+            {
+                BuscarFacturas();
+            }
+        }
 
+        private void OcultarPaneles()
+        {
+            Panel1.Visible = false;
+            Panel2.Visible = false;
+            Panel3.Visible = false;
+        }
 
-        //public void llenarstatus()
-        //{
-        //    try
-        //    {
-        //        SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-        //        SqlCommand cmd = new SqlCommand("[sel_status]", conectar);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //        DataTable dt = new DataTable();
-        //        adapter.Fill(dt);
-        //        ddlestatus.DataSource = dt;
-        //        ddlestatus.DataBind();
-        //        conectar.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
+        private void LimpiarFormulario()
+        {
+            ddlareas.SelectedIndex = 0;
+            ddlestatus.SelectedIndex = 0;
 
+            tbMotivo.Text = string.Empty;
+            tbordpag.Text = string.Empty;
+            tbfolint.Text = string.Empty;
+
+            txtPartida.Text = string.Empty;
+            ddlPartida.SelectedIndex = 0;
+
+            tbEgreso.Text = string.Empty;
+        }
+
+        #endregion
+
+        #region Helpers
+        private void MostrarError(string mensaje)
+        {
+            MostrarMensaje(mensaje, "error");
+        }
+
+        private void MostrarAdvertencia(string mensaje)
+        {
+            MostrarMensaje(mensaje, "warning");
+        }
+
+        private void MostrarInformacion(string mensaje)
+        {
+            MostrarMensaje(mensaje, "info");
+        }
+
+        private void MostrarMensaje(string mensaje, string tipo)
+        {
+            ScriptManager.RegisterClientScriptBlock(
+                this,
+                GetType(),
+                Guid.NewGuid().ToString(),
+                $"alertame('{mensaje}','{tipo}')",
+                true);
+        }
+
+        private void FinalizarOperacionExitosa(string mensaje)
+        {
+            MostrarInformacion(mensaje);
+
+            OcultarPaneles();
+
+            RefrescarFacturas();
+        }
+
+        private void FinalizarActualizacion(string mensaje)
+        {
+            LimpiarFormulario();
+
+            MostrarInformacion(mensaje);
+
+            Panel1.Visible = false;
+        }
+
+        #endregion
         protected void Gvfacturas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -155,33 +222,35 @@ namespace RFinancieros_Facturas
                 }
             }
         }
-
-
-        public static string TotalImporteOdp(string Odp)
+        public static string TotalImporteOdp(string odp)
         {
-            string total = "";
+            string total = string.Empty;
+
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
                 using (SqlCommand cmd = new SqlCommand("sel_total_odp", conectar))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@odp", Odp);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    cmd.Parameters.AddWithValue("@odp", odp);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        //total = Convert.ToString(reader["Total"]);         
-                        total = String.Format("{0:c}", reader["Total"]);
+                        if (reader.Read())
+                        {
+                            total = string.Format("{0:c}", reader["Total"]);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
-            return "Importe Total por Odp(" + Odp + "): " + total;
-        }
 
+            return $"Importe Total por Odp({odp}): {total}";
+        }
         public void AcccionBotones(string status)
         {
             try
@@ -259,7 +328,6 @@ namespace RFinancieros_Facturas
                 _ = ex.Message;
             }
         }
-
         public void EdicionCampos(bool bandera)
         {
             ddlareas.Enabled = bandera;
@@ -287,8 +355,6 @@ namespace RFinancieros_Facturas
                 tbfecdev.Enabled = false;
             }
         }
-
-
         protected void Chkdevol_CheckedChanged(object sender, EventArgs e)
         {
             tbMotivo.Enabled = chkdevol.Checked;
@@ -307,57 +373,51 @@ namespace RFinancieros_Facturas
                 tbMotivo.Text = "";
             }
         }
-
         protected void gvfacturas_PageIndexChanged(object sender, EventArgs e)
-        {
-            //if (tbbuscar.Text.Trim() != "")
+        {            
             if (!string.IsNullOrEmpty(tbbuscar.Text.Trim()))
             {
                 BuscarFacturas();
             }
-            //else
-            //{
-            //    LlenarFacturas();
-            //}
+            
         }
-
         protected void gvfacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvfacturas.PageIndex = e.NewPageIndex;
             gvfacturas.DataBind();
         }
-
         protected void BtnBuscar_Click(object sender, EventArgs e)
         {
             BuscarFacturas();
-            Panel1.Visible = false;
-        }
 
+            OcultarPaneles();
+        }
         private void BuscarFacturas()
         {
             try
             {
-
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("sel_facturas_bus", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("sel_facturas_bus", conectar))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                cmd.Parameters.AddWithValue("@valor", tbbuscar.Text.Trim());
-                cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                gvfacturas.DataSource = dt;
-                gvfacturas.DataBind();
-                conectar.Close();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@valor", tbbuscar.Text.Trim());
+                    cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
+
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    gvfacturas.DataSource = dt;
+                    gvfacturas.DataBind();
+                }
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         protected void Btnguardar_Click(object sender, EventArgs e)
         {
             try
@@ -374,52 +434,42 @@ namespace RFinancieros_Facturas
                         sr = ddlestatus.SelectedItem.Text;
                     }
 
-                    //int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
-
-                    SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                    SqlCommand cmd = new SqlCommand("[upd_datos_factura]", conectar)
+                    using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                    using (SqlCommand cmd = new SqlCommand("[upd_datos_factura]", conectar))
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
-                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue)); ya no se usa
-                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
-                    cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
-                    cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
-                    cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());
-                    cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
-                    cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@status", sr.Trim());
-                    cmd.Parameters.AddWithValue("@foliosujeto", tbfolsuj.Text.Length == 0 ? 0 : Convert.ToInt32(tbfolsuj.Text));
-                    cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
-                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.Trim()); ;
-                    //cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
-                    cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
+                        cmd.Parameters.AddWithValue("@id", Session["Id"]);
+                        cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
+                        cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
+                        cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
+                        cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
+                        cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());
+                        cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@status", sr.Trim());
+                        cmd.Parameters.AddWithValue("@foliosujeto", tbfolsuj.Text.Length == 0 ? 0 : Convert.ToInt32(tbfolsuj.Text));
+                        cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
+                        cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.Trim());
 
+                        int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue)
+                            ? (int?)null
+                            : Convert.ToInt32(ddlPartida.SelectedValue);
 
-                    int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
-                    cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
+                        cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
 
+                        int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue)
+                            ? (int?)null
+                            : Convert.ToInt32(ddlNoContrato.SelectedValue);
 
-                    cmd.ExecuteScalar();
-                    conectar.Close();
-                    ddlareas.SelectedIndex = 0;
-                    ddlestatus.SelectedIndex = 0;
-                    //ddlconcepto.SelectedIndex = 0;
-                    tbMotivo.Text = "";
-                    tbordpag.Text = "";
-                    tbfolint.Text = "";
+                        cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
 
-                    txtPartida.Text = "";
-                    ddlPartida.SelectedIndex = 0;
-                    //ddlTercerosInst.SelectedIndex = 0;
+                        cmd.ExecuteScalar();
+                    }
 
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El registro ha sido actualizado: " + Session["Id"] + "','info')", true);
-                    Panel1.Visible = false;
-                    //LlenarFacturas();
+                    FinalizarActualizacion(
+                            "El registro ha sido actualizado: " + Session["Id"]);
+
                 }
             }
             catch (Exception ex)
@@ -427,42 +477,42 @@ namespace RFinancieros_Facturas
                 _ = ex.Message;
             }
         }
-
         protected void BtnReingreso_Click(object sender, EventArgs e)
         {
             try
             {
                 if (Session["NoOdp"].ToString().Trim() != "")
                 {
-                    SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                    SqlCommand cmd = new SqlCommand("[upd_factura_reingreso]", conectar)
+                    using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                    using (SqlCommand cmd = new SqlCommand("[upd_factura_reingreso]", conectar))
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    cmd.Parameters.AddWithValue("@no", Session["NoOdp"]);
-                    cmd.Parameters.AddWithValue("@usuario", User.Identity.Name.Trim());
-                    cmd.ExecuteScalar();
-                    conectar.Close();
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('La factura ha sido reingresada','info')", true);
-                    LlenarFacturas();
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@no", Session["NoOdp"]);
+                        cmd.Parameters.AddWithValue("@usuario", User.Identity.Name.Trim());
+
+                        cmd.ExecuteScalar();
+                    }
+
+                    MostrarInformacion("La factura ha sido reingresada");
+                    //MostrarMensaje("La factura ha sido reingresada", "info");
+                    RefrescarFacturas();
                 }
                 else
                 {
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Este folio fiscal no contiene una order de pago','warning')", true);
+                    MostrarAdvertencia("Este folio fiscal no contiene una orden de pago");
                 }
-
             }
             catch (Exception ex)
             {
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         protected void BtnCaptura_Click(object sender, EventArgs e)
         {
             Panel2.Visible = true;
         }
-
         protected void Gvcapturistas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             try
@@ -488,7 +538,6 @@ namespace RFinancieros_Facturas
             }
 
         }
-
         protected void Rd2_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton selectButton = (RadioButton)sender;
@@ -507,94 +556,111 @@ namespace RFinancieros_Facturas
                 }
             }
         }
-
         protected void Btnfinal_Click(object sender, EventArgs e)
         {
-            if ((Session["Capturista"] == null))
+            if (Session["Capturista"] == null)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se seleccione el capturista','info')", true);
                 return;
             }
+
             if (Session["NoOdp"].ToString().Trim() != "")
             {
                 try
                 {
-                    SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                    SqlCommand cmd = new SqlCommand("[upd_odp_captura]", conectar)
+                    using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                    using (SqlCommand cmd = new SqlCommand("[upd_odp_captura]", conectar))
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    cmd.Parameters.AddWithValue("@no", Session["NoOdp"]);
-                    cmd.Parameters.AddWithValue("@iniciales", Session["Capturista"]);
-                    cmd.ExecuteScalar();
-                    conectar.Close();
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El registro ha sido enviado a captura','info')", true);
-                    Panel2.Visible = false;
-                    Panel1.Visible = false;
-                    if (tbbuscar.Text.Trim() != "")
-                    {
-                        BuscarFacturas();
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@no", Session["NoOdp"]);
+                        cmd.Parameters.AddWithValue("@iniciales", Session["Capturista"]);
+
+                        cmd.ExecuteScalar();
                     }
-                    else
-                    {
-                        LlenarFacturas();
-                    }
+
+                    FinalizarOperacionExitosa(
+                        "El registro ha sido enviado a captura");
+
+                    //if (!string.IsNullOrWhiteSpace(tbbuscar.Text))
+                    //{
+                    //    BuscarFacturas();
+                    //}
+                    //else
+                    //{
+                    //    LlenarFacturas();
+                    //}
                 }
                 catch (Exception ex)
                 {
+                    ScriptManager.RegisterClientScriptBlock(
+                        this,
+                        this.GetType(),
+                        "ErrorCaptura",
+                        "alertame('No fue posible completar la operación.<br/><br/>La orden de pago no pudo ser enviada al área de captura. Intente nuevamente y, si el inconveniente continúa, reporte el incidente a Mesa de Ayuda.','error')",
+                        true);
+
+                    // TODO: Registrar en bitácora o logger.
                     _ = ex.Message;
                 }
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Este folio fiscal no contiene una order de pago','warning')", true);
+                ScriptManager.RegisterClientScriptBlock(
+                    this,
+                    this.GetType(),
+                    "VariableRegisteration",
+                    "alertame('Este folio fiscal no contiene una orden de pago','warning')",
+                    true);
             }
         }
-
         protected void BtnTermina_Click(object sender, EventArgs e)
         {
-            if (tbEgreso.Text.Trim() == "")
+            if (string.IsNullOrWhiteSpace(tbEgreso.Text))
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el egreso','info')", true);
+                ScriptManager.RegisterClientScriptBlock(
+                    this,
+                    this.GetType(),
+                    "VariableRegisteration",
+                    "alertame('Es necesario capturar el egreso','info')",
+                    true);
+
                 return;
             }
 
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[upd_captura_egreso2]", conectar)
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+                using (SqlCommand cmd = new SqlCommand("[upd_captura_egreso2]", conectar))
                 {
-                    CommandType = CommandType.StoredProcedure
-                };
-                cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
-                cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
-                cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
-                //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.ExecuteScalar();
-                conectar.Close();
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Se ha captura el egreso al folio fiscal, exitosamente','info')", true);
-                Panel2.Visible = false;
-                Panel1.Visible = false;
-                Panel3.Visible = false;
-                if (tbbuscar.Text.Trim() != "")
-                {
-                    BuscarFacturas();
+                    cmd.Parameters.AddWithValue("@id", Session["Id"]);
+                    cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
+                    cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
+                    cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue);
+
+                    //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue);
+
+                    cmd.ExecuteScalar();
                 }
-                else
-                {
-                    LlenarFacturas();
-                }
-                Panel2.Visible = false;
-                Panel3.Visible = false;
+
+                FinalizarOperacionExitosa(
+                    "Se ha capturado el egreso al folio fiscal exitosamente");
             }
             catch (Exception ex)
             {
+                ScriptManager.RegisterClientScriptBlock(
+                    this,
+                    this.GetType(),
+                    "ErrorEgreso",
+                    "alertame('No fue posible registrar el egreso. Intente nuevamente y, si el problema persiste, comuníquese con Mesa de Ayuda.','error')",
+                    true);
+
+                // TODO: Registrar en bitácora o logger.
                 _ = ex.Message;
             }
         }
-
         public bool ValidaDatos()
         {
             bool x = true;
@@ -609,8 +675,7 @@ namespace RFinancieros_Facturas
             if (User.IsInRole("Administrador") && ddlestatus.SelectedItem.Text == "Sin efecto")
             {
                 ddlareas.SelectedIndex = 0;
-                ddlTipopago.SelectedIndex = 0;
-                // ddlconcepto.SelectedIndex = 0;
+                ddlTipopago.SelectedIndex = 0;                
                 tbordpag.Text = "";
                 tbfolint.Text = "";
                 tbMotivo.Text = "";
@@ -621,54 +686,34 @@ namespace RFinancieros_Facturas
                 return x;
             }
 
-            //if (ddlareas.SelectedIndex == 0)
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el área','warning')", true);
-            //    x = false;
-            //}
-
-            //if (ddlconcepto.SelectedIndex == 0)
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el concepto','warning')", true);
-            //    x = false;
-            //}
-
-            if (tbordpag.Text.Trim() == "")
+            if (string.IsNullOrWhiteSpace(tbordpag.Text))
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la orden de pago','warning')", true);
+                MostrarAdvertencia("Es necesario se capture la orden de pago");
                 x = false;
             }
-            //if (tbfolint.Text.Trim() == "")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio interno','warning')", true);
-            //    x = false;
-            //}
-            if (!User.IsInRole("Administrador") && Session["Estado"].ToString() == "Cancelado")
+
+            if (!User.IsInRole("Administrador") &&
+                Session["Estado"].ToString() == "Cancelado")
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Este registro se encuentra cancelado, no es posible capturarlo','warning')", true);
+                MostrarAdvertencia("Este registro se encuentra cancelado, no es posible capturarlo");
                 x = false;
             }
-            if (ddlTipopago.SelectedIndex == 1 && tbfolsuj.Text.Trim() == "")
+
+            if (ddlTipopago.SelectedIndex == 1 &&
+                string.IsNullOrWhiteSpace(tbfolsuj.Text))
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio del sujeto','warning')", true);
+                MostrarAdvertencia("Es necesario se capture el folio del sujeto");
                 x = false;
             }
 
             if (ddlNoContrato.SelectedIndex == 0)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+                MostrarAdvertencia("Es necesario seleccionar el No. de contrato");
                 x = false;
             }
 
-
-            //if (!ValidaCp())
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('El código postal es incorrecto','warning')", true);
-            //    x = false;
-            //}
             return x;
         }
-
         public bool ValidaCp()
         {
             bool x = true;
@@ -682,7 +727,6 @@ namespace RFinancieros_Facturas
             }
             return x;
         }
-
         protected void DdlTipopago_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlTipopago.SelectedValue == "1")
@@ -694,13 +738,11 @@ namespace RFinancieros_Facturas
                 tbfolsuj.Enabled = false;
             }
         }
-
         protected void gvcapturistas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvcapturistas.PageIndex = e.NewPageIndex;
             LlenarCapturistas();
         }
-
         protected void txtPartida_TextChanged(object sender, EventArgs e)
         {
             using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
@@ -720,7 +762,6 @@ namespace RFinancieros_Facturas
 
             }
         }
-
         protected void ddlareas_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlareas.SelectedIndex == 0)
@@ -729,7 +770,6 @@ namespace RFinancieros_Facturas
                 tbcp.Enabled = false;
             }
         }
-
         protected void Rd1_CheckedChanged(object sender, EventArgs e)
         {
             //Here
@@ -818,7 +858,6 @@ namespace RFinancieros_Facturas
                             }
                         }
                     }
-
                 }
 
                 else
@@ -832,11 +871,7 @@ namespace RFinancieros_Facturas
 
                 //throw;
             }
-
-
-
         }
-
         protected void gvfacturas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
@@ -872,9 +907,7 @@ namespace RFinancieros_Facturas
                                 {
                                     ddlareas.SelectedValue = "0";
                                 }
-
-                                //ddlareas.DataBind();
-                                //ddlareas.SelectedValue = consulta.Idarea == null ? "0" : consulta.Idarea.ToString();
+                                
                                 ddlTipopago.DataBind();
                                 ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
                                 tbordpag.Text = consulta.NoOdp;
@@ -935,13 +968,8 @@ namespace RFinancieros_Facturas
                                 ddlestatus.DataBind();
                                 ddlestatus.SelectedItem.Text = "Vigente";
                             }
-
-
                         }
-
                     }
-
-
                 }
 
             }
@@ -950,9 +978,6 @@ namespace RFinancieros_Facturas
 
                 //throw;
             }
-
         }
-
-
     }
 }

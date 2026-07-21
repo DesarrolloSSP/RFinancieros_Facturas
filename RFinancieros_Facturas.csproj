@@ -206,7 +206,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
     <Content Include="Account\AdmonUsuarios3.aspx" />
     <Content Include="Account\AdmonUsuarios.aspx" />
     <Content Include="Account\CambiaRole.aspx" />
@@ -219,7 +218,6 @@
     <Content Include="CapturaAgrupada.aspx" />
     <Content Include="CargaDatos.aspx" />
     <Content Include="CargarOp.aspx" />
-    <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -396,13 +394,6 @@
       <DependentUpon>AdmonContratos.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Captura.aspx.cs">
       <DependentUpon>Captura.aspx</DependentUpon>
@@ -433,13 +424,6 @@
       <DependentUpon>CargarOp.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConectarSqlServer.cs" />
-    <Compile Include="Contact.aspx.cs">
-      <DependentUpon>Contact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Contact.aspx.designer.cs">
-      <DependentUpon>Contact.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Datos\aspnet_Applications.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>

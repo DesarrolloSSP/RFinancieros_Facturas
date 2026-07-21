@@ -19,15 +19,7 @@ namespace RFinancieros_Facturas.Infrastructure.Audit.Services
 
         public void Register(AuditEntry entry)
         {
-            long auditId = _repository.InsertAudit(entry);
-
-            if (entry.Cambios != null &&
-                entry.Cambios.Count > 0)
-            {
-                _repository.InsertChanges(
-                    auditId,
-                    entry.Cambios);
-            }
+            _repository.Save(entry);
         }
     }
 }
