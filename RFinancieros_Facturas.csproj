@@ -576,11 +576,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Audit\AuditContext.cs" />
+    <Compile Include="Infrastructure\Audit\Models\AuditEntry.cs" />
+    <Compile Include="Infrastructure\Audit\Models\AuditChange.cs" />
+    <Compile Include="Infrastructure\Audit\Models\AuditOperation.cs" />
+    <Compile Include="Infrastructure\Audit\Repositories\AuditRepository.cs" />
+    <Compile Include="Infrastructure\Audit\Repositories\SqlAuditRepository.cs" />
+    <Compile Include="Infrastructure\Audit\Services\AuditService.cs" />
+    <Compile Include="Infrastructure\Audit\Services\IAuditService.cs" />
+    <Compile Include="Infrastructure\Audit\Repositories\IAuditRepository.cs" />
     <Compile Include="Infrastructure\Configuracion\ConfiguracionAplicacion.cs" />
     <Compile Include="Infrastructure\Aplicacion\InformacionAplicacion.cs" />
     <Compile Include="Infrastructure\Excepciones\ExceptionHelper.cs" />
+    <Compile Include="Infrastructure\Audit\Helpers\AuditSerializer.cs" />
     <Compile Include="Infrastructure\Logging\AppLogger.cs" />
     <Compile Include="Infrastructure\Logging\LogLevel.cs" />
+    <Compile Include="Infrastructure\Providers\SqlAuditProvider.cs" />
     <Compile Include="Infrastructure\Seguridad\SessionHelper.cs" />
     <Compile Include="Inicio\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

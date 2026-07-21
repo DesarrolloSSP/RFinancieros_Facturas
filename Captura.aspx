@@ -241,13 +241,7 @@
 
                         </div>
 
-
-                        <%--                <div class="col-xl">
-                    <asp:Label ID="Label3" runat="server" Text="Terceros Institucionales" class="small" Font-Bold="True"></asp:Label>
-                    <asp:DropDownList ID="ddlTercerosInst" runat="server" CssClass="form-control" DataSourceID="edsTercerosInst" DataTextField="nombre_tercero" DataValueField="idtcterceros_institucional" AppendDataBoundItems="true">
-                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
-                    </asp:DropDownList>
-                </div>--%>
+                        
                     </div>
                     <br />
                     <asp:Button ID="btnguardar" runat="server" Text="Revisado" CssClass="btn btn-warning" OnClick="Btnguardar_Click" />

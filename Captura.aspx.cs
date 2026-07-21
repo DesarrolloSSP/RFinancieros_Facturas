@@ -559,17 +559,6 @@ namespace RFinancieros_Facturas
                 return;
             }
 
-            //else if (txtPartida.Text.Trim() == "")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
-            //    return;
-            //}
-            //else if (ddlTercerosInst.SelectedValue == "0")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
-            //    return;
-            //}
-
             try
             {
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
