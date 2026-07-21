@@ -117,13 +117,24 @@
                 </div>
             </div>
         </div>
-        <asp:GridView ID="gvfacturas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
-            EmptyDataText="No existen datos de facturas" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="Gvfacturas_PageIndexChanged" OnPageIndexChanging="Gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id,NoOdp,Estreg">
+        <asp:GridView ID="gvfacturas" 
+            class="table table-bordered" 
+            Font-Size="Small" AllowPaging="True" 
+            runat="server" 
+            TabIndex="-1" 
+            AutoGenerateColumns="False"
+            EmptyDataText="No existen datos de facturas" 
+            OnRowDataBound="Gvfacturas_RowDataBound" 
+            OnPageIndexChanged="Gvfacturas_PageIndexChanged" 
+            OnPageIndexChanging="Gvfacturas_PageIndexChanging" 
+            PageSize="5" 
+            DataKeyNames="Id,NoOdp,Estreg">
             <PagerSettings PreviousPageText="Previa" />
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:RadioButton ID="rd1" GroupName="rdBox" AutoPostBack="true" runat="server" OnCheckedChanged="Rd1_CheckedChanged" />
+                        <asp:RadioButton ID="rd1" 
+                            GroupName="rdBox" AutoPostBack="true" runat="server" OnCheckedChanged="Rd1_CheckedChanged" />
                         <headerstyle horizontalalign="Center" forecolor="White" backcolor="#6D132D" />
                     </ItemTemplate>
                 </asp:TemplateField>
