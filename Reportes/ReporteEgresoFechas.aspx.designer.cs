@@ -24,15 +24,6 @@ namespace RFinancieros_Facturas.Reportes
         protected global::System.Web.UI.WebControls.TextBox txtRfc;
 
         /// <summary>
-        /// Control RequiredFieldValidator1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
-        /// <summary>
         /// Control txtFechaInicio.
         /// </summary>
         /// <remarks>
@@ -87,13 +78,13 @@ namespace RFinancieros_Facturas.Reportes
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
 
         /// <summary>
-        /// Control btnVerReporte.
+        /// Control btnConsultarDatos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVerReporte;
+        protected global::System.Web.UI.WebControls.Button btnConsultarDatos;
 
         /// <summary>
         /// Control lblError.
@@ -105,6 +96,69 @@ namespace RFinancieros_Facturas.Reportes
         protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
+        /// Control PanelEgresos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PanelEgresos;
+
+        /// <summary>
+        /// Control dgvResumen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView dgvResumen;
+
+        /// <summary>
+        /// Control btnRptResumen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnRptResumen;
+
+        /// <summary>
+        /// Control btnRptGeneral.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnRptGeneral;
+
+        /// <summary>
+        /// Control PanelEstatus.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PanelEstatus;
+
+        /// <summary>
+        /// Control dgvEstatusFacturas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView dgvEstatusFacturas;
+
+        /// <summary>
+        /// Control btnRptEstatus.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnRptEstatus;
+
+        /// <summary>
         /// Control edsEstatus.
         /// </summary>
         /// <remarks>
@@ -112,14 +166,5 @@ namespace RFinancieros_Facturas.Reportes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.EntityDataSource edsEstatus;
-
-        /// <summary>
-        /// Control egreso.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::Microsoft.Reporting.WebForms.ReportViewer egreso;
     }
 }

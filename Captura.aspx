@@ -39,7 +39,7 @@
                 </div>
                 <asp:GridView ID="gvfacturas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
                     EmptyDataText="No existen datos de facturas" OnRowCommand="gvfacturas_RowCommand" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="gvfacturas_PageIndexChanged" OnPageIndexChanging="gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id">
-                    <%--NoOdp--%>
+
                     <PagerSettings PreviousPageText="Previa" />
                     <Columns>
 
@@ -53,13 +53,6 @@
 
                         </asp:TemplateField>
 
-
-                        <%-- <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:RadioButton ID="rd1" GroupName="rdBox" AutoPostBack="true" runat="server" OnCheckedChanged="Rd1_CheckedChanged" />
-                                <headerstyle horizontalalign="Center" forecolor="White" backcolor="#6D132D" />
-                            </ItemTemplate>
-                        </asp:TemplateField>--%>
 
 
                         <asp:BoundField DataField="Folio" HeaderText="Folio Fiscal" ReadOnly="True">
@@ -121,7 +114,7 @@
                     <div class="row mt-2">
 
                         <div class="d-flex justify-content-center">
-                            <%--<div class="col-xl">--%>
+
 
                             <asp:LinkButton ID="btnValidaSAT" runat="server" Text="" OnClientClick="callSAT();">VERIFICACIÓN DE COMPROBANTES FISCALES DIGITALES POR INTERNET</asp:LinkButton>
 
@@ -130,120 +123,129 @@
                     </div>
 
 
-                    <div class="row mt-3">
-                        <div class="col">
-                            <h5>
-                                <asp:Label ID="lblFolioSeleccionado" runat="server" Text="" class="small" Font-Bold="True"></asp:Label>
-                            </h5>
 
-                        </div>
-
-                    </div>
-
-                    <div class="row mt-2">
-
-                        <div class="col-xl">
-                            <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
-                            <asp:DropDownList ID="ddlareas" runat="server" AutoPostBack="true" CssClass="form-control" OnSelectedIndexChanged="ddlareas_SelectedIndexChanged">
-                            </asp:DropDownList>
-                        </div>
-
-                        <%-- <div class="col-xl">
-                    <asp:Label ID="lbconcepto" runat="server" Text="Concepto" class="small" Font-Bold="True"></asp:Label>
-                    <asp:DropDownList ID="ddlconcepto" runat="server" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>--%>
-
-                        <div class="col-xl">
-                            <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>
-                            <asp:DropDownList ID="ddlTipopago" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="DdlTipopago_SelectedIndexChanged">
-                                <asp:ListItem Value="0">Pago directo</asp:ListItem>
-                                <asp:ListItem Value="1">Comprobación de sujeto</asp:ListItem>
-                                <asp:ListItem Value="2">Fondo revolvente</asp:ListItem>
-                                <asp:ListItem Value="3">FASP</asp:ListItem>
-                                <asp:ListItem Value="4">FOFISP</asp:ListItem>
-                                <asp:ListItem Value="5">N/A</asp:ListItem>
-                            </asp:DropDownList>
-                        </div>
+                    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                        <ContentTemplate>
 
 
-                    </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <h5>
+                                        <asp:Label ID="lblFolioSeleccionado" runat="server" Text="" class="small" Font-Bold="True"></asp:Label>
+                                    </h5>
 
-                    <div class="row">
+                                </div>
 
-                        <div class="col-2">
-                            <asp:Label ID="Label2" runat="server" Text="Clave Partida" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="txtPartida" AutoPostBack="true" OnTextChanged="txtPartida_TextChanged" runat="server" CssClass=" form-control"></asp:TextBox>
-                        </div>
+                            </div>
 
-                        <div class="col-xl">
-                            <asp:Label ID="Label1" runat="server" Text="Partida" class="small" Font-Bold="True"></asp:Label>
-                            <asp:DropDownList ID="ddlPartida" runat="server" Enabled="false" CssClass="form-control" DataSourceID="edsPartida" DataTextField="partida" DataValueField="idtcpartida" AppendDataBoundItems="true">
-                                <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
-                            </asp:DropDownList>
-                        </div>
+                            <div class="row mt-2">
 
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xl">
-                            <asp:Label ID="lbop" runat="server" Text="Número Orden de pago" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbordpag" runat="server" CssClass=" form-control"></asp:TextBox>
-                        </div>
-                        <div class="col-xl">
-                            <asp:Label ID="lbfolint" runat="server" Text="Folio Interno factura" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbfolint" runat="server" CssClass="form-control"></asp:TextBox>
-                        </div>
-                        <div class="col-xl">
-                            <asp:Label ID="lbcp" runat="server" Text="Código Postal" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbcp" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
-                        </div>
-                        <div class="col-xl">
-                            <asp:Label ID="lbdevol" runat="server" Text="¿Se devuelve la factura?" class="small" Font-Bold="True"></asp:Label>
-                            <asp:CheckBox ID="chkdevol" runat="server" CssClass="form-control" Checked="false" CausesValidation="true" OnCheckedChanged="Chkdevol_CheckedChanged" AutoPostBack="true" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl">
-                            <asp:Label ID="lbmotivo" runat="server" Text="Motivo de la devolución" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbMotivo" runat="server" CssClass="form-control" Enabled="false" MaxLength="300" CharacterCasing="Upper"></asp:TextBox>
-                        </div>
-                        <div class="col-xl">
-                            <asp:Label ID="lbfecdev" runat="server" Text="Fecha de Devolución" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbfecdev" runat="server" CssClass="form-control" Enabled="False" TextMode="Date"></asp:TextBox>
-                        </div>
-                        <div class="col-xl">
-                            <asp:Label ID="lbestatus" runat="server" Text="Estatus" class="small" Font-Bold="True"></asp:Label>
-                            <asp:DropDownList ID="ddlestatus" runat="server" CssClass="form-control" DataSourceID="edsstatus" DataTextField="nombre" DataValueField="nombre">
-                            </asp:DropDownList>
-
-                            <asp:EntityDataSource ID="edsstatus" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcstatus"></asp:EntityDataSource>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-xl">
-                            <asp:Label ID="lblfolsuj" runat="server" Text="Folio del sujeto" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="tbfolsuj" runat="server" CssClass="form-control" Enabled="False" TextMode="Number" MaxLength="6"></asp:TextBox>
-                        </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbarea" runat="server" Text="Area que trámita" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlareas" runat="server" AutoPostBack="true" CssClass="form-control" OnSelectedIndexChanged="ddlareas_SelectedIndexChanged">
+                                    </asp:DropDownList>
+                                </div>
 
 
-                        <div class="col-xl">
 
-                            <asp:Label ID="Label3" runat="server" Text="No. Contrato" class="small" Font-Bold="True"></asp:Label>
-                            <asp:DropDownList ID="ddlNoContrato" runat="server" CssClass="form-control" DataSourceID="edsNoContrato" DataTextField="nocontrato" DataValueField="idtc_contrato" AppendDataBoundItems="true">
-                                <asp:ListItem Value="-1">--Seleccione--</asp:ListItem>
-                            </asp:DropDownList>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbtipopago" runat="server" Text="Tipo de Pago" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlTipopago" runat="server" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="DdlTipopago_SelectedIndexChanged">
+                                        <asp:ListItem Value="0">Pago directo</asp:ListItem>
+                                        <asp:ListItem Value="1">Comprobación de sujeto</asp:ListItem>
+                                        <asp:ListItem Value="2">Fondo revolvente</asp:ListItem>
+                                        <asp:ListItem Value="3">FASP</asp:ListItem>
+                                        <asp:ListItem Value="4">FOFISP</asp:ListItem>
+                                        <asp:ListItem Value="5">N/A</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
 
-                            <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato" Where="it.activo = true" OrderBy="it.anio DESC"></asp:EntityDataSource>
 
-                        </div>
+                            </div>
 
-                        
-                    </div>
-                    <br />
+                            <div class="row">
+
+                                <div class="col-2">
+                                    <asp:Label ID="Label2" runat="server" Text="Clave Partida" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="txtPartida" AutoPostBack="true" OnTextChanged="txtPartida_TextChanged" runat="server" CssClass=" form-control"></asp:TextBox>
+                                </div>
+
+                                <div class="col-xl">
+                                    <asp:Label ID="Label1" runat="server" Text="Partida" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlPartida" runat="server" Enabled="false" CssClass="form-control" DataSourceID="edsPartida" DataTextField="partida" DataValueField="idtcpartida" AppendDataBoundItems="true">
+                                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl">
+                                    <asp:Label ID="lbop" runat="server" Text="Número Orden de pago" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbordpag" runat="server" CssClass=" form-control"></asp:TextBox>
+                                </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbfolint" runat="server" Text="Folio Interno factura" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbfolint" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbcp" runat="server" Text="Código Postal" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbcp" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                                </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbdevol" runat="server" Text="¿Se devuelve la factura?" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:CheckBox ID="chkdevol" runat="server" CssClass="form-control" Checked="false" CausesValidation="true" OnCheckedChanged="Chkdevol_CheckedChanged" AutoPostBack="true" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl">
+                                    <asp:Label ID="lbmotivo" runat="server" Text="Motivo de la devolución" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbMotivo" runat="server" CssClass="form-control" Enabled="false" MaxLength="300" CharacterCasing="Upper"></asp:TextBox>
+                                </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbfecdev" runat="server" Text="Fecha de Devolución" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbfecdev" runat="server" CssClass="form-control" Enabled="False" TextMode="Date"></asp:TextBox>
+                                </div>
+                                <div class="col-xl">
+                                    <asp:Label ID="lbestatus" runat="server" Text="Estatus" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlestatus" runat="server" CssClass="form-control" DataSourceID="edsstatus" DataTextField="nombre" DataValueField="nombre" AppendDataBoundItems="true">
+                                        <asp:ListItem Value="0">--Seleccione--</asp:ListItem>
+                                    </asp:DropDownList>
+
+                                    <asp:EntityDataSource ID="edsstatus" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcstatus"></asp:EntityDataSource>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-xl">
+                                    <asp:Label ID="lblfolsuj" runat="server" Text="Folio del sujeto" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="tbfolsuj" runat="server" CssClass="form-control" Enabled="False" TextMode="Number" MaxLength="6"></asp:TextBox>
+                                </div>
+
+
+                                <div class="col-xl">
+
+                                    <asp:Label ID="Label3" runat="server" Text="No. Contrato" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlNoContrato" runat="server" CssClass="form-control" DataSourceID="edsNoContrato" DataTextField="nocontrato" DataValueField="idtc_contrato" AppendDataBoundItems="true" EnableViewState="true">
+                                        <asp:ListItem Value="-1">--Seleccione--</asp:ListItem>
+                                    </asp:DropDownList>
+
+                                    <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato" Where="it.activo = true" OrderBy="it.anio DESC"></asp:EntityDataSource>
+
+                                  
+                                </div>
+
+
+                            </div>
+                            <br />
+
+
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+
+
                     <asp:Button ID="btnguardar" runat="server" Text="Revisado" CssClass="btn btn-warning" OnClick="Btnguardar_Click" />
                     <asp:Button ID="btnCaptura" runat="server" Text="Enviar a Captura" CssClass="btn btn-warning" OnClick="BtnCaptura_Click" Enabled="false" />
                     <asp:Button ID="btnReingreso" runat="server" Text="Reingreso" CssClass="btn btn-warning" Enabled="false" OnClick="BtnReingreso_Click" />
@@ -275,10 +277,15 @@
                     <asp:Button ID="btnfinal" runat="server" Text="Guardar Registro" CssClass="btn btn-warning" OnClick="Btnfinal_Click" />
                 </asp:Panel>
                 <asp:Panel ID="Panel3" runat="server" Visible="false">
+                    <%--estaba false--%>
                     <div class="row">
-                        <div class="col-xl">
+                        <div class="col-md-6">
                             <asp:Label ID="lblEgreso" runat="server" Text="Egreso" class="small" Font-Bold="True"></asp:Label>
                             <asp:TextBox ID="tbEgreso" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                        </div>
+                        <div class="col-md-6">
+                            <asp:Label ID="Label4" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
+                            <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                         </div>
                     </div>
                     <br />

@@ -8,10 +8,8 @@
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcContrato" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctipogasto" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcusuarios" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdoprev" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcpartida" Width="1.5" PointX="0.75" PointY="7.375" />
-        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.FacturasXml" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcproovedor_bloqueado" Width="1.5" PointX="6.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.Memberships" Width="1.5" PointX="7.375" PointY="3.75" />
@@ -26,9 +24,13 @@
         <AssociationConnector Association="dbFacturasFinancierosModel.aspnet_UsersInRoles" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcstatus" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tctercero_institucional" Width="1.5" PointX="7.375" PointY="9.875" />
-        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" />
-        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" />
         <EntityTypeShape EntityType="dbFacturasFinancierosModel.tcfactura_estatus" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.Dependencia" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.PagosSiafev" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="dbFacturasFinancierosModel.tdfacturas" Width="1.5" PointX="16.625" PointY="0.875" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato1" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida1" />
+        <AssociationConnector Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

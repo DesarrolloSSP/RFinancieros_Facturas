@@ -169,6 +169,12 @@
 
                             </div>
 
+
+                           <div class="col-xl">
+                                <asp:Label ID="Label5" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
+                                <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                            </div>
+
                         </div>
 
 
