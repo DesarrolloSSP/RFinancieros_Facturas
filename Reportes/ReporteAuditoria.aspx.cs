@@ -13,6 +13,7 @@ using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.Word;
 using Microsoft.Reporting.WebForms;
 using RFinancieros_Facturas.Datos;
+using RFinancieros_Facturas.Datos.Models;
 using RFinancieros_Facturas.Funciones;
 
 
@@ -86,6 +87,42 @@ namespace RFinancieros_Facturas.Reportes
 
             return resultados;
         }
+
+
+        private List<ReporteEgresoResumenVM> ObtenerResumen(
+     DateTime fechai,
+     DateTime fechaf,
+     string rfc,
+     string estatus)
+        {
+            using (var db = new dbFacturasFinancierosEntities())
+            {
+                var parametroFechaInicio =
+                    new SqlParameter("@fechai", fechai.Date);
+
+                var parametroFechaFin =
+                    new SqlParameter("@fechaf", fechaf.Date);
+
+                var parametroRfc =
+                    new SqlParameter("@rfce", rfc);
+
+                var parametroEstatus =
+                    new SqlParameter("@estatus", estatus);
+
+                var datos =
+                    db.Database.SqlQuery<ReporteEgresoResumenVM>(
+                        "EXEC sel_egreso_resumen " +
+                        "@fechai, @fechaf, @rfce, @estatus",
+                        parametroFechaInicio,
+                        parametroFechaFin,
+                        parametroRfc,
+                        parametroEstatus
+                    ).ToList();
+
+                return datos;
+            }
+        }
+
 
 
         protected void MostrarReporte()

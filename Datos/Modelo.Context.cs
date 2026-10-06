@@ -31,7 +31,6 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tcContrato> tcContrato { get; set; }
         public DbSet<tctipogasto> tctipogasto { get; set; }
         public DbSet<tcusuarios> tcusuarios { get; set; }
-        public DbSet<tdfacturas> tdfacturas { get; set; }
         public DbSet<tdoprev> tdoprev { get; set; }
         public DbSet<tcpartida> tcpartida { get; set; }
         public DbSet<FacturasXml> FacturasXml { get; set; }
@@ -44,6 +43,9 @@ namespace RFinancieros_Facturas.Datos
         public DbSet<tcstatus> tcstatus { get; set; }
         public DbSet<tctercero_institucional> tctercero_institucional { get; set; }
         public DbSet<tcfactura_estatus> tcfactura_estatus { get; set; }
+        public DbSet<Dependencia> Dependencia { get; set; }
+        public DbSet<PagosSiafev> PagosSiafev { get; set; }
+        public DbSet<tdfacturas> tdfacturas { get; set; }
     
         public virtual ObjectResult<sel_facturas_fecha_Result> sel_facturas_fecha(Nullable<System.DateTime> fechai, Nullable<System.DateTime> fechaf)
         {

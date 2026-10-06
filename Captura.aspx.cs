@@ -1,12 +1,13 @@
-﻿using RFinancieros_Facturas.Datos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using RFinancieros_Facturas.Datos;
 
 
 namespace RFinancieros_Facturas
@@ -17,10 +18,20 @@ namespace RFinancieros_Facturas
         dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities();
         protected void Page_Load(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
             if (!IsPostBack)
             {
+
+
+                DateTime dt = DateTime.Now;
+                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
+
+                if (!Page.IsPostBack)
+                {
+                    txtFechaVentanilla.Text = String.Format("{0:yyyy-MM-dd}", dt);
+                }
+
+
+
                 LlenarFacturas();
                 LlenarAreas();
                 LlenarTipoGasto();
@@ -118,27 +129,7 @@ namespace RFinancieros_Facturas
             }
         }
 
-
-
-        //public void llenarstatus()
-        //{
-        //    try
-        //    {
-        //        SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-        //        SqlCommand cmd = new SqlCommand("[sel_status]", conectar);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-        //        DataTable dt = new DataTable();
-        //        adapter.Fill(dt);
-        //        ddlestatus.DataSource = dt;
-        //        ddlestatus.DataBind();
-        //        conectar.Close();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
-
+                
         protected void Gvfacturas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -208,7 +199,8 @@ namespace RFinancieros_Facturas
                             btnguardar.Enabled = false;
                             EdicionCampos(false);
                         }
-                        Panel3.Visible = false;
+                        //Panel3.Visible = false;  prueba
+                        Panel3.Visible = true;
                         break;
                     case "C":
                         btnCaptura.Enabled = false;
@@ -324,13 +316,17 @@ namespace RFinancieros_Facturas
         protected void gvfacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvfacturas.PageIndex = e.NewPageIndex;
-            gvfacturas.DataBind();
+            // gvfacturas.DataBind();
+            BuscarFacturas();
+
+
         }
 
         protected void BtnBuscar_Click(object sender, EventArgs e)
         {
             BuscarFacturas();
             Panel1.Visible = false;
+            Panel3.Visible = false;
         }
 
         private void BuscarFacturas()
@@ -387,8 +383,8 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
                     cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
                     cmd.Parameters.AddWithValue("@fif", tbfolint.Text.Length == 0 ? "" : tbfolint.Text.Trim());
-                    cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());
-                    cmd.Parameters.AddWithValue("@fecdev", Convert.ToDateTime(tbfecdev.Text.Trim()));
+                    cmd.Parameters.AddWithValue("@motivo", tbMotivo.Text.Length == 0 ? "" : tbMotivo.Text.Trim());                    
+                    cmd.Parameters.AddWithValue("@fecdev", tbfecdev.Text.Length == 0 ? (object)DBNull.Value : Convert.ToDateTime(tbfecdev.Text.Trim()));
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@status", sr.Trim());
                     cmd.Parameters.AddWithValue("@foliosujeto", tbfolsuj.Text.Length == 0 ? 0 : Convert.ToInt32(tbfolsuj.Text));
@@ -422,9 +418,24 @@ namespace RFinancieros_Facturas
                     //LlenarFacturas();
                 }
             }
-            catch (Exception ex)
+            //catch (Exception ex)
+            //{
+            //    _ = ex.Message;
+            //}
+
+            catch (DbEntityValidationException ee)
             {
-                _ = ex.Message;
+                foreach (var eve in ee.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
             }
         }
 
@@ -552,23 +563,13 @@ namespace RFinancieros_Facturas
         }
 
         protected void BtnTermina_Click(object sender, EventArgs e)
+
         {
             if (tbEgreso.Text.Trim() == "")
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el egreso','info')", true);
                 return;
             }
-
-            //else if (txtPartida.Text.Trim() == "")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
-            //    return;
-            //}
-            //else if (ddlTercerosInst.SelectedValue == "0")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
-            //    return;
-            //}
 
             try
             {
@@ -581,7 +582,9 @@ namespace RFinancieros_Facturas
                 cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
-                //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.ToString());
+                cmd.Parameters.AddWithValue("@folioSujeto", tbfolsuj.Text.Length == 0 ? "0" : tbfolsuj.Text.Trim());
+
 
                 cmd.ExecuteScalar();
                 conectar.Close();
@@ -665,11 +668,11 @@ namespace RFinancieros_Facturas
                 x = false;
             }
 
-            if (ddlNoContrato.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
-                x = false;
-            }
+            //if (ddlNoContrato.SelectedIndex == 0)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+            //    x = false;
+            //}
 
 
             //if (!ValidaCp())
@@ -848,6 +851,17 @@ namespace RFinancieros_Facturas
 
         }
 
+
+
+        protected string MostrarClavePartida(int? idPartida)
+        {
+            using (var ctx = new dbFacturasFinancierosEntities())
+            {
+                return ctx.tcpartida.Where(x => x.idtcpartida == idPartida)
+                    .Select(x => x.clave_partida).FirstOrDefault() ?? "";
+            }
+        }
+
         protected void gvfacturas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
@@ -894,6 +908,9 @@ namespace RFinancieros_Facturas
                                 tbfolsuj.Text = consulta.FolioSujeto.ToString();
                                 tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
                                 tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
+
+                                txtFechaVentanilla.Text = consulta.FechaVentanilla is null ? "" : String.Format("{0:yyyy-MM-dd}", consulta.FechaVentanilla);
+
                                 osito = consulta.Estado;
                                 ddlestatus.DataBind();
                                 ddlestatus.SelectedItem.Text = osito;
@@ -905,13 +922,14 @@ namespace RFinancieros_Facturas
                                 }
                                 tbEgreso.Text = consulta.Egreso.ToString();
 
+                                string _partida = MostrarClavePartida(consulta.idtcpartida);
+                                txtPartida.Text = _partida;
+
                                 ddlPartida.DataBind();
                                 ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
 
-                                ddlNoContrato.Items.Clear();
-                                ddlNoContrato.Items.Add(new ListItem("--Seleccione--", "-1"));
                                 ddlNoContrato.DataBind();
-                                ddlNoContrato.SelectedValue = consulta.idtc_contrato == null ? "0" : consulta.idtc_contrato.ToString();
+                                ddlNoContrato.SelectedValue = consulta.idtc_contrato?.ToString() ?? "0";
 
                                 Session["Id"] = consulta.Id;
                                 Session["Estado"] = consulta.Estado;

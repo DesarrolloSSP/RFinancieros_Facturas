@@ -170,6 +170,10 @@
                                             </li>
 
                                             <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" runat="server" href="~/Importar/ImportarDatosSiafev.aspx">Importar SIAFEV</a>
+                                            </li>
+
+                                            <li class="nav-item">
                                                 <a class="nav-link active" aria-current="page" runat="server" href="~/ExportarDatos.aspx">Exportar</a>
                                             </li>
 

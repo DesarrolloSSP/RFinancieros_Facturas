@@ -16,7 +16,7 @@ namespace RFinancieros_Facturas
 {
     public partial class CargaDatos : System.Web.UI.Page
     {
-        dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities();        
+        dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities();
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -96,38 +96,200 @@ namespace RFinancieros_Facturas
                 gvDatosExcel.DataBind();
             }
 
-            catch (DbEntityValidationException e)
+            catch (Exception ex)
             {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
+
             }
         }
+
+        //private void InsertaDatos()
+        //{
+        //    try
+        //    {
+        //        string registros = gvDatosExcel.Rows.Count.ToString() ;
+        //        foreach (GridViewRow rw in gvDatosExcel.Rows)
+        //        {
+        //            string id = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[0].Text.ToString().Trim()));
+        //            string folio = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[1].Text.Trim()));
+        //            string estado = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[2].Text.Trim()));
+        //            string importe = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[3].Text.Trim()));
+        //            string rfce = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[4].Text.ToString().Trim()));
+        //            string rsemisor = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[5].Text.ToString().Trim()));
+        //            string fechaEmision = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[6].Text.Trim()));
+        //            string fechaCertificacion = HttpUtility.HtmlDecode(Convert.ToString((rw.Cells[7].Text.Trim())));
+        //            string pac = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[8].Text.Trim()));
+
+        //            tdfacturas lista1 = new tdfacturas()
+        //            {
+        //                Folio = folio,
+        //                Estado = estado,
+        //                Importe = Convert.ToDecimal(importe),
+        //                Rfce = rfce,
+        //                Rsemisor = rsemisor,
+        //                FechaEmision = Convert.ToDateTime(fechaEmision),
+        //                FechaCertifica = Convert.ToDateTime(fechaCertificacion),
+        //                PacCertifico = pac,
+        //                Idarea = 0,
+        //                IdPago = 0,
+        //                Idconcepto = 0,
+        //                NoOdp = "",
+        //                FolioInternoFactura = "",
+        //                ConceptoDevol = "",
+        //                FechaRevision = null,
+        //                FechaDevol = null,
+        //                FechaCaptura = null,
+        //                FechaCarga = DateTime.Now,
+        //                Estreg = "P",
+        //                FechaReingreso = null,
+        //                Revisor = "---",
+        //                Capturista = "---",
+        //                Egreso = null
+        //            };
+        //            ctx.tdfacturas.Add(lista1);
+        //        }
+        //        ctx.SaveChanges();
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('La información ha sido cargada correctamente, se cargaron " + registros + " registros','info')", true);
+        //    }
+        //    //catch (Exception ex)
+        //    //{
+        //    //    _ = ex.Message;
+        //    //}
+        //    catch (DbEntityValidationException e)
+        //    {
+        //        foreach (var eve in e.EntityValidationErrors)
+        //        {
+        //            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+        //                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+        //            foreach (var ve in eve.ValidationErrors)
+        //            {
+        //                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+        //                    ve.PropertyName, ve.ErrorMessage);
+        //            }
+        //        }
+        //        throw;
+        //    }
+        //}...
 
         private void InsertaDatos()
         {
             try
             {
-                string registros = gvDatosExcel.Rows.Count.ToString() ;
+                int insertados = 0;
+                int repetidos = 0;
+                int invalidos = 0;
+
+
+
+                HashSet<string> foliosExcel =
+                    new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
                 foreach (GridViewRow rw in gvDatosExcel.Rows)
                 {
-                    string id = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[0].Text.ToString().Trim()));
-                    string folio = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[1].Text.Trim()));
-                    string estado = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[2].Text.Trim()));
-                    string importe = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[3].Text.Trim()));
-                    string rfce = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[4].Text.ToString().Trim()));
-                    string rsemisor = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[5].Text.ToString().Trim()));
-                    string fechaEmision = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[6].Text.Trim()));
-                    string fechaCertificacion = HttpUtility.HtmlDecode(Convert.ToString((rw.Cells[7].Text.Trim())));
-                    string pac = HttpUtility.HtmlDecode(Convert.ToString(rw.Cells[8].Text.Trim()));
+                    string folio =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[1].Text.Trim());
+
+                    folio = folio.Trim();
+
+                    // Folio vacío
+                    if (string.IsNullOrWhiteSpace(folio))
+                    {
+                        invalidos++;
+                        continue;
+                    }
+
+                    foliosExcel.Add(folio);
+                }
+
+
+                List<string> foliosExistentes =
+                    ctx.tdfacturas
+                        .Where(x => foliosExcel.Contains(x.Folio))
+                        .Select(x => x.Folio)
+                        .ToList();
+
+
+                HashSet<string> foliosBD =
+                    new HashSet<string>(
+                        foliosExistentes,
+                        StringComparer.OrdinalIgnoreCase);
+
+
+
+
+                HashSet<string> foliosProcesados =
+                    new HashSet<string>(
+                        StringComparer.OrdinalIgnoreCase);
+
+
+
+                //RECORRER  EXCEL
+
+
+                foreach (GridViewRow rw in gvDatosExcel.Rows)
+                {
+                    string id =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[0].Text.Trim());
+
+                    string folio =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[1].Text.Trim());
+
+                    string estado =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[2].Text.Trim());
+
+                    string importe =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[3].Text.Trim());
+
+                    string rfce =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[4].Text.Trim());
+
+                    string rsemisor =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[5].Text.Trim());
+
+                    string fechaEmision =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[6].Text.Trim());
+
+                    string fechaCertificacion =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[7].Text.Trim());
+
+                    string pac =
+                        HttpUtility.HtmlDecode(
+                            rw.Cells[8].Text.Trim());
+
+
+                    folio = folio.Trim();
+
+
+
+                    if (string.IsNullOrWhiteSpace(folio))
+                    {
+                        invalidos++;
+                        continue;
+                    }
+
+
+
+                    if (foliosBD.Contains(folio))
+                    {
+                        repetidos++;
+                        continue;
+                    }
+
+
+                    if (!foliosProcesados.Add(folio))
+                    {
+                        repetidos++;
+                        continue;
+                    }
+
 
                     tdfacturas lista1 = new tdfacturas()
                     {
@@ -155,28 +317,70 @@ namespace RFinancieros_Facturas
                         Capturista = "---",
                         Egreso = null
                     };
+
+
                     ctx.tdfacturas.Add(lista1);
+
+                    insertados++;
                 }
-                ctx.SaveChanges();
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('La información ha sido cargada correctamente, se cargaron " + registros + " registros','info')", true);
+
+
+                if (insertados > 0)
+                {
+                    ctx.SaveChanges();
+                }
+
+
+                // =========================================================
+                // 10. MENSAJE
+                // =========================================================
+
+                string mensaje =
+                    "Importación finalizada.\n\n" +
+                    "Registros insertados: " + insertados + "\n" +
+                    "Registros repetidos: " + repetidos + "\n" +
+                    "Registros inválidos: " + invalidos;
+
+
+                ScriptManager.RegisterClientScriptBlock(
+                    this,
+                    this.GetType(),
+                    "VariableRegisteration",
+                    "alertame('" +
+                    mensaje.Replace("\n", "\\n").Replace("'", "\\'") +
+                    "','info')",
+                    true);
             }
-            //catch (Exception ex)
-            //{
-            //    _ = ex.Message;
-            //}
             catch (DbEntityValidationException e)
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Console.WriteLine(
+                        "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name,
+                        eve.Entry.State);
+
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
+                        Console.WriteLine(
+                            "- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName,
+                            ve.ErrorMessage);
                     }
                 }
+
                 throw;
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterClientScriptBlock(
+                    this,
+                    this.GetType(),
+                    "ErrorImportacion",
+                    "alertame('Ocurrió un error al importar: " +
+                    ex.Message.Replace("'", "\\'") +
+                    "','error')",
+                    true);
             }
         }
     }

@@ -61,7 +61,7 @@ namespace RFinancieros_Facturas.Admon
 
 
 
-            // Si era dummy, lo ocultamos después de que se cargue
+
             if (isEmpty)
             {
                 gvContratos.Rows[0].Visible = false;
@@ -270,10 +270,7 @@ namespace RFinancieros_Facturas.Admon
 
                 string noContrato = txtNoContrato.Text.Trim().ToUpper();
                 int anio = int.Parse(ddlAño.SelectedValue);
-                //int activo = int.Parse(ddlActivo.SelectedValue);
                 bool activo = bool.Parse(ddlActivo.SelectedValue);
-
-
 
                 bool yaExiste = db.tcContrato.Any(c => c.nocontrato == noContrato && c.anio == anio);
 

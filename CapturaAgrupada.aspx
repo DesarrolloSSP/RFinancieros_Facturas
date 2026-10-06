@@ -117,6 +117,7 @@
                 </div>
             </div>
         </div>
+
         <asp:GridView ID="gvfacturas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
             EmptyDataText="No existen datos de facturas" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="Gvfacturas_PageIndexChanged" OnPageIndexChanging="Gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id,NoOdp,Estreg">
             <PagerSettings PreviousPageText="Previa" />
@@ -178,14 +179,21 @@
         </asp:GridView>
         <asp:Panel ID="Panel3" runat="server" Visible="false">
             <div class="row">
-                <div class="col-xl">
+                <div class="col-md-4">
                     <asp:Label ID="lbfolintf" runat="server" Text="Folio interno factura" class="small" Font-Bold="True"></asp:Label>
                     <asp:TextBox ID="tbfolintf" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>
-                <div class="col-xl">
+                <div class="col-md-4">
                     <asp:Label ID="lbcp" runat="server" Text="Código Postal" class="small" Font-Bold="True"></asp:Label>
                     <asp:TextBox ID="tbcp" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                 </div>
+
+                <div class="col-md-4">
+                    <asp:Label ID="Label4" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
+                    <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                </div>
+
+
             </div>
             <br />
             <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CssClass="btn btn-warning" OnClick="BtnAgregar_Click" />

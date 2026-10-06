@@ -69,7 +69,8 @@
                         </div>
                     </div>
                     <div class="text-center fadeInDown mt-3">
-                        <img class="avatar" src="~/Images/Veracruz2025.png" runat="server" style="width: 40%" />
+                       <%-- <img class="avatar" src="../Images/Veracruz2025.png" style="width: 40%" />--%>
+                        <img src="../Images/Veracruz2025.png" class="img-fluid" style="width: 65%;" />
                     </div>
                 </div>
             </div>

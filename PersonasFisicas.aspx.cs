@@ -15,17 +15,25 @@ namespace RFinancieros_Facturas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DateTime dt = DateTime.Now;
+
             if (!IsPostBack)
             {
                 llenarAreas();
                 llenarTipoGasto();
                 ruta.Visible = false;
                 tbcadena.Focus();
+
+                txtFechaVentanilla.Text = String.Format("{0:yyyy-MM-dd}", dt);
+                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
+
             }
-            DateTime dt = DateTime.Now;
-            tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
-            //tbfechae.Text = String.Format("{0:yyyy-MM-dd}", dt);
+
+
         }
+
+
+
 
         public void llenarAreas()
         {
@@ -281,6 +289,10 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Length == 0 ? "" : tbcp.Text.ToString());
                     cmd.Parameters.AddWithValue("@idtercero", ddlTercerosInst.SelectedValue.Length == 0 ? 0 : Convert.ToDecimal(ddlTercerosInst.SelectedValue));
                     cmd.Parameters.AddWithValue("@idpartida", Convert.ToInt32(ddlPartida.SelectedValue));
+
+
+                    cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.ToString());
+
 
                     int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
                     cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);

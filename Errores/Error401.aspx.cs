@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace RFinancieros_Facturas.Errores
+{
+    public partial class _401 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnInicio_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Account/Login.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();
+        }
+    }
+}

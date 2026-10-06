@@ -34,10 +34,13 @@ namespace RFinancieros_Facturas
                 LlenarAreas();
                 LlenarTipoGasto();
                 LlenarAgrupadas();
-                //llenarOrdenes(); 
-                //llenarstatus(); 
+
+                DateTime dt = DateTime.Now;
+                txtFechaVentanilla.Text = String.Format("{0:yyyy-MM-dd}", dt);
+
             }
-        }       
+
+        }
 
         private void LlenarFacturas()
         {
@@ -101,7 +104,7 @@ namespace RFinancieros_Facturas
                 dgvfolios.DataBind();
                 if (dgvfolios.Rows.Count != 0)
                 {
-                    Panel2.Visible = true;                    
+                    Panel2.Visible = true;
                     btnfinalizar.Enabled = true;
                     tbordpag.Enabled = false;
                     //ddlordenes.Enabled = false;
@@ -116,19 +119,19 @@ namespace RFinancieros_Facturas
                         tbordpag.Text = consulta.NoOdp.ToString();
                         ddlareas.SelectedValue = consulta.Idarea.ToString();
                         //ddlconcepto.SelectedValue = consulta.IdPago.ToString();
-                        ddlTipopago.DataBind();                       
+                        ddlTipopago.DataBind();
                         ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
                         tbfolsuj.Text = consulta.FolioSujeto.ToString();
-                        lblnumreg.Text = TotalImporteOdp(consulta.NoOdp.ToString());                        
+                        lblnumreg.Text = TotalImporteOdp(consulta.NoOdp.ToString());
                         tbcp.Text = consulta.CodigoPostal.ToString();
-                        tbfolintf.Text  = consulta.FolioInternoFactura.ToString(); 
+                        tbfolintf.Text = consulta.FolioInternoFactura.ToString();
                     }
                 }
                 else
                 {
                     Panel2.Visible = false;
                     btnfinalizar.Enabled = true;
-                    tbordpag.Enabled = true ;
+                    tbordpag.Enabled = true;
                     //ddlordenes.Enabled = true;
                     ddlareas.Enabled = true;
                     //ddlconcepto.Enabled = true;
@@ -224,7 +227,7 @@ namespace RFinancieros_Facturas
             GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
             int a = row.RowIndex;
             Session["Id"] = Convert.ToInt32(gvfacturas.DataKeys[a]["Id"]);
-            string estado = Convert.ToString(gvfacturas.DataKeys[a]["Estreg"]); 
+            string estado = Convert.ToString(gvfacturas.DataKeys[a]["Estreg"]);
             foreach (GridViewRow rw in gvfacturas.Rows)
             {
                 if (selectButton.Checked)
@@ -234,18 +237,18 @@ namespace RFinancieros_Facturas
                         RadioButton rd = rw.FindControl("rd1") as RadioButton;
                         rd.Checked = false;
                     }
-                    //Panel2.Visible = true;
+
                     Panel3.Visible = true;
-                    if (estado != "P")
-                    {
-                        tbcp.Enabled = false;
-                        tbfolintf.Enabled = false;
-                    }
-                    else
-                    {
-                        tbcp.Enabled = true;
-                        tbfolintf.Enabled = true;
-                    }
+                    //if (estado != "P")//Diferente de pendiente
+                    //{
+                    //    tbcp.Enabled = false;
+                    //    tbfolintf.Enabled = false;
+                    //}
+                    //else
+                    //{
+                    //    tbcp.Enabled = true;
+                    //    tbfolintf.Enabled = true;
+                    //}
                     int id = Convert.ToInt32(Session["Id"]);
                 }
                 else
@@ -382,7 +385,7 @@ namespace RFinancieros_Facturas
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el folio del sujeto','warning')", true);
                 x = false;
-            }              
+            }
             return x;
         }
 
@@ -421,23 +424,21 @@ namespace RFinancieros_Facturas
                     SqlCommand cmd = new SqlCommand("[upd_datos_factura_agrupada]", conectar);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));
-                    //cmd.Parameters.AddWithValue("@idpago", Convert.ToInt32(ddlTipopago.SelectedValue));
-                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));
-                    //cmd.Parameters.AddWithValue("@idconcepto", Convert.ToInt32(ddlTipopago.SelectedIndex));
-                    cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());
-                    //cmd.Parameters.AddWithValue("@no", ddlordenes.SelectedItem.Text);
+                    cmd.Parameters.AddWithValue("@idarea", Convert.ToInt32(ddlareas.SelectedValue));                    
+                    cmd.Parameters.AddWithValue("@idtctipopago", Convert.ToInt32(ddlTipopago.SelectedValue));                    
+                    cmd.Parameters.AddWithValue("@no", tbordpag.Text.Trim());                    
                     cmd.Parameters.AddWithValue("@foliosujeto", Convert.ToInt32(tbfolsuj.Text));
                     cmd.Parameters.AddWithValue("@fif", tbfolintf.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
                     cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());
-
                     int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
                     cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
 
                     int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
                     cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
+
+                    cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.ToString());
 
 
                     object inserta = cmd.ExecuteScalar();
@@ -455,7 +456,7 @@ namespace RFinancieros_Facturas
             {
                 _ = ex.Message;
             }
-            }
+        }
 
         protected void Btnfinalizar_Click(object sender, EventArgs e)
         {
@@ -469,14 +470,14 @@ namespace RFinancieros_Facturas
                 //cmd.Parameters.AddWithValue("@no", ddlordenes.SelectedItem.Text);
                 object borrar = cmd.ExecuteScalar();
                 conectar.Close();
-                if (borrar== null)
+                if (borrar == null)
                 {
                     LlenarAgrupadas();
                     //llenarOrdenes();
                     tbbuscar.Text = "";
                     gvfacturas.Visible = false;
                     Panel3.Visible = false;
-                    Panel2.Visible = false;                    
+                    Panel2.Visible = false;
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('La orden de Pago ha sido guarda correctamente','info')", true);
                 }
             }
@@ -484,13 +485,13 @@ namespace RFinancieros_Facturas
             {
                 _ = ex.Message;
             }
-                ddlareas.SelectedIndex = 0;
-                ddlTipopago.SelectedIndex = 0;
-                //ddlconcepto.SelectedIndex = 0;
-                tbordpag.Text = "";
-                tbfolsuj.Text = "";
-                tbfolintf.Text = "";
-            }
+            ddlareas.SelectedIndex = 0;
+            ddlTipopago.SelectedIndex = 0;
+            //ddlconcepto.SelectedIndex = 0;
+            tbordpag.Text = "";
+            tbfolsuj.Text = "";
+            tbfolintf.Text = "";
+        }
 
         public void EliminaFolio(int folio)
         {
@@ -543,5 +544,5 @@ namespace RFinancieros_Facturas
 
             }
         }
-    }    
+    }
 }

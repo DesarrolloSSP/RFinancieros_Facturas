@@ -70,6 +70,13 @@
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="Dependencia">
+          <Key>
+            <PropertyRef Name="IdDependencia" />
+          </Key>
+          <Property Name="IdDependencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDependencia" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="FacturasXml">
           <Key>
             <PropertyRef Name="id" />
@@ -106,6 +113,36 @@
           <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="PagosSiafev">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectorDependencia" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Beneficiario" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="NumeroBeneficiario" Type="nvarchar" MaxLength="20" />
+          <Property Name="Folio" Type="nvarchar" MaxLength="20" />
+          <Property Name="Concepto" Type="nvarchar" MaxLength="200" />
+          <Property Name="Fecha" Type="date" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Pagado" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaPago" Type="date" />
+          <Property Name="ReferenciaPago" Type="nvarchar" MaxLength="100" />
+          <Property Name="FuenteFtto" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescripcionFuente" Type="nvarchar" MaxLength="250" />
+          <Property Name="OC" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClasificacionProveedor" Type="nvarchar" MaxLength="150" />
+          <Property Name="Sector" Type="nvarchar" MaxLength="200" />
+          <Property Name="DescripcionSector" Type="nvarchar" MaxLength="250" />
+          <Property Name="TipoGasto" Type="nvarchar" MaxLength="150" />
+          <Property Name="CuentaCargo" Type="nvarchar" MaxLength="100" />
+          <Property Name="BancoCargo" Type="nvarchar" MaxLength="150" />
+          <Property Name="CuentaAbono" Type="nvarchar" MaxLength="100" />
+          <Property Name="BancoAbono" Type="nvarchar" MaxLength="150" />
+          <Property Name="FechaImportacion" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioImportacion" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tcContrato">
           <Key>
@@ -212,6 +249,7 @@
           <Property Name="idtcpartida" Type="int" />
           <Property Name="idtcterceros_institucional" Type="int" />
           <Property Name="idtc_contrato" Type="int" />
+          <Property Name="FechaVentanilla" Type="date" />
         </EntityType>
         <EntityType Name="tdoprev">
           <Key>
@@ -293,7 +331,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tdfacturas_tcContrato">
+        <Association Name="FK_tdfacturas_tcContrato1">
           <End Role="tcContrato" Type="Self.tcContrato" Multiplicity="0..1" />
           <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
           <ReferentialConstraint>
@@ -305,7 +343,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tdfacturas_tcpartida">
+        <Association Name="FK_tdfacturas_tcpartida1">
           <End Role="tcpartida" Type="Self.tcpartida" Multiplicity="0..1" />
           <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
           <ReferentialConstraint>
@@ -317,7 +355,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tdfacturas_tctercero_institucional">
+        <Association Name="FK_tdfacturas_tctercero_institucional1">
           <End Role="tctercero_institucional" Type="Self.tctercero_institucional" Multiplicity="0..1" />
           <End Role="tdfacturas" Type="Self.tdfacturas" Multiplicity="*" />
           <ReferentialConstraint>
@@ -340,8 +378,10 @@
           <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dependencia" EntityType="Self.Dependencia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacturasXml" EntityType="Self.FacturasXml" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PagosSiafev" EntityType="Self.PagosSiafev" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcContrato" EntityType="Self.tcContrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcfactura_estatus" EntityType="Self.tcfactura_estatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tcpartida" EntityType="Self.tcpartida" Schema="dbo" store:Type="Tables" />
@@ -376,15 +416,15 @@
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_tdfacturas_tcContrato" Association="Self.FK_tdfacturas_tcContrato">
+          <AssociationSet Name="FK_tdfacturas_tcContrato1" Association="Self.FK_tdfacturas_tcContrato1">
             <End Role="tcContrato" EntitySet="tcContrato" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
-          <AssociationSet Name="FK_tdfacturas_tcpartida" Association="Self.FK_tdfacturas_tcpartida">
+          <AssociationSet Name="FK_tdfacturas_tcpartida1" Association="Self.FK_tdfacturas_tcpartida1">
             <End Role="tcpartida" EntitySet="tcpartida" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
-          <AssociationSet Name="FK_tdfacturas_tctercero_institucional" Association="Self.FK_tdfacturas_tctercero_institucional">
+          <AssociationSet Name="FK_tdfacturas_tctercero_institucional1" Association="Self.FK_tdfacturas_tctercero_institucional1">
             <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
@@ -400,8 +440,8 @@
           <Property Name="idtc_contrato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nocontrato" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="anio" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" FromRole="tcContrato" ToRole="tdfacturas" />
           <Property Name="activo" Type="Boolean" />
+          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato1" FromRole="tcContrato" ToRole="tdfacturas" />
         </EntityType>
         <EntityContainer Name="dbFacturasFinancierosEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tcContrato" EntityType="Self.tcContrato" />
@@ -411,13 +451,8 @@
           </FunctionImport>
           <EntitySet Name="tctipogasto" EntityType="dbFacturasFinancierosModel.tctipogasto" />
           <EntitySet Name="tcusuarios" EntityType="dbFacturasFinancierosModel.tcusuarios" />
-          <EntitySet Name="tdfacturas" EntityType="dbFacturasFinancierosModel.tdfacturas" />
           <EntitySet Name="tdoprev" EntityType="dbFacturasFinancierosModel.tdoprev" />
           <EntitySet Name="tcpartida" EntityType="dbFacturasFinancierosModel.tcpartida" />
-          <AssociationSet Name="FK_tdfacturas_tcpartida" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida">
-            <End Role="tcpartida" EntitySet="tcpartida" />
-            <End Role="tdfacturas" EntitySet="tdfacturas" />
-          </AssociationSet>
           <EntitySet Name="FacturasXml" EntityType="dbFacturasFinancierosModel.FacturasXml" />
           <EntitySet Name="tcproovedor_bloqueado" EntityType="dbFacturasFinancierosModel.tcproovedor_bloqueado" />
           <EntitySet Name="Memberships" EntityType="dbFacturasFinancierosModel.Memberships" />
@@ -447,17 +482,24 @@
           </AssociationSet>
           <EntitySet Name="tcstatus" EntityType="dbFacturasFinancierosModel.tcstatus" />
           <EntitySet Name="tctercero_institucional" EntityType="dbFacturasFinancierosModel.tctercero_institucional" />
-          <AssociationSet Name="FK_tdfacturas_tcContrato" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato">
+          <EntitySet Name="tcfactura_estatus" EntityType="dbFacturasFinancierosModel.tcfactura_estatus" />
+          <FunctionImport Name="sel_contratos" ReturnType="Collection(dbFacturasFinancierosModel.sel_contratos_Result)" />
+          <EntitySet Name="Dependencia" EntityType="dbFacturasFinancierosModel.Dependencia" />
+          <EntitySet Name="PagosSiafev" EntityType="dbFacturasFinancierosModel.PagosSiafev" />
+          <EntitySet Name="tdfacturas" EntityType="dbFacturasFinancierosModel.tdfacturas" />
+          <AssociationSet Name="FK_tdfacturas_tcContrato1" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato1">
             <End Role="tcContrato" EntitySet="tcContrato" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
-          <AssociationSet Name="FK_tdfacturas_tctercero_institucional" Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional">
+          <AssociationSet Name="FK_tdfacturas_tcpartida1" Association="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida1">
+            <End Role="tcpartida" EntitySet="tcpartida" />
+            <End Role="tdfacturas" EntitySet="tdfacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tdfacturas_tctercero_institucional1" Association="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional1">
             <End Role="tctercero_institucional" EntitySet="tctercero_institucional" />
             <End Role="tdfacturas" EntitySet="tdfacturas" />
           </AssociationSet>
-          <EntitySet Name="tcfactura_estatus" EntityType="dbFacturasFinancierosModel.tcfactura_estatus" />
-          <FunctionImport Name="sel_contratos" ReturnType="Collection(dbFacturasFinancierosModel.sel_contratos_Result)" />
-        </EntityContainer>
+          </EntityContainer>
         <ComplexType Name="sel_facturas_fecha_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="String" Name="Folio" Nullable="false" MaxLength="50" />
@@ -518,45 +560,6 @@
           <Property Name="tipo" Type="Int32" />
           <Property Name="userid" Type="Guid" />
         </EntityType>
-        <EntityType Name="tdfacturas">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Folio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Importe" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Rfce" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Rsemisor" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FechaCertifica" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PacCertifico" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Idarea" Type="Int32" Nullable="false" />
-          <Property Name="IdPago" Type="Int32" />
-          <Property Name="idtctipo_pago" Type="Int32" />
-          <Property Name="NoOdp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="FolioInternoFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ConceptoDevol" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="FechaRevision" Type="DateTime" Precision="3" />
-          <Property Name="FechaDevol" Type="DateTime" Precision="3" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="FechaCarga" Type="DateTime" Precision="3" />
-          <Property Name="Estreg" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="FechaReingreso" Type="DateTime" Precision="3" />
-          <Property Name="Revisor" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Capturista" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Egreso" Type="Int32" />
-          <Property Name="Idconcepto" Type="Int32" />
-          <Property Name="FolioSujeto" Type="Int32" />
-          <Property Name="Validador" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="idtcpartida" Type="Int32" />
-          <Property Name="idtcterceros_institucional" Type="Int32" />
-          <Property Name="idtc_contrato" Type="Int32" />
-          <NavigationProperty Name="tcpartida" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" FromRole="tdfacturas" ToRole="tcpartida" />
-          <NavigationProperty Name="tcContrato" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato" FromRole="tdfacturas" ToRole="tcContrato" />
-          <NavigationProperty Name="tctercero_institucional" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" FromRole="tdfacturas" ToRole="tctercero_institucional" />
-        </EntityType>
         <EntityType Name="tdoprev">
           <Key>
             <PropertyRef Name="id" />
@@ -573,20 +576,8 @@
           <Property Name="clave_partida" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="partida" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="idtcpartida_anio" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida" FromRole="tcpartida" ToRole="tdfacturas" />
+          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida1" FromRole="tcpartida" ToRole="tdfacturas" />
         </EntityType>
-        <Association Name="FK_tdfacturas_tcpartida">
-          <End Type="dbFacturasFinancierosModel.tcpartida" Role="tcpartida" Multiplicity="0..1" />
-          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tcpartida">
-              <PropertyRef Name="idtcpartida" />
-            </Principal>
-            <Dependent Role="tdfacturas">
-              <PropertyRef Name="idtcpartida" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FacturasXml">
           <Key>
             <PropertyRef Name="id" />
@@ -765,32 +756,8 @@
           </Key>
           <Property Name="idtcterceros_institucional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre_tercero" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional" FromRole="tctercero_institucional" ToRole="tdfacturas" />
+          <NavigationProperty Name="tdfacturas" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional1" FromRole="tctercero_institucional" ToRole="tdfacturas" />
         </EntityType>
-        <Association Name="FK_tdfacturas_tcContrato">
-          <End Type="dbFacturasFinancierosModel.tcContrato" Role="tcContrato" Multiplicity="0..1" />
-          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tcContrato">
-              <PropertyRef Name="idtc_contrato" />
-            </Principal>
-            <Dependent Role="tdfacturas">
-              <PropertyRef Name="idtc_contrato" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tdfacturas_tctercero_institucional">
-          <End Type="dbFacturasFinancierosModel.tctercero_institucional" Role="tctercero_institucional" Multiplicity="0..1" />
-          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tctercero_institucional">
-              <PropertyRef Name="idtcterceros_institucional" />
-            </Principal>
-            <Dependent Role="tdfacturas">
-              <PropertyRef Name="idtcterceros_institucional" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tcfactura_estatus">
           <Key>
             <PropertyRef Name="idtcfactura_estatus" />
@@ -804,7 +771,120 @@
           <Property Type="Int32" Name="anio" Nullable="false" />
           <Property Type="Boolean" Name="activo" Nullable="true" />
         </ComplexType>
-      </Schema>
+        <EntityType Name="Dependencia">
+          <Key>
+            <PropertyRef Name="IdDependencia" />
+          </Key>
+          <Property Name="IdDependencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDependencia" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PagosSiafev">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectorDependencia" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Beneficiario" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroBeneficiario" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Folio" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Pagado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaPago" Type="DateTime" Precision="0" />
+          <Property Name="ReferenciaPago" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FuenteFtto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescripcionFuente" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClasificacionProveedor" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Sector" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DescripcionSector" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TipoGasto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaCargo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BancoCargo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaAbono" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BancoAbono" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FechaImportacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioImportacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tdfacturas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Folio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Importe" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Rfce" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rsemisor" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaCertifica" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PacCertifico" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Idarea" Type="Int32" Nullable="false" />
+          <Property Name="IdPago" Type="Int32" />
+          <Property Name="idtctipo_pago" Type="Int32" />
+          <Property Name="NoOdp" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FolioInternoFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConceptoDevol" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRevision" Type="DateTime" Precision="3" />
+          <Property Name="FechaDevol" Type="DateTime" Precision="3" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="FechaCarga" Type="DateTime" Precision="3" />
+          <Property Name="Estreg" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FechaReingreso" Type="DateTime" Precision="3" />
+          <Property Name="Revisor" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Capturista" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Egreso" Type="Int32" />
+          <Property Name="Idconcepto" Type="Int32" />
+          <Property Name="FolioSujeto" Type="Int32" />
+          <Property Name="Validador" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="idtcpartida" Type="Int32" />
+          <Property Name="idtcterceros_institucional" Type="Int32" />
+          <Property Name="idtc_contrato" Type="Int32" />
+          <Property Name="FechaVentanilla" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tcContrato" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcContrato1" FromRole="tdfacturas" ToRole="tcContrato" />
+          <NavigationProperty Name="tcpartida" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tcpartida1" FromRole="tdfacturas" ToRole="tcpartida" />
+          <NavigationProperty Name="tctercero_institucional" Relationship="dbFacturasFinancierosModel.FK_tdfacturas_tctercero_institucional1" FromRole="tdfacturas" ToRole="tctercero_institucional" />
+        </EntityType>
+        <Association Name="FK_tdfacturas_tcContrato1">
+          <End Type="dbFacturasFinancierosModel.tcContrato" Role="tcContrato" Multiplicity="0..1" />
+          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcContrato">
+              <PropertyRef Name="idtc_contrato" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtc_contrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tdfacturas_tcpartida1">
+          <End Type="dbFacturasFinancierosModel.tcpartida" Role="tcpartida" Multiplicity="0..1" />
+          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcpartida">
+              <PropertyRef Name="idtcpartida" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtcpartida" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tdfacturas_tctercero_institucional1">
+          <End Type="dbFacturasFinancierosModel.tctercero_institucional" Role="tctercero_institucional" Multiplicity="0..1" />
+          <End Type="dbFacturasFinancierosModel.tdfacturas" Role="tdfacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tctercero_institucional">
+              <PropertyRef Name="idtcterceros_institucional" />
+            </Principal>
+            <Dependent Role="tdfacturas">
+              <PropertyRef Name="idtcterceros_institucional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -883,43 +963,6 @@
                 <ScalarProperty Name="paterno" ColumnName="paterno" />
                 <ScalarProperty Name="login" ColumnName="login" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tdfacturas">
-            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tdfacturas">
-              <MappingFragment StoreEntitySet="tdfacturas">
-                <ScalarProperty Name="idtc_contrato" ColumnName="idtc_contrato" />
-                <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
-                <ScalarProperty Name="idtcpartida" ColumnName="idtcpartida" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="Validador" ColumnName="Validador" />
-                <ScalarProperty Name="FolioSujeto" ColumnName="FolioSujeto" />
-                <ScalarProperty Name="Idconcepto" ColumnName="Idconcepto" />
-                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-                <ScalarProperty Name="Capturista" ColumnName="Capturista" />
-                <ScalarProperty Name="Revisor" ColumnName="Revisor" />
-                <ScalarProperty Name="FechaReingreso" ColumnName="FechaReingreso" />
-                <ScalarProperty Name="Estreg" ColumnName="Estreg" />
-                <ScalarProperty Name="FechaCarga" ColumnName="FechaCarga" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="FechaDevol" ColumnName="FechaDevol" />
-                <ScalarProperty Name="FechaRevision" ColumnName="FechaRevision" />
-                <ScalarProperty Name="ConceptoDevol" ColumnName="ConceptoDevol" />
-                <ScalarProperty Name="FolioInternoFactura" ColumnName="FolioInternoFactura" />
-                <ScalarProperty Name="NoOdp" ColumnName="NoOdp" />
-                <ScalarProperty Name="idtctipo_pago" ColumnName="idtctipo_pago" />
-                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
-                <ScalarProperty Name="Idarea" ColumnName="Idarea" />
-                <ScalarProperty Name="PacCertifico" ColumnName="PacCertifico" />
-                <ScalarProperty Name="FechaCertifica" ColumnName="FechaCertifica" />
-                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-                <ScalarProperty Name="Rsemisor" ColumnName="Rsemisor" />
-                <ScalarProperty Name="Rfce" ColumnName="Rfce" />
-                <ScalarProperty Name="Importe" ColumnName="Importe" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Folio" ColumnName="Folio" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1094,6 +1137,83 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Dependencia">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.Dependencia">
+              <MappingFragment StoreEntitySet="Dependencia">
+                <ScalarProperty Name="NombreDependencia" ColumnName="NombreDependencia" />
+                <ScalarProperty Name="IdDependencia" ColumnName="IdDependencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PagosSiafev">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.PagosSiafev">
+              <MappingFragment StoreEntitySet="PagosSiafev">
+                <ScalarProperty Name="UsuarioImportacion" ColumnName="UsuarioImportacion" />
+                <ScalarProperty Name="FechaImportacion" ColumnName="FechaImportacion" />
+                <ScalarProperty Name="BancoAbono" ColumnName="BancoAbono" />
+                <ScalarProperty Name="CuentaAbono" ColumnName="CuentaAbono" />
+                <ScalarProperty Name="BancoCargo" ColumnName="BancoCargo" />
+                <ScalarProperty Name="CuentaCargo" ColumnName="CuentaCargo" />
+                <ScalarProperty Name="TipoGasto" ColumnName="TipoGasto" />
+                <ScalarProperty Name="DescripcionSector" ColumnName="DescripcionSector" />
+                <ScalarProperty Name="Sector" ColumnName="Sector" />
+                <ScalarProperty Name="ClasificacionProveedor" ColumnName="ClasificacionProveedor" />
+                <ScalarProperty Name="OC" ColumnName="OC" />
+                <ScalarProperty Name="DescripcionFuente" ColumnName="DescripcionFuente" />
+                <ScalarProperty Name="FuenteFtto" ColumnName="FuenteFtto" />
+                <ScalarProperty Name="ReferenciaPago" ColumnName="ReferenciaPago" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Pagado" ColumnName="Pagado" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="NumeroBeneficiario" ColumnName="NumeroBeneficiario" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="SectorDependencia" ColumnName="SectorDependencia" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tdfacturas">
+            <EntityTypeMapping TypeName="dbFacturasFinancierosModel.tdfacturas">
+              <MappingFragment StoreEntitySet="tdfacturas">
+                <ScalarProperty Name="FechaVentanilla" ColumnName="FechaVentanilla" />
+                <ScalarProperty Name="idtc_contrato" ColumnName="idtc_contrato" />
+                <ScalarProperty Name="idtcterceros_institucional" ColumnName="idtcterceros_institucional" />
+                <ScalarProperty Name="idtcpartida" ColumnName="idtcpartida" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Validador" ColumnName="Validador" />
+                <ScalarProperty Name="FolioSujeto" ColumnName="FolioSujeto" />
+                <ScalarProperty Name="Idconcepto" ColumnName="Idconcepto" />
+                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+                <ScalarProperty Name="Capturista" ColumnName="Capturista" />
+                <ScalarProperty Name="Revisor" ColumnName="Revisor" />
+                <ScalarProperty Name="FechaReingreso" ColumnName="FechaReingreso" />
+                <ScalarProperty Name="Estreg" ColumnName="Estreg" />
+                <ScalarProperty Name="FechaCarga" ColumnName="FechaCarga" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="FechaDevol" ColumnName="FechaDevol" />
+                <ScalarProperty Name="FechaRevision" ColumnName="FechaRevision" />
+                <ScalarProperty Name="ConceptoDevol" ColumnName="ConceptoDevol" />
+                <ScalarProperty Name="FolioInternoFactura" ColumnName="FolioInternoFactura" />
+                <ScalarProperty Name="NoOdp" ColumnName="NoOdp" />
+                <ScalarProperty Name="idtctipo_pago" ColumnName="idtctipo_pago" />
+                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
+                <ScalarProperty Name="Idarea" ColumnName="Idarea" />
+                <ScalarProperty Name="PacCertifico" ColumnName="PacCertifico" />
+                <ScalarProperty Name="FechaCertifica" ColumnName="FechaCertifica" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="Rsemisor" ColumnName="Rsemisor" />
+                <ScalarProperty Name="Rfce" ColumnName="Rfce" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Folio" ColumnName="Folio" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
