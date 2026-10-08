@@ -45,6 +45,7 @@
                     <div class="shadow p-3 mb-5 bg-body-tertiary rounded fadeInDown">
                         <div class="row">
                             <div class="col-md-6 d-flex justify-content-center align-items-center">
+                                <%--<img src="../Images/logo.png" class="img-fluid" style="width: 65%;" />--%>
                                 <img src="../Images/logo.png" class="img-fluid" style="width: 65%;" />
                             </div>
 
@@ -68,9 +69,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center fadeInDown mt-3">
+                   <%-- <div class="text-center fadeInDown mt-3">
                         <img class="avatar" src="~/Images/Veracruz2025.png" runat="server" style="width: 40%" />
-                    </div>
+                    </div>--%>
                 </div>
             </div>
         </div>

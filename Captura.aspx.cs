@@ -157,29 +157,81 @@ namespace RFinancieros_Facturas
         }
 
 
-        public static string TotalImporteOdp(string Odp)
+
+        //public static string TotalImporteOdp(string odp)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
+        //        using (SqlCommand cmd = new SqlCommand("sel_total_odp", conectar))
+        //        {
+        //            cmd.CommandType = CommandType.StoredProcedure;
+
+        //            cmd.Parameters.Add("@odp", SqlDbType.VarChar, 50).Value =
+        //                string.IsNullOrWhiteSpace(odp) ? (object)DBNull.Value : odp.Trim();
+
+        //            object resultado = cmd.ExecuteScalar();
+
+        //            if (resultado == null || resultado == DBNull.Value)
+        //            {
+        //                return "Importe Total por Odp(" + odp + "): N/A";
+        //            }
+
+        //            decimal total = Convert.ToDecimal(resultado);
+
+        //            return "Importe Total por Odp(" + odp + "): " +
+        //                   total.ToString("C");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //       // throw;
+
+
+        //    }
+        //}
+
+
+        public static string TotalImporteOdp(string odp)
         {
-            string total = "";
+            string resultadoTexto = "";
+
+            if (string.IsNullOrWhiteSpace(odp))
+            {
+                return "Importe Total por Odp(): N/A";
+            }
+
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
+                using (SqlConnection conectar = new ConectarSqlServer().conectarSQL())
                 using (SqlCommand cmd = new SqlCommand("sel_total_odp", conectar))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@odp", Odp);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+
+                    cmd.Parameters.Add("@odp", SqlDbType.VarChar, 50).Value = odp.Trim();
+
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
                     {
-                        //total = Convert.ToString(reader["Total"]);         
-                        total = String.Format("{0:c}", reader["Total"]);
+                        decimal total = Convert.ToDecimal(resultado);
+
+                        resultadoTexto = total.ToString("C");
+                    }
+                    else
+                    {
+                        resultadoTexto = "N/A";
                     }
                 }
             }
             catch (Exception ex)
             {
-                _ = ex.Message;
+
+                //  throw;
             }
-            return "Importe Total por Odp(" + Odp + "): " + total;
+
+            return "Importe Total por Odp(" + odp + "): " + resultadoTexto;
         }
 
         public void AcccionBotones(string status)
@@ -559,21 +611,10 @@ namespace RFinancieros_Facturas
                 return;
             }
 
-            //else if (txtPartida.Text.Trim() == "")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture la clave de partida','info')", true);
-            //    return;
-            //}
-            //else if (ddlTercerosInst.SelectedValue == "0")
-            //{
-            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar a un Tercero Institucional','info')", true);
-            //    return;
-            //}
-
             try
             {
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[upd_captura_egreso2]", conectar)
+                SqlCommand cmd = new SqlCommand("[upd_captura_egreso]", conectar)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -581,6 +622,8 @@ namespace RFinancieros_Facturas
                 cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@folioSujeto", tbfolsuj.Text.Trim());
+
                 //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
 
                 cmd.ExecuteScalar();
@@ -844,37 +887,39 @@ namespace RFinancieros_Facturas
                 //throw;
             }
 
-
-
         }
+
+
 
         protected void gvfacturas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
             {
-
                 if (e.CommandName == "VerDetalle")
                 {
-                    int Id = 0;
-                    Id = int.Parse(e.CommandArgument.ToString());
+                    int Id = int.Parse(e.CommandArgument.ToString());
 
                     Panel1.Visible = true;
-                    string osito;
 
                     using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
                     {
-                        tdfacturas consulta = ctx.tdfacturas.Where(x => x.Id == Id).FirstOrDefault();
+                        tdfacturas consulta = ctx.tdfacturas
+                            .FirstOrDefault(x => x.Id == Id);
+
                         if (consulta != null)
                         {
                             string estado = consulta.Estreg;
+
                             AcccionBotones(estado);
 
                             if (estado == "T" || estado == "C" || estado == "D" || estado == "E" || estado == "P")
                             {
-                                lblFolioSeleccionado.Text = "Folio seleccionado:" + " " + consulta.Folio;
+                                lblFolioSeleccionado.Text = "Folio seleccionado: " + consulta.Folio;
 
 
-                                var valor_area = consulta.Idarea.ToString();
+                                //control area
+                                string valor_area = consulta.Idarea.ToString();
+
                                 if (ddlareas.Items.FindByValue(valor_area) != null)
                                 {
                                     ddlareas.SelectedValue = valor_area;
@@ -884,40 +929,118 @@ namespace RFinancieros_Facturas
                                     ddlareas.SelectedValue = "0";
                                 }
 
-                                //ddlareas.DataBind();
-                                //ddlareas.SelectedValue = consulta.Idarea == null ? "0" : consulta.Idarea.ToString();
+
                                 ddlTipopago.DataBind();
-                                ddlTipopago.SelectedValue = consulta.idtctipo_pago == null ? "5" : consulta.idtctipo_pago.ToString();
+
+                                string idTipoPago = consulta.idtctipo_pago == null
+                                    ? "5"
+                                    : consulta.idtctipo_pago.ToString();
+
+                                if (ddlTipopago.Items.FindByValue(idTipoPago) != null)
+                                {
+                                    ddlTipopago.SelectedValue = idTipoPago;
+                                }
+
+
+
+
                                 tbordpag.Text = consulta.NoOdp;
                                 tbfolint.Text = consulta.FolioInternoFactura;
-                                tbMotivo.Text = consulta.ConceptoDevol.Trim();
-                                tbfolsuj.Text = consulta.FolioSujeto.ToString();
-                                tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
-                                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
-                                osito = consulta.Estado;
-                                ddlestatus.DataBind();
-                                ddlestatus.SelectedItem.Text = osito;
 
-                                if (osito == "Sin efecto")
+                                tbMotivo.Text = consulta.ConceptoDevol == null ? "" : consulta.ConceptoDevol.Trim();
+
+                                tbfolsuj.Text = consulta.FolioSujeto.ToString();
+
+                                tbcp.Text = consulta.CodigoPostal == null ? "" : consulta.CodigoPostal.ToString();
+
+                                tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
+
+
+                                string estado_ = consulta.Estado;
+
+                                ddlestatus.DataBind();
+
+                                if (estado_ == "Sin efecto")
                                 {
-                                    ddlestatus.DataBind();
-                                    ddlestatus.SelectedItem.Text = "Vigente";
+                                    if (ddlestatus.Items.FindByText("Vigente") != null)
+                                    {
+                                        ddlestatus.ClearSelection();
+                                        ddlestatus.Items.FindByText("Vigente").Selected = true;
+                                    }
                                 }
+                                else
+                                {
+                                    if (ddlestatus.Items.FindByText(estado_) != null)
+                                    {
+                                        ddlestatus.ClearSelection();
+                                        ddlestatus.Items.FindByText(estado_).Selected = true;
+                                    }
+                                }
+
                                 tbEgreso.Text = consulta.Egreso.ToString();
 
+
                                 ddlPartida.DataBind();
-                                ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+                                string idPartida = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
+
+                                if (ddlPartida.Items.FindByValue(idPartida) != null)
+                                {
+                                    ddlPartida.SelectedValue = idPartida;
+                                }
+
 
                                 ddlNoContrato.Items.Clear();
+
                                 ddlNoContrato.Items.Add(new ListItem("--Seleccione--", "-1"));
+
+
                                 ddlNoContrato.DataBind();
-                                ddlNoContrato.SelectedValue = consulta.idtc_contrato == null ? "0" : consulta.idtc_contrato.ToString();
+
+
+                                if (consulta.idtc_contrato.HasValue)
+                                {
+                                    string idContrato = consulta.idtc_contrato.Value.ToString();
+
+                                    ListItem contratoItem = ddlNoContrato.Items.FindByValue(idContrato);
+
+                                    if (contratoItem != null)
+                                    {
+                                        // Contrato activo
+                                        ddlNoContrato.SelectedValue = idContrato;
+                                    }
+                                    else
+                                    {
+
+                                        tcContrato contrato = ctx.tcContrato.FirstOrDefault(x => x.idtc_contrato == consulta.idtc_contrato.Value);
+
+                                        if (contrato != null)
+                                        {
+                                            // Contrato existe pero está inactivo
+                                            ddlNoContrato.Items.Add(new ListItem(contrato.nocontrato + " (Inactivo)", idContrato));
+                                            ddlNoContrato.SelectedValue = idContrato;
+                                        }
+                                        else
+                                        {
+                                            ddlNoContrato.Items.Add(new ListItem("[Contrato no encontrado]", idContrato));
+
+                                            ddlNoContrato.SelectedValue = idContrato;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ddlNoContrato.SelectedValue = "-1";
+                                }
+
 
                                 Session["Id"] = consulta.Id;
                                 Session["Estado"] = consulta.Estado;
                                 Session["NoOdp"] = consulta.NoOdp;
 
-                                string valor = Session["NoOdp"].ToString();
+
+                                string valor = consulta.NoOdp ?? "";
+
                                 if (valor.Trim() != "")
                                 {
                                     lblnumreg.Text = TotalImporteOdp(valor);
@@ -928,8 +1051,8 @@ namespace RFinancieros_Facturas
                                 }
 
 
+                                tcpartida buscar = ctx.tcpartida.FirstOrDefault(x => x.idtcpartida == consulta.idtcpartida);
 
-                                tcpartida buscar = ctx.tcpartida.Where(x => x.idtcpartida == consulta.idtcpartida).FirstOrDefault();
                                 if (buscar != null)
                                 {
                                     txtPartida.Text = buscar.clave_partida.Trim();
@@ -938,32 +1061,27 @@ namespace RFinancieros_Facturas
                                 {
                                     txtPartida.Text = "";
                                 }
-
                             }
-
                             else
                             {
                                 ddlestatus.DataBind();
-                                ddlestatus.SelectedItem.Text = "Vigente";
+
+                                if (ddlestatus.Items.FindByText("Vigente") != null)
+                                {
+                                    ddlestatus.ClearSelection();
+                                    ddlestatus.Items.FindByText("Vigente").Selected = true;
+                                }
                             }
-
-
                         }
-
                     }
-
-
                 }
-
             }
             catch (Exception ex)
             {
-
-                //throw;
+                // Durante desarrollo es mejor no ocultar el error.
+                throw;
             }
-
         }
-
 
     }
 }
