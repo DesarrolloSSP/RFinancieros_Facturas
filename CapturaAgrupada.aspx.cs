@@ -224,7 +224,7 @@ namespace RFinancieros_Facturas
             GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
             int a = row.RowIndex;
             Session["Id"] = Convert.ToInt32(gvfacturas.DataKeys[a]["Id"]);
-            string estado = Convert.ToString(gvfacturas.DataKeys[a]["Estreg"]); 
+            string estado = Convert.ToString(gvfacturas.DataKeys[a]["Estreg"]);
             foreach (GridViewRow rw in gvfacturas.Rows)
             {
                 if (selectButton.Checked)

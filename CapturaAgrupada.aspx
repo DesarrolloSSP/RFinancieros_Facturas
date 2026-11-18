@@ -117,6 +117,7 @@
                 </div>
             </div>
         </div>
+
         <asp:GridView ID="gvfacturas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
             EmptyDataText="No existen datos de facturas" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="Gvfacturas_PageIndexChanged" OnPageIndexChanging="Gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id,NoOdp,Estreg">
             <PagerSettings PreviousPageText="Previa" />

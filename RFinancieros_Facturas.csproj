@@ -589,6 +589,7 @@
     <Compile Include="Salir.aspx.designer.cs">
       <DependentUpon>Salir.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Servicios\FacturaService.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
