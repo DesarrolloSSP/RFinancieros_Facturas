@@ -195,13 +195,13 @@ namespace RFinancieros_Facturas
         protected global::System.Web.UI.WebControls.GridView gvfacturas;
 
         /// <summary>
-        /// Control Panel3.
+        /// Control PanelDatosExtra.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel3;
+        protected global::System.Web.UI.WebControls.Panel PanelDatosExtra;
 
         /// <summary>
         /// Control lbfolintf.

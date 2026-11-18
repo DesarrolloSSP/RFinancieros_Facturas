@@ -177,7 +177,7 @@
             <PagerSettings PreviousPageText="Previa" />
             <PagerStyle HorizontalAlign="Left" />
         </asp:GridView>
-        <asp:Panel ID="Panel3" runat="server" Visible="false">
+        <asp:Panel ID="PanelDatosExtra" runat="server" Visible="true">
             <div class="row">
                 <div class="col-xl">
                     <asp:Label ID="lbfolintf" runat="server" Text="Folio interno factura" class="small" Font-Bold="True"></asp:Label>

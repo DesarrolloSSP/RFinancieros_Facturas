@@ -1,5 +1,4 @@
-﻿using RFinancieros_Facturas.Datos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DocumentFormat.OpenXml.Spreadsheet;
+using RFinancieros_Facturas.Datos;
 
 namespace RFinancieros_Facturas
 {
@@ -220,6 +221,40 @@ namespace RFinancieros_Facturas
 
         protected void Rd1_CheckedChanged(object sender, EventArgs e)
         {
+            //RadioButton selectButton = (RadioButton)sender;
+            //GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
+            //int a = row.RowIndex;
+            //Session["Id"] = Convert.ToInt32(gvfacturas.DataKeys[a]["Id"]);
+            //string estado = Convert.ToString(gvfacturas.DataKeys[a]["Estreg"]);
+            //foreach (GridViewRow rw in gvfacturas.Rows)
+            //{
+            //    if (selectButton.Checked)
+            //    {
+            //        if (rw.RowIndex != a)
+            //        {
+            //            RadioButton rd = rw.FindControl("rd1") as RadioButton;
+            //            rd.Checked = false;
+            //        }
+            //        //Panel2.Visible = true;
+            //        Panel3.Visible = true;
+            //        if (estado != "P")
+            //        {
+            //            tbcp.Enabled = false;
+            //            tbfolintf.Enabled = false;
+            //        }
+            //        else
+            //        {
+            //            tbcp.Enabled = true;
+            //            tbfolintf.Enabled = true;
+            //        }
+            //        int id = Convert.ToInt32(Session["Id"]);
+            //    }
+            //    else
+            //    {
+            //        Panel3.Visible = false;
+            //    }
+            //}
+
             RadioButton selectButton = (RadioButton)sender;
             GridViewRow row = (GridViewRow)selectButton.Parent.Parent;
             int a = row.RowIndex;
@@ -235,7 +270,7 @@ namespace RFinancieros_Facturas
                         rd.Checked = false;
                     }
                     //Panel2.Visible = true;
-                    Panel3.Visible = true;
+                    
                     if (estado != "P")
                     {
                         tbcp.Enabled = false;
@@ -250,7 +285,7 @@ namespace RFinancieros_Facturas
                 }
                 else
                 {
-                    Panel3.Visible = false;
+                    
                 }
             }
         }
@@ -308,7 +343,7 @@ namespace RFinancieros_Facturas
         {
             try
             {
-                Panel3.Visible = false;
+                
                 gvfacturas.Visible = true;
                 SqlConnection conectar = new ConectarSqlServer().conectarSQL();
                 SqlCommand cmd = new SqlCommand("sel_facturas_bus", conectar);
@@ -446,7 +481,7 @@ namespace RFinancieros_Facturas
                     {
                         tbbuscar.Text = "";
                         gvfacturas.Visible = false;
-                        Panel3.Visible = false;
+                        
                         LlenarAgrupadas();
                     }
                 }
@@ -474,8 +509,7 @@ namespace RFinancieros_Facturas
                     LlenarAgrupadas();
                     //llenarOrdenes();
                     tbbuscar.Text = "";
-                    gvfacturas.Visible = false;
-                    Panel3.Visible = false;
+                    gvfacturas.Visible = false;                    
                     Panel2.Visible = false;                    
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('La orden de Pago ha sido guarda correctamente','info')", true);
                 }

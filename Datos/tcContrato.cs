@@ -14,16 +14,9 @@ namespace RFinancieros_Facturas.Datos
     
     public partial class tcContrato
     {
-        public tcContrato()
-        {
-            this.tdfacturas = new HashSet<tdfacturas>();
-        }
-    
         public int idtc_contrato { get; set; }
         public string nocontrato { get; set; }
         public int anio { get; set; }
         public Nullable<bool> activo { get; set; }
-    
-        public virtual ICollection<tdfacturas> tdfacturas { get; set; }
     }
 }

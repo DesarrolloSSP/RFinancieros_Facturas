@@ -265,7 +265,7 @@ namespace RFinancieros_Facturas
                         break;
                     case "C":
                         btnCaptura.Enabled = false;
-                        btnReingreso.Enabled = false;
+                        btnReingreso.Enabled = true;
                         if (User.IsInRole("Administrador"))
                         {
                             btnguardar.Enabled = true;
@@ -289,7 +289,7 @@ namespace RFinancieros_Facturas
                         //Panel3.Visible = true;
                         break;
                     case "E":
-                        btnReingreso.Enabled = false;
+                        btnReingreso.Enabled = true;
                         if (User.IsInRole("Administrador"))
                         {
                             //Panel3.Visible = true;
@@ -384,6 +384,7 @@ namespace RFinancieros_Facturas
         {
             BuscarFacturas();
             Panel1.Visible = false;
+            PanelFecha.Visible = false;
         }
 
         private void BuscarFacturas()
@@ -696,6 +697,7 @@ namespace RFinancieros_Facturas
                 cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
                 cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
+                cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.Trim());
                 cmd.Parameters.AddWithValue("@folioSujeto", tbfolsuj.Text.Trim());
 
                 //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
@@ -715,6 +717,7 @@ namespace RFinancieros_Facturas
                     LlenarFacturas();
                 }
                 Panel2.Visible = false;
+                PanelFecha.Visible = false;
                 //Panel3.Visible = false;
             }
             catch (Exception ex)
@@ -722,6 +725,13 @@ namespace RFinancieros_Facturas
                 _ = ex.Message;
             }
         }
+
+
+
+
+
+
+
 
         public bool ValidaDatos()
         {
@@ -921,6 +931,8 @@ namespace RFinancieros_Facturas
                                         ddlestatus.SelectedItem.Text = "Vigente";
                                     }
                                     tbEgreso.Text = consulta.Egreso.ToString();
+                                    txtFechaVentanilla.Text = consulta.FechaVentanilla is null ? "" : String.Format("{0:yyyy-MM-dd}", consulta.FechaVentanilla);
+
 
                                     ddlPartida.DataBind();
                                     ddlPartida.SelectedValue = consulta.idtcpartida == null ? "0" : consulta.idtcpartida.ToString();
@@ -1065,7 +1077,7 @@ namespace RFinancieros_Facturas
                                 }
 
                                 tbEgreso.Text = consulta.Egreso.ToString();
-
+                                txtFechaVentanilla.Text = consulta.FechaVentanilla is null ? "" : String.Format("{0:yyyy-MM-dd}", consulta.FechaVentanilla);
 
                                 ddlPartida.DataBind();
 
@@ -1163,7 +1175,7 @@ namespace RFinancieros_Facturas
                     }
                 }
 
-                PanelFecha.Visible = false;
+                //PanelFecha.Visible = false;
             }
             catch (Exception ex)
             {
