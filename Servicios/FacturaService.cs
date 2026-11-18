@@ -9,6 +9,7 @@ namespace RFinancieros_Facturas.Servicios
 {
     public class FacturaService
     {
+        //Update
         public bool ActualizarFactura(int id, int idArea, int idTipoPago, string noOdp, string folioInterno, string motivo,
         DateTime fechaDevolucion, string estado, string estreg, int folioSujeto, string usuario, string codigoPostal, int idPartida, int idContrato)
         {
