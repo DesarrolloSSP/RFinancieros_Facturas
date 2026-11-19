@@ -678,6 +678,56 @@ namespace RFinancieros_Facturas
             }
         }
 
+        //protected void BtnTermina_Click(object sender, EventArgs e)
+        //{
+        //    if (tbEgreso.Text.Trim() == "")
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario se capture el egreso','info')", true);
+        //        return;
+        //    }
+
+        //    try
+        //    {
+        //        SqlConnection conectar = new ConectarSqlServer().conectarSQL();
+        //        SqlCommand cmd = new SqlCommand("[upd_captura_egreso]", conectar)
+        //        {
+        //            CommandType = CommandType.StoredProcedure
+        //        };
+        //        cmd.Parameters.AddWithValue("@id", Session["Id"]);
+        //        cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
+        //        cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
+        //        cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
+        //        cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.Trim());
+        //        cmd.Parameters.AddWithValue("@folioSujeto", tbfolsuj.Text.Trim());
+
+        //        //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+
+        //        cmd.ExecuteScalar();
+        //        conectar.Close();
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Se ha captura el egreso al folio fiscal, exitosamente','info')", true);
+        //        Panel2.Visible = false;
+        //        Panel1.Visible = false;                
+        //        if (tbbuscar.Text.Trim() != "")
+        //        {
+        //            BuscarFacturas();
+        //        }
+        //        else
+        //        {
+        //            LlenarFacturas();
+        //        }
+        //        Panel2.Visible = false;
+        //        PanelFecha.Visible = false;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _ = ex.Message;
+        //    }
+
+        //}
+
+
+
         protected void BtnTermina_Click(object sender, EventArgs e)
         {
             if (tbEgreso.Text.Trim() == "")
@@ -688,43 +738,55 @@ namespace RFinancieros_Facturas
 
             try
             {
-                SqlConnection conectar = new ConectarSqlServer().conectarSQL();
-                SqlCommand cmd = new SqlCommand("[upd_captura_egreso]", conectar)
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-                cmd.Parameters.AddWithValue("@id", Session["Id"]);
-                cmd.Parameters.AddWithValue("@egreso", tbEgreso.Text.Trim());
-                cmd.Parameters.AddWithValue("@usuario", tbEgreso.Text.Trim());
-                cmd.Parameters.AddWithValue("@idpartida", ddlPartida.SelectedValue.ToString());
-                cmd.Parameters.AddWithValue("@fechaVentanilla", txtFechaVentanilla.Text.Trim());
-                cmd.Parameters.AddWithValue("@folioSujeto", tbfolsuj.Text.Trim());
+                if (Session["Id"] == null)
+                    throw new Exception("La sesión de la factura ha expirado.");
 
-                //cmd.Parameters.AddWithValue("@idterceros", ddlTercerosInst.SelectedValue.ToString());
+                int idFactura = Convert.ToInt32(Session["Id"]);
 
-                cmd.ExecuteScalar();
-                conectar.Close();
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Se ha captura el egreso al folio fiscal, exitosamente','info')", true);
-                Panel2.Visible = false;
-                Panel1.Visible = false;
-                //Panel3.Visible = false;
-                if (tbbuscar.Text.Trim() != "")
+                int egreso = Convert.ToInt32(tbEgreso.Text.Trim());
+
+                int idPartida = Convert.ToInt32(ddlPartida.SelectedValue);
+
+                int folioSujeto = string.IsNullOrWhiteSpace(tbfolsuj.Text) ? 0 : Convert.ToInt32(tbfolsuj.Text);
+
+                DateTime? fechaVentanilla = string.IsNullOrWhiteSpace(txtFechaVentanilla.Text) ? (DateTime?)null : Convert.ToDateTime(txtFechaVentanilla.Text.Trim());
+
+                FacturaService servicio = new FacturaService();
+
+                int registrosActualizados = servicio.CapturarEgreso(idFactura, egreso, User.Identity.Name.Trim(), idPartida, fechaVentanilla,
+                    folioSujeto
+                );
+
+                if (registrosActualizados > 0)
                 {
-                    BuscarFacturas();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Se ha capturado el egreso al folio fiscal, exitosamente','info')", true);
+
+                    Panel2.Visible = false;
+                    Panel1.Visible = false;
+
+                    if (tbbuscar.Text.Trim() != "")
+                    {
+                        BuscarFacturas();
+                    }
+                    else
+                    {
+                        LlenarFacturas();
+                    }
+
+                    Panel2.Visible = false;
+                    PanelFecha.Visible = false;
                 }
-                else
-                {
-                    LlenarFacturas();
-                }
-                Panel2.Visible = false;
-                PanelFecha.Visible = false;
-                //Panel3.Visible = false;
             }
             catch (Exception ex)
             {
-                _ = ex.Message;
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "Error", "alertame('" + System.Web.HttpUtility.JavaScriptStringEncode(ex.Message) + "','error')",
+                    true
+                );
             }
         }
+
 
 
 

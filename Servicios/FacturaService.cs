@@ -50,6 +50,71 @@ namespace RFinancieros_Facturas.Servicios
 
         }
 
+
+
+
+
+        public int CapturarEgreso(int id, int egreso, string usuario, int idPartida, DateTime? fechaVentanilla, int folioSujeto)
+        {
+            using (var db = new dbFacturasFinancierosEntities())
+            {
+                // Buscar la factura seleccionada
+                var facturaSeleccionada = db.tdfacturas
+                    .FirstOrDefault(x => x.Id == id);
+
+                if (facturaSeleccionada == null)
+                    throw new Exception("No se encontró la factura seleccionada.");
+
+                // Obtener la ODP de la factura
+                string noOdp = facturaSeleccionada.NoOdp;
+
+                // Validar que tenga una ODP asignada
+                if (string.IsNullOrWhiteSpace(noOdp) || noOdp.Trim() == "0")
+                {
+                    throw new Exception(
+                        "La factura no tiene una orden de pago válida asignada.");
+                }
+
+                // Obtener las iniciales del usuario
+                var usuarioDb = db.tcusuarios
+                    .FirstOrDefault(x => x.login == usuario);
+
+                if (usuarioDb == null)
+                    throw new Exception("No se encontró el usuario.");
+
+                // Buscar todas las facturas de esa ODP
+                var facturas = db.tdfacturas
+                    .Where(x => x.NoOdp == noOdp)
+                    .ToList();
+
+                if (!facturas.Any())
+                    return 0;
+
+                // Protección adicional: no permitir 50 o más registros
+                if (facturas.Count >= 50)
+                {
+                    throw new Exception(
+                        "La operación fue cancelada: la ODP contiene 50 o más facturas.");
+                }
+
+                // Actualizar las facturas correspondientes
+                foreach (var factura in facturas)
+                {
+                    factura.Estreg = "E";
+                    factura.Egreso = egreso;
+                    factura.Validador = usuarioDb.iniciales;
+                    factura.idtcpartida = idPartida;
+                    factura.FechaVentanilla = fechaVentanilla;
+                    factura.FolioSujeto = folioSujeto;
+                }
+
+                return db.SaveChanges();
+
+            }
+
+        }
+
+
     }
 
 
