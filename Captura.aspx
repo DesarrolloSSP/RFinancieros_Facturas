@@ -39,7 +39,7 @@
                 </div>
 
                 <asp:GridView ID="gvfacturas" class="table table-bordered" Font-Size="Small" AllowPaging="True" runat="server" TabIndex="-1" AutoGenerateColumns="False"
-                    EmptyDataText="No existen datos de facturas" OnRowCommand="gvfacturas_RowCommand" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="gvfacturas_PageIndexChanged" OnPageIndexChanging="gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id" >
+                    EmptyDataText="No existen datos de facturas" OnRowCommand="gvfacturas_RowCommand" OnRowDataBound="Gvfacturas_RowDataBound" OnPageIndexChanged="gvfacturas_PageIndexChanged" OnPageIndexChanging="gvfacturas_PageIndexChanging" PageSize="5" DataKeyNames="Id">
 
                     <PagerSettings PreviousPageText="Previa" />
                     <Columns>
@@ -238,7 +238,13 @@
 
                                     <asp:EntityDataSource ID="edsNoContrato" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcContrato" Where="it.activo = true" OrderBy="it.anio DESC"></asp:EntityDataSource>
 
-                                  
+
+                                </div>
+
+
+                                <div class="col-xl">
+                                    <asp:Label ID="Label4" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
+                                    <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
                                 </div>
 
 
@@ -289,13 +295,10 @@
                             <asp:Label ID="lblEgreso" runat="server" Text="Egreso" class="small" Font-Bold="True"></asp:Label>
                             <asp:TextBox ID="tbEgreso" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                         </div>
-                        <div class="col-md-6">
-                            <asp:Label ID="Label4" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
-                            <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
-                        </div>
+
                     </div>
                     <br />
-                    <asp:Button ID="btnTermina" runat="server" Text="Guardar" CssClass="btn btn-warning" OnClick="BtnTermina_Click" />
+                    <asp:Button ID="btnTermina" runat="server" Text="Guardar Egreso" CssClass="btn btn-warning" OnClick="BtnTermina_Click" />
                 </asp:Panel>
             </div>
         </ContentTemplate>

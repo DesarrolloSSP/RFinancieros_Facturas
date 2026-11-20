@@ -9,9 +9,9 @@ namespace RFinancieros_Facturas.Servicios
 {
     public class FacturaService
     {
-        //Update
+
         public bool ActualizarFactura(int id, int idArea, int idTipoPago, string noOdp, string folioInterno, string motivo,
-        DateTime fechaDevolucion, string estado, string estreg, int folioSujeto, string usuario, string codigoPostal, int idPartida, int idContrato)
+        DateTime fechaDevolucion, string estado, string estreg, int folioSujeto, string usuario, string codigoPostal, int idPartida, int idContrato, DateTime? fechaVentanilla)
         {
             using (var db = new dbFacturasFinancierosEntities())
             {
@@ -20,6 +20,7 @@ namespace RFinancieros_Facturas.Servicios
 
                 if (factura == null)
                     return false;
+
 
 
                 var usuarioDb = db.tcusuarios.FirstOrDefault(x => x.login == usuario);
@@ -41,6 +42,7 @@ namespace RFinancieros_Facturas.Servicios
                 factura.CodigoPostal = codigoPostal;
                 factura.idtcpartida = idPartida;
                 factura.idtc_contrato = idContrato;
+                factura.FechaVentanilla = fechaVentanilla;
 
                 db.SaveChanges();
 
@@ -54,13 +56,12 @@ namespace RFinancieros_Facturas.Servicios
 
 
 
-        public int CapturarEgreso(int id, int egreso, string usuario, int idPartida, DateTime? fechaVentanilla, int folioSujeto)
+        public int CapturarEgreso(int id, int egreso, string usuario, int idPartida, int folioSujeto)
         {
             using (var db = new dbFacturasFinancierosEntities())
             {
-                // Buscar la factura seleccionada
-                var facturaSeleccionada = db.tdfacturas
-                    .FirstOrDefault(x => x.Id == id);
+
+                var facturaSeleccionada = db.tdfacturas.FirstOrDefault(x => x.Id == id);
 
                 if (facturaSeleccionada == null)
                     throw new Exception("No se encontró la factura seleccionada.");
@@ -104,7 +105,7 @@ namespace RFinancieros_Facturas.Servicios
                     factura.Egreso = egreso;
                     factura.Validador = usuarioDb.iniciales;
                     factura.idtcpartida = idPartida;
-                    factura.FechaVentanilla = fechaVentanilla;
+                    //factura.FechaVentanilla = fechaVentanilla;
                     factura.FolioSujeto = folioSujeto;
                 }
 

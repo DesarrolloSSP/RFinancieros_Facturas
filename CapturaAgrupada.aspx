@@ -13,7 +13,7 @@
                 <div class="d-flex justify-content-center">
                     <%--<div class="col-xl">--%>
 
-                    <asp:LinkButton ID="btnValidaSAT" runat="server" Text="" OnClientClick="callSAT();">VERIFICACIÓN DE COMPROBANTES FISCALES DIGITALES POR INTERNET</asp:LinkButton>
+                    <asp:LinkButton ID="btnValidaSAT" runat="server" Text="" OnClientClick="callSAT2();">VERIFICACIÓN DE COMPROBANTES FISCALES DIGITALES POR INTERNET</asp:LinkButton>
 
                 </div>
 
@@ -187,6 +187,16 @@
                     <asp:Label ID="lbcp" runat="server" Text="Código Postal" class="small" Font-Bold="True"></asp:Label>
                     <asp:TextBox ID="tbcp" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
                 </div>
+
+
+
+                <div class="col-xl">
+                    <asp:Label ID="Label4" runat="server" Text="Fecha Ventanilla" class="small" Font-Bold="True"></asp:Label>
+                    <asp:TextBox ID="txtFechaVentanilla" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+                </div>
+
+
+
             </div>
             <br />
             <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CssClass="btn btn-warning" OnClick="BtnAgregar_Click" />
@@ -257,7 +267,7 @@
     <asp:EntityDataSource ID="edsPartida" runat="server" ConnectionString="name=dbFacturasFinancierosEntities" DefaultContainerName="dbFacturasFinancierosEntities" EnableFlattening="False" EnableUpdate="True" EntitySetName="tcpartida"></asp:EntityDataSource>
 
     <script>
-        function callSAT() {
+        function callSAT2() {
 
             window.open("https://verificacfdi.facturaelectronica.sat.gob.mx/", "Popup", "toolbar=no, location=no,status=yes,menubar=no,scrollbars=yes,resizable=no, width=900,height=500,left=430,top=100");
 

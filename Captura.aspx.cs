@@ -250,15 +250,15 @@ namespace RFinancieros_Facturas
                         break;
                     case "T":
                         btnCaptura.Enabled = true;
+                        btnReingreso.Enabled = true;
                         if (User.IsInRole("Administrador"))
                         {
                             btnguardar.Enabled = true;
-
                             EdicionCampos(true);
                         }
                         else
                         {
-                            btnguardar.Enabled = false;
+                            btnguardar.Enabled = true;
                             EdicionCampos(false);
                         }
                         ////Panel3.Visible = true;
@@ -283,7 +283,7 @@ namespace RFinancieros_Facturas
                         break;
                     case "D":
                         btnReingreso.Enabled = true;
-                        btnguardar.Enabled = false;
+                        btnguardar.Enabled = true;
                         btnCaptura.Enabled = false;
                         EdicionCampos(false);
                         //Panel3.Visible = true;
@@ -300,7 +300,7 @@ namespace RFinancieros_Facturas
                         else
                         {
                             //Panel3.Visible = true;
-                            btnguardar.Enabled = false;
+                            btnguardar.Enabled = true;
                             EdicionCampos(false);
                             tbEgreso.Enabled = false;
                         }
@@ -349,7 +349,7 @@ namespace RFinancieros_Facturas
             ddlestatus.Enabled = !chkdevol.Checked;
             if (chkdevol.Checked)
             {
-                ddlestatus.SelectedIndex = 2;
+                ddlestatus.SelectedIndex = 3;//Devuelta
                 btnguardar.Enabled = true;
                 DateTime dt = DateTime.Now;
                 tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", dt);
@@ -487,7 +487,8 @@ namespace RFinancieros_Facturas
                 if (ValidaDatos())
                 {
                     string Estado_;
-                    string Estreg_ = "T"; //Pasa a trámite
+                    string Estreg_ = string.Empty;
+
 
                     if (chkdevol.Checked)
                     {
@@ -498,7 +499,17 @@ namespace RFinancieros_Facturas
                         Estado_ = ddlestatus.SelectedItem.Text;
                     }
 
+                    tcstatus valor = ctx.tcstatus.AsNoTracking().Where(x => x.nombre == Estado_).FirstOrDefault();
+
+                    if (valor != null)
+                    {
+
+                        Estreg_ = valor.valor;
+                    }
+
                     FacturaService servicio = new FacturaService();
+
+                    DateTime? fechaVentanilla = null;
 
                     bool actualizado = servicio.ActualizarFactura(Convert.ToInt32(Session["Id"]),
                     Convert.ToInt32(ddlareas.SelectedValue),
@@ -513,7 +524,8 @@ namespace RFinancieros_Facturas
                     User.Identity.Name,
                     tbcp.Text.Length == 0 ? "" : tbcp.Text.Trim(),
                     string.IsNullOrEmpty(ddlPartida.SelectedValue) ? 0 : Convert.ToInt32(ddlPartida.SelectedValue),
-                    string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? 0 : Convert.ToInt32(ddlNoContrato.SelectedValue)
+                    string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? 0 : Convert.ToInt32(ddlNoContrato.SelectedValue),
+                    string.IsNullOrWhiteSpace(txtFechaVentanilla.Text) ? (DateTime?)null : Convert.ToDateTime(txtFechaVentanilla.Text.Trim())
 
 
                 );
@@ -543,6 +555,7 @@ namespace RFinancieros_Facturas
                            this,
                            this.GetType(), "VariableRegisteration", "alertame('No fué posible completar el proceso de guardado, intente de nuevo: " + Session["Id"] + "','warning')", true
                        );
+
                     }
                 }
             }
@@ -550,6 +563,7 @@ namespace RFinancieros_Facturas
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
+
         }
 
 
@@ -749,13 +763,11 @@ namespace RFinancieros_Facturas
 
                 int folioSujeto = string.IsNullOrWhiteSpace(tbfolsuj.Text) ? 0 : Convert.ToInt32(tbfolsuj.Text);
 
-                DateTime? fechaVentanilla = string.IsNullOrWhiteSpace(txtFechaVentanilla.Text) ? (DateTime?)null : Convert.ToDateTime(txtFechaVentanilla.Text.Trim());
+                //DateTime? fechaVentanilla = string.IsNullOrWhiteSpace(txtFechaVentanilla.Text) ? (DateTime?)null : Convert.ToDateTime(txtFechaVentanilla.Text.Trim());
 
                 FacturaService servicio = new FacturaService();
 
-                int registrosActualizados = servicio.CapturarEgreso(idFactura, egreso, User.Identity.Name.Trim(), idPartida, fechaVentanilla,
-                    folioSujeto
-                );
+                int registrosActualizados = servicio.CapturarEgreso(idFactura, egreso, User.Identity.Name.Trim(), idPartida, folioSujeto);
 
                 if (registrosActualizados > 0)
                 {
@@ -857,6 +869,12 @@ namespace RFinancieros_Facturas
             if (ddlNoContrato.SelectedIndex == 0)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el No. de contrato','warning')", true);
+                x = false;
+            }
+
+            if (ddlestatus.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario seleccionar el Estatus','warning')", true);
                 x = false;
             }
 
@@ -1061,7 +1079,8 @@ namespace RFinancieros_Facturas
                     int Id = int.Parse(e.CommandArgument.ToString());
 
                     Panel1.Visible = true;
-                    PanelFecha.Visible = true;
+                    PanelFecha.Enabled = true;
+
 
                     using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
                     {
@@ -1110,7 +1129,10 @@ namespace RFinancieros_Facturas
 
                                 tbMotivo.Text = consulta.ConceptoDevol == null ? "" : consulta.ConceptoDevol.Trim();
 
-                                tbfolsuj.Text = consulta.FolioSujeto.ToString();
+
+                                tbfolsuj.Text = consulta.FolioSujeto.HasValue ? consulta.FolioSujeto.Value.ToString() : string.Empty;
+                                txtPartida.Text = consulta.idtcpartida.HasValue ? consulta.idtcpartida.Value.ToString() : string.Empty;
+
 
                                 tbcp.Text = consulta.CodigoPostal == null ? "" : consulta.CodigoPostal.ToString();
 

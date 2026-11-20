@@ -14,7 +14,8 @@ namespace RFinancieros_Facturas.Datos
     
     public partial class tcstatus
     {
-        public string nombre { get; set; }
         public int idstatus { get; set; }
+        public string nombre { get; set; }
+        public string valor { get; set; }
     }
 }

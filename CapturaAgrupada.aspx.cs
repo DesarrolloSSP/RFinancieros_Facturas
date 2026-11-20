@@ -123,6 +123,7 @@ namespace RFinancieros_Facturas
                         lblnumreg.Text = TotalImporteOdp(consulta.NoOdp.ToString());                        
                         tbcp.Text = consulta.CodigoPostal.ToString();
                         tbfolintf.Text  = consulta.FolioInternoFactura.ToString(); 
+                        txtFechaVentanilla.Text = consulta.FechaVentanilla.HasValue ? consulta.FechaVentanilla.Value.ToString("yyyy-MM-dd") : string.Empty;
                     }
                 }
                 else
@@ -385,6 +386,12 @@ namespace RFinancieros_Facturas
                 y = false;
             }
 
+            if (string.IsNullOrWhiteSpace(txtFechaVentanilla.Text))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "VariableRegisteration", "alertame('Es necesario capturar la fecha de ventanilla','warning')", true);
+                y = false;
+            }
+
 
             return y;
         }
@@ -466,13 +473,16 @@ namespace RFinancieros_Facturas
                     cmd.Parameters.AddWithValue("@fif", tbfolintf.Text.Trim());
                     cmd.Parameters.AddWithValue("@fecrev", DateTime.Now);
                     cmd.Parameters.AddWithValue("@usuario", User.Identity.Name);
-                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());
+                    cmd.Parameters.AddWithValue("@cp", tbcp.Text.Trim());                    
+                    cmd.Parameters.AddWithValue("@fechaVentanilla", string.IsNullOrWhiteSpace(txtFechaVentanilla.Text) ? (object)DBNull.Value : Convert.ToDateTime(txtFechaVentanilla.Text.Trim()));
 
                     int? idPartida = string.IsNullOrEmpty(ddlPartida.SelectedValue) ? (int?)null : Convert.ToInt32(ddlPartida.SelectedValue);
                     cmd.Parameters.AddWithValue("@idpartida", (object)idPartida ?? 0);
 
                     int? idContrato = string.IsNullOrEmpty(ddlNoContrato.SelectedValue) ? (int?)null : Convert.ToInt32(ddlNoContrato.SelectedValue);
                     cmd.Parameters.AddWithValue("@idcontrato", (object)idContrato ?? 0);
+
+                    
 
 
                     object inserta = cmd.ExecuteScalar();
