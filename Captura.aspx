@@ -288,7 +288,7 @@
                 </asp:Panel>
 
 
-                <asp:Panel ID="PanelFecha" runat="server" Visible="false">
+                <asp:Panel ID="PanelEgreso" runat="server" Visible="false">
                     <%--estaba false--%>
                     <div class="row">
                         <div class="col-md-6">
@@ -300,6 +300,9 @@
                     <br />
                     <asp:Button ID="btnTermina" runat="server" Text="Guardar Egreso" CssClass="btn btn-warning" OnClick="BtnTermina_Click" />
                 </asp:Panel>
+
+
+
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

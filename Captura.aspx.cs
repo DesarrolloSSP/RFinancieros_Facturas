@@ -27,8 +27,21 @@ namespace RFinancieros_Facturas
                 LlenarAreas();
                 LlenarTipoGasto();
                 LlenarCapturistas();
-                //llenarstatus(); 
+                
             }
+        }
+
+        protected void MostrarEgreso()
+        {
+            if (User.IsInRole("Administrador"))
+            {
+                PanelEgreso.Visible = true;
+            }
+            else
+            {
+                PanelEgreso.Visible = false;
+            }
+
         }
 
         private void LlenarFacturas()
@@ -385,7 +398,7 @@ namespace RFinancieros_Facturas
         {
             BuscarFacturas();
             Panel1.Visible = false;
-            PanelFecha.Visible = false;
+            PanelEgreso.Visible = false;
         }
 
         private void BuscarFacturas()
@@ -548,6 +561,7 @@ namespace RFinancieros_Facturas
 
                         BuscarFacturas();
                         Panel1.Visible = false;
+                        PanelEgreso.Visible = false;
 
                     }
                     else
@@ -787,7 +801,7 @@ namespace RFinancieros_Facturas
                     }
 
                     Panel2.Visible = false;
-                    PanelFecha.Visible = false;
+                    PanelEgreso.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -1080,7 +1094,7 @@ namespace RFinancieros_Facturas
                     int Id = int.Parse(e.CommandArgument.ToString());
 
                     Panel1.Visible = true;
-                    PanelFecha.Enabled = true;
+                    PanelEgreso.Enabled = true;
 
 
                     using (dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities())
@@ -1160,6 +1174,8 @@ namespace RFinancieros_Facturas
                                         ddlestatus.Items.FindByText(estado_).Selected = true;
                                     }
                                 }
+
+                                MostrarEgreso();
 
                                 tbEgreso.Text = consulta.Egreso.ToString();
                                 txtFechaVentanilla.Text = consulta.FechaVentanilla is null ? "" : String.Format("{0:yyyy-MM-dd}", consulta.FechaVentanilla);

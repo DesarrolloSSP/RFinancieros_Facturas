@@ -429,13 +429,13 @@ namespace RFinancieros_Facturas
         protected global::System.Web.UI.WebControls.Button btnfinal;
 
         /// <summary>
-        /// Control PanelFecha.
+        /// Control PanelEgreso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelFecha;
+        protected global::System.Web.UI.WebControls.Panel PanelEgreso;
 
         /// <summary>
         /// Control lblEgreso.
