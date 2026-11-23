@@ -91,7 +91,7 @@ namespace RFinancieros_Facturas.Servicios
                 if (!facturas.Any())
                     return 0;
 
-                // Protección adicional: no permitir 50 o más registros
+                // Protección: No permitir 50 o más registros
                 if (facturas.Count >= 50)
                 {
                     throw new Exception(

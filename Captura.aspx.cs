@@ -981,7 +981,7 @@ namespace RFinancieros_Facturas
                         if (selectButton.Checked)
                         {
                             Panel1.Visible = true;
-                            string osito;
+                            string _estado;
                             string estado = gvfacturas.Rows[a].Cells[9].Text;
                             AcccionBotones(estado);
                             if (rw.RowIndex != a)
@@ -1003,10 +1003,10 @@ namespace RFinancieros_Facturas
                                     tbfolsuj.Text = consulta.FolioSujeto.ToString();
                                     tbcp.Text = consulta.CodigoPostal is null ? "" : consulta.CodigoPostal.ToString();
                                     tbfecdev.Text = String.Format("{0:yyyy-MM-dd}", consulta.FechaDevol);
-                                    osito = consulta.Estado;
+                                    _estado = consulta.Estado;
                                     ddlestatus.DataBind();
-                                    ddlestatus.SelectedItem.Text = osito;
-                                    if (osito == "Sin efecto")
+                                    ddlestatus.SelectedItem.Text = _estado;
+                                    if (_estado == "Sin efecto")
                                     {
                                         ddlestatus.DataBind();
                                         ddlestatus.SelectedItem.Text = "Vigente";
