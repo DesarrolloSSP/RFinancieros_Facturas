@@ -14,6 +14,7 @@ namespace RFinancieros_Facturas
 {
     public partial class Captura : System.Web.UI.Page
     {
+        //
         public int Id;
         dbFacturasFinancierosEntities ctx = new dbFacturasFinancierosEntities();
         protected void Page_Load(object sender, EventArgs e)
