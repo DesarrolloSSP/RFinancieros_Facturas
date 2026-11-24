@@ -44,9 +44,30 @@ namespace RFinancieros_Facturas.Servicios
                 factura.idtc_contrato = idContrato;
                 factura.FechaVentanilla = fechaVentanilla;
 
-                db.SaveChanges();
 
+                var facturas = db.tdfacturas.Where(x => x.NoOdp == noOdp).ToList();
+
+                if (!facturas.Any())
+                    return false;
+
+
+                // Protección: No permitir 50 o más registros
+                if (facturas.Count >= 50)
+                {
+                    throw new Exception(
+                        "La operación fue cancelada: la ODP contiene 50 o más facturas.");
+                }
+
+
+                // Actualizar las facturas correspondientes
+                foreach (var val in facturas)
+                {
+                    val.FolioSujeto = folioSujeto;
+                }
+
+                db.SaveChanges();
                 return true;
+
 
             }
 
